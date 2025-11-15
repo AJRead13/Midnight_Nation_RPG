@@ -1,0 +1,135 @@
+{
+  "boons": {
+    "mind": [
+      {
+        "name": "Keen Instincts",
+        "effect": "+1 die to detect lies, traps, or ambushes."
+      },
+      {
+        "name": "Cold Reader",
+        "effect": "After one minute of conversation, learn a detail about someone's motives or fears."
+      },
+      {
+        "name": "Silver Tongue",
+        "effect": "Reroll one failed persuasion attempt per session."
+      },
+      {
+        "name": "Calculated Risk",
+        "effect": "Once per scene, gain advantage when planning before acting."
+      },
+      {
+        "name": "Rapid Recall",
+        "effect": "Once per session, declare that you 'read about this before' and instantly recall obscure facts."
+      },
+      {
+        "name": "Tactician’s Eye",
+        "effect": "Allies gain +1 die on their first action in combat if you take the lead."
+      },
+      {
+        "name": "Inventive",
+        "effect": "Jury-rig simple tools or weapons; once per session roll Mind instead of Body for a physical task."
+      }
+    ],
+
+    "body": [
+      {
+        "name": "Iron Constitution",
+        "effect": "Once per scene, ignore a Light Wound result."
+      },
+      {
+        "name": "Pugilist",
+        "effect": "+1 die in unarmed combat; Light Wounds from punches escalate to Medium."
+      },
+      {
+        "name": "Deadeye",
+        "effect": "Once per scene, reroll a failed firearm attack."
+      },
+      {
+        "name": "Steely Nerves",
+        "effect": "Resistance to fear, intimidation, or supernatural dread."
+      },
+      {
+        "name": "Fleet of Foot",
+        "effect": "+1 die when chasing or escaping on foot."
+      },
+      {
+        "name": "Second Wind",
+        "effect": "Once per day, clear one Light Wound with a short rest."
+      },
+      {
+        "name": "Street Brawler",
+        "effect": "Improvised weapons deal one step higher on the wound scale."
+      }
+    ],
+
+    "soul": [
+      {
+        "name": "Aura of Conviction",
+        "effect": "Allies gain +1 die when acting under your leadership."
+      },
+      {
+        "name": "Faithful",
+        "effect": "Resist one supernatural effect per session through sheer will."
+      },
+      {
+        "name": "Empathic Sense",
+        "effect": "Roll Soul to detect emotions or stress in others."
+      },
+      {
+        "name": "Blessed Words",
+        "effect": "Once per session, speak a phrase/prayer that cancels a minor supernatural effect."
+      },
+      {
+        "name": "Iron Will",
+        "effect": "+1 die to resist corruption, domination, or possession."
+      },
+      {
+        "name": "Inspiring Presence",
+        "effect": "After a stirring speech, restore 1 Light Wound to an ally."
+      },
+      {
+        "name": "Spiritual Anchor",
+        "effect": "Nearby allies use your Soul instead of their own to resist fear or possession."
+      }
+    ],
+
+    "supernatural": [
+      {
+        "name": "Pact Brand",
+        "effect": "+2 dice on a roll by calling demonic power; risk gaining Corruption."
+      },
+      {
+        "name": "Guardian’s Grace",
+        "effect": "Once per day, reroll a failed Soul save."
+      },
+      {
+        "name": "Occult Scholar",
+        "effect": "You may safely handle, read, or translate arcane texts."
+      },
+      {
+        "name": "Exorcist’s Rite",
+        "effect": "With preparation, expel minor spirits or demons."
+      },
+      {
+        "name": "Hexbreaker",
+        "effect": "+1 die to resist curses; nearby allies gain the same bonus."
+      },
+      {
+        "name": "Shadowstep",
+        "effect": "Once per scene, move unseen between two nearby shadows."
+      },
+      {
+        "name": "Blood Oath",
+        "effect": "Spill your own blood to gain advantage on a single action (cost: 1 Light Wound)."
+      },
+      {
+        "name": "Angel’s Whisper",
+        "effect": "Once per day, receive a cryptic divine clue or warning."
+      },
+      {
+        "name": "Monster Slayer",
+        "effect": "Against supernatural creatures, your damage escalates one step higher on the wound track."
+      }
+    ]
+  }
+}

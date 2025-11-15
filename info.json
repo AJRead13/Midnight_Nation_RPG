@@ -1,0 +1,639 @@
+{
+  "title": "Midnight Nation",
+  "version": "v1-draft",
+  "meta": {
+    "setting": "Post-WWII America (1947-1955)",
+    "tone": "Pulp noir, supernatural horror, secret wars",
+    "target_use": "Tabletop RPG rulebook / quickstart / GM reference"
+  },
+  "core_concepts": {
+    "overview": "Heaven and Hell are real. Monsters walk among men. Secret organizations, hunters, and gifted bloodlines vie for control in post-war America. Players are a mix of mundane and supernatural characters guarding the world from disclosure and annihilation.",
+    "primary_attributes": ["Mind", "Body", "Soul"],
+    "attribute_scale": "D100",
+    "minimum_total_attributes": 150,
+    "attribute_benchmarks": {
+      "40-44": "Average baseline human",
+      "45-54": "Trained / competent",
+      "55-64": "Exceptional",
+      "65-70": "Near-superhuman"
+    },
+    "core_engine": "2d6 base checks with stacking dice mechanics; keep the two highest dice",
+    "dice_types": ["d6", "d10", "d100"],
+    "wounds_instead_of_HP": "Location-based wound tracks with Light/Moderate/Severe/Fatal (or Direct/Devastating/Critical depending on variant)"
+  },
+  "character_creation": {
+    "steps": [
+      "Step 1: Attributes (Option D - baseline + roll + point pool)",
+      "Step 2: Choose Bloodline (level 1 trait, level-gated powers)",
+      "Step 3: Choose Background (core 10) -> gives competencies, talent(s), flavor perk",
+      "Step 4: Choose Class (determines role/archetype and wound-track/toughness)",
+      "Step 5: Assign Competencies & Talents per background and class",
+      "Step 6: Set Fate Pool and starting gear"
+    ],
+    "attributes_generation_option_d": {
+      "baseline": 40,
+      "roll_method": "4d6 drop lowest for each attribute; add result to baseline",
+      "example_roll": "6,5,4,2 -> drop 2 -> total 15 -> attribute = 55",
+      "bonus_pool": 12,
+      "bonus_pool_max_per_attribute": 6,
+      "final_expected_range": "≈44 to 70+",
+      "notes": "This gives consistent competence with room for standout stats and player agency."
+    },
+    "fate_pool_start_formula": "1 + floor(level / 2) (or '1 + 1/2 level' as shorthand)",
+    "starting_equipment": "Depends on background/class; see Background entries"
+  },
+  "dice_resolution": {
+    "base_check": {
+      "description": "Roll 2d6, apply attribute modifier, stack dice from competencies/talents/situational modifiers, keep two highest dice.",
+      "success_threshold": 7,
+      "critical_success": "doubles of 6 (double 6) OR total 12+",
+      "critical_failure": "snake eyes (double 1)"
+    },
+    "modifiers": {
+      "positive": {
+        "competency": "+1 die",
+        "talent_rank": "+1 die per rank",
+        "positioning": "+dice or advantage"
+      },
+      "negative": {
+        "darkness": "add penalty dice (roll extra dice but discard highest two)",
+        "wounds": "penalty dice depending on wound severity",
+        "cover": "negative dice (-1 or -2 as appropriate)"
+      },
+      "keep_highest_rule": "When rolling multiple dice, keep the two highest"
+    },
+    "example": "Player rolls 5d6 (due to competency & talents) -> keep best 2 -> sum those two -> add attribute modifier"
+  },
+  "attributes": {
+    "Mind": {
+      "description": "Intellect, reasoning, perception, knowledge, investigative skill"
+    },
+    "Body": {
+      "description": "Strength, agility, endurance, combat prowess"
+    },
+    "Soul": {
+      "description": "Willpower, charisma, spiritual attunement, social power"
+    },
+    "modifier_rule": "Every 10 points above 50 = +1 modifier; every 10 below 50 = -1"
+  },
+  "classes": {
+    "overview": "Classes define role, archetype, wound-toughness, and mechanical backbone.",
+    "list": [
+      {
+        "name": "Brawler",
+        "die": "d12",
+        "role": "Frontline melee; high toughness; grappling and heavy hits",
+        "archetype": "fighter"
+      },
+      {
+        "name": "Gunner",
+        "die": "d10",
+        "role": "Firearms specialist; ranged combat and marksmanship",
+        "archetype": "balanced"
+      },
+      {
+        "name": "Hunter",
+        "die": "d10",
+        "role": "Tracker and monster-slayer; favored tactics vs. supernatural"
+      },
+      {
+        "name": "Warlock",
+        "die": "d8",
+        "role": "Occultist; forbidden spells and pacts"
+      },
+      {
+        "name": "Priest",
+        "die": "d8",
+        "role": "Divine channeling, exorcism"
+      },
+      {
+        "name": "Thief",
+        "die": "d8",
+        "role": "Stealth and infiltration specialist"
+      },
+      {
+        "name": "Witch",
+        "die": "d6",
+        "role": "Ritual caster, potions, charms"
+      },
+      {
+        "name": "Empath",
+        "die": "d6",
+        "role": "Psychic healer, emotion influence"
+      },
+      {
+        "name": "Telekine",
+        "die": "d6",
+        "role": "Telekinetic powers, force manipulation"
+      }
+    ],
+    "archetype_wound_toughness_map": {
+      "Brawler": {"direct_threshold": 5, "devastating_threshold": 8, "critical_threshold": 11},
+      "Balanced": {"direct_threshold": 4, "devastating_threshold": 7, "critical_threshold": 10},
+      "Fragile": {"direct_threshold": 3, "devastating_threshold": 6, "critical_threshold": 9},
+      "Monster": {"direct_threshold": 6, "devastating_threshold": 9, "critical_threshold": 12}
+    },
+    "notes": "Class die (d12,d10,d8,d6) can be used as flavor/toughness indicator; archetype thresholds used for wound severity."
+  },
+  "talents_and_competencies": {
+    "overview": "Talents are broad skill trees with sub-talents and ranks; Competencies are narrow proficiencies granting +1 die.",
+    "talent_structure": {
+      "ranks": [
+        {"rank": 0, "name": "Untrained", "effect": "No extra dice"},
+        {"rank": 1, "name": "Competent", "effect": "+1 die"},
+        {"rank": 2, "name": "Skilled", "effect": "+2 dice and minor perks"},
+        {"rank": 3, "name": "Master", "effect": "+3 dice and special stunt unlocked"}
+      ]
+    },
+    "talent_list": {
+      "Warfare": {
+        "subtalents": ["Firearms", "Melee", "Heavy Weapons", "Tactics"],
+        "examples": {
+          "Rank1": "+1 die with chosen category",
+          "Rank2": "ignore 1 penalty die from cover/range",
+          "Rank3": "unlock stunt (Suppressing Fire, Cleave)"
+        }
+      },
+      "Lore": {
+        "subtalents": ["Occult", "Religious", "Historical", "Scientific"],
+        "Rank2": "ask GM one truthful fact once/day",
+        "Rank3": "prepare ritual or craft a tool"
+      },
+      "Medicine": {
+        "subtalents": ["First Aid", "Surgery", "Pharmaceuticals"],
+        "Rank1": "+1 die stabilize",
+        "Rank2": "heal 1 wound level after 10 minutes",
+        "Rank3": "battlefield surgery (risky)"
+      },
+      "Thievery": {
+        "subtalents": ["Locks", "Traps", "Pickpocket"],
+        "Rank2": "reduce difficulty by 1 step",
+        "Rank3": "silent job once per scene"
+      },
+      "Subterfuge": {
+        "subtalents": ["Disguise", "Espionage", "Infiltration"],
+        "Rank3": "create false identity once/day"
+      },
+      "Coercion": {
+        "subtalents": ["Intimidation", "Interrogation", "Persuasion"],
+        "Rank3": "force a mortal one short command once/session (Soul save)"
+      },
+      "Occult": {
+        "subtalents": ["Rituals", "Summoning", "Warding"],
+        "Rank2": "minor ritual once/day",
+        "Rank3": "attempt greater rituals"
+      },
+      "Entertainment": {
+        "subtalents": ["Performance", "Oratory", "Distraction"],
+        "Rank3": "captivate audience once/session"
+      },
+      "Engineering": {
+        "subtalents": ["Mechanical", "Electrical", "Demolitions", "Chemistry"],
+        "Rank3": "create short-term gadget once/session"
+      },
+      "Stealth": {
+        "subtalents": ["Hiding", "Shadowing", "Silent Movement"],
+        "Rank3": "bypass enemy group once/session"
+      },
+      "Tracking": {
+        "subtalents": ["Survival", "Hunting", "Pursuit"],
+        "Rank3": "declare trap pre-set once/session"
+      }
+    },
+    "competencies": {
+      "definition": "Specific, narrow proficiencies that grant +1 die when relevant",
+      "examples": [
+        "Pistol Competency",
+        "Rifle Competency",
+        "First Aid Competency",
+        "Thief's Tools Competency",
+        "Occult Symbols Competency",
+        "Vehicle Maintenance Competency"
+      ],
+      "stacking": "Competency + Talent ranks + attribute modifier stack to produce dice pool"
+    },
+    "advancement_rules": {
+      "competencies_by_level": {
+        "level1": "2 per background",
+        "level3": "gain 1 competency or upgrade an existing one",
+        "level6": "gain 1 competency or upgrade",
+        "level10": "mastery in 1 competency (+2 dice)"
+      },
+      "talents_by_level": {
+        "level1": "1 sub-talent Rank1 (from background)",
+        "level3": "increase rank or new sub-talent Rank1",
+        "level6": "increase rank or new sub-talent Rank1",
+        "level10": "one sub-talent reaches Rank3 and unlocks special maneuver"
+      },
+      "dice_caps": {
+        "from_talents_max": 3,
+        "from_competencies_max": 2
+      }
+    }
+  },
+  "bloodlines": {
+    "overview": "Bloodlines define supernatural heritage and grant passive traits and level-gated powers at levels 1, 3, 6, 10.",
+    "mechanics": {
+      "level_unlocks": [1, 3, 6, 10],
+      "power_types": ["passive", "active", "signature"],
+      "costs_and_limits": "Abilities can have uses/day, Fate Pool costs, Soul costs, or social exposure consequences"
+    },
+    "list": [
+      {
+        "name": "Celestial",
+        "branches": [
+          {
+            "branch": "Angelic",
+            "level1": {
+              "passive": "Halo of Light — ignore 1 Soul wound penalty",
+              "description": "Minor protective aura"
+            },
+            "level3": {
+              "choices": [
+                {"name": "Wings of Radiance", "effect": "gain flight 1d6 rounds once/day"},
+                {"name": "Healing Touch", "effect": "heal 1 wound (costs transfer or Fate)"}
+              ]
+            },
+            "level6": {
+              "choices": [
+                {"name": "Divine Smite", "effect": "on hit, spend Fate to deal extra wound step ignoring armor"},
+                {"name": "Protective Ward", "effect": "+1 die to self/allies for 1 round"}
+              ]
+            },
+            "level10": {
+              "signature": {"name": "True Form", "effect": "once/session assume angelic form: flight, radiant aura, +2 Soul dice, enemies flee"}
+            },
+            "drawback": "Cannot tell outright lies — penalty to Soul checks until absolved"
+          },
+          {
+            "branch": "Demonic",
+            "level1": {"passive": "Infernal Resistance — +1 die vs fire/fear effects"},
+            "level3": {"choices": [{"name": "Hellfire Bolt", "effect": "ranged Soul attack (rifle-level)"}]},
+            "level6": {"choices": [{"name": "Infernal Might", "effect": "+2 dice to melee once/fight"}]},
+            "level10": {"signature": {"name": "True Form", "effect": "demonic avatar, +2 Body dice, supernatural attacks"}},
+            "drawback": "GM can compel selfish/destructive action once/session"
+          }
+        ]
+      },
+      {
+        "name": "Lycanthrope",
+        "shared_passive": "Heightened Senses — +1 die perception/tracking",
+        "branches": [
+          {
+            "branch": "Wolf",
+            "level1": {"passive": "Pack Instinct — allies within 10ft gain +1 die if you are engaged"},
+            "level3": {"choices": [{"name": "Feral Dash", "effect": "double move for 1d3 rounds"}]},
+            "level6": {"choices": [{"name": "Savage Frenzy", "effect": "ignore wound penalties once/fight"}]},
+            "level10": {"signature": {"name": "Alpha's Howl", "effect": "rally allies; heal 1 wound or shake fear"}},
+            "drawback": "Must roll Soul on critical failure or frenzy"
+          },
+          {
+            "branch": "Bear",
+            "level1": {"passive": "Tough Hide — reduce incoming wound dice one step"},
+            "level3": {"choices": [{"name": "Maul", "effect": "crit causes one extra wound step"}]},
+            "level6": {"choices": [{"name": "Last Stand", "effect": "fight 1d3 rounds after fatal wound once/day"}]},
+            "level10": {"signature": {"name": "Titan Form", "effect": "+2 Body dice, knockback on melee hits"}},
+            "drawback": "-1 die initiative; slow"
+          },
+          {
+            "branch": "Rat",
+            "level1": {"passive": "Survivor's Cunning — +1 die stealth/thievery"},
+            "level3": {"choices": [{"name": "Plague Bite", "effect": "melee wound infects -> -1 die ongoing until treated"}]},
+            "level6": {"choices": [{"name": "Scurry", "effect": "+2 dice to escape attempts"}]},
+            "level10": {"signature": {"name": "Swarm Lord", "effect": "summon tide of vermin once/session"}},
+            "drawback": "NPCs distrust (-1 persuasion)"
+          },
+          {
+            "branch": "Raven",
+            "level1": {"passive": "Omen-Sight — ask GM for symbolic vision once/day"},
+            "level3": {"choices": [{"name": "Flight Burst", "effect": "short glide/flight 1d6 rounds"}]},
+            "level6": {"choices": [{"name": "Carrion's Cry", "effect": "-1 die to enemies for 1d3 rounds"}]},
+            "level10": {"signature": {"name": "Harbinger Form", "effect": "shadow aura, allies +1 Soul die, enemies -1 die"}},
+            "drawback": "Allies -1 morale if you fall"
+          },
+          {
+            "branch": "Lion",
+            "level1": {"passive": "Regal Presence — +1 die to coercion/command"},
+            "level3": {"choices": [{"name": "Roar of Dominion", "effect": "force Soul save or flee 1d3 rounds"}]},
+            "level6": {"choices": [{"name": "Leader's Shield", "effect": "allies within 10ft ignore first wound each combat"}]},
+            "level10": {"signature": {"name": "King of Beasts", "effect": "assume leonine avatar once/session (+2 Body & Soul dice)"}},
+            "drawback": "Prideful — retreat costs Fate point"
+          }
+        ]
+      },
+      {
+        "name": "Vampire",
+        "shared_trait": "Blood Hunger — may feed on mortals to heal wounds",
+        "branches": [
+          {
+            "branch": "Nightwalker",
+            "level1": {"passive": "+1 die at night; minor stealth bonus"},
+            "level3": {"choices": [{"name": "Regeneration", "effect": "recover Moderate wounds over time"}]},
+            "level6": {"choices": [{"name": "Mesmerize", "effect": "d6 social control roll"}]},
+            "level10": {"signature": {"name": "Blood Frenzy", "effect": "ignore wounds for 1 turn once/combat"}}, 
+            "drawback": "Sunlight burns -> wound step per round exposed"
+          },
+          {
+            "branch": "Daywalker",
+            "level1": {"passive": "+1 die in daylight; must manage feeding differently"},
+            "level3": {"choices": [{"name": "Regeneration", "effect": "recover Moderate wounds"}]},
+            "level6": {"choices": [{"name": "Enthrall", "effect": "compel for 1d6 rounds (Soul save)"}]},
+            "level10": {"signature": {"name": "Crimson Majesty", "effect": "+2 Soul dice aura once/session"}},
+            "drawback": "Addictive feeding compulsion risk"
+          }
+        ]
+      },
+      {
+        "name": "Cryptid",
+        "overview": "Optional/MM: customizable local legend bloodlines like Mothman, Jersey Devil, Skinwalker",
+        "examples": [
+          {
+            "name": "Mothman",
+            "level1": {"passive": "Red Eyes - intimidation advantage"},
+            "level3": {"choice": "Premonition - ask GM about impending doom once/session"},
+            "level6": {"choice": "Wings - flight 1d6 rounds"},
+            "level10": {"signature": "Harbinger of Calamity - once/arc catastrophic warning effect"},
+            "drawback": "Mortals associate you with catastrophe"
+          }
+        ]
+      }
+    ]
+  },
+  "backgrounds": {
+    "overview": "Background = life before the hunt. Grants competencies, talents (Rank1), and flavor perk. Progression table covers levels 1/3/6/10.",
+    "core_10_backgrounds": [
+      {
+        "name": "Soldier",
+        "level1": {"competencies": ["Rifle","Explosives"], "talent": {"Warfare":"Firearms Rank1"}, "perk": "Military Contacts"},
+        "level3": {"upgrade": "+1 Weapon Competency (pistol/SMG/melee)"},
+        "level6": {"talent_gain": "Warfare (Tactics) Rank1"},
+        "level10": {"signature": "Call in heavy support once/session"}
+      },
+      {
+        "name": "Mechanic",
+        "level1": {"competencies":["Engineering Tools","Vehicle Maintenance"], "talent":{"Engineering":"Mechanics Rank1"}, "perk":"Grease Monkey"},
+        "level3": {"talent":"Engineering (Electronics) Rank1"},
+        "level6": {"competency":"Vehicle Competency (tank/plane/car)"},
+        "level10": {"signature":"Prototype Workshop (field invention/repair once/session)"}
+      },
+      {
+        "name": "Private Eye",
+        "level1": {"competencies":["Pistol","Lockpicking"], "talent":{"Subterfuge":"Infiltration Rank1"}, "perk":"Streetwise"},
+        "level3": {"talent":"Tracking Rank1"},
+        "level6": {"competency":"Interrogation or Coercion"},
+        "level10": {"signature":"Know a Guy (introduce helpful NPC once/session)"}
+      },
+      {
+        "name": "Occultist",
+        "level1": {"competencies":["Ritual Tools","Lore (Folklore)"], "talent":{"Occult":"Rituals Rank1"}, "perk":"Hidden Library"},
+        "level3": {"talent":"Occult (Warding) Rank1"},
+        "level6": {"competency":"Lore (Religion or History)"},
+        "level10": {"signature":"Forbidden Rite (turn failed roll into success once/session at cost)"}
+      },
+      {
+        "name": "Brawler",
+        "level1": {"competencies":["Unarmed","Melee Weapons"], "talent":{"Coercion":"Intimidation Rank1"}, "perk":"Fearsome Presence"},
+        "level3": {"upgrade":"Unarmed Competency (+1 die grappling)"},
+        "level6": {"talent":"Warfare (Melee) Rank1"},
+        "level10": {"signature":"Adrenaline Surge (ignore incapacitating wound once/session)"}
+      },
+      {
+        "name": "Doctor",
+        "level1": {"competencies":["Medicine Kit","Pharmaceuticals"], "talent":{"Medicine":"First Aid Rank1"}, "perk":"Licensed"},
+        "level3": {"talent":"Medicine (Surgery) Rank1"},
+        "level6": {"competency":"Trauma Stabilization"},
+        "level10": {"signature":"Pull from Death (stabilize fatal wound once/session if treated quickly)"}
+      },
+      {
+        "name": "Performer",
+        "level1": {"competencies":["Performance","Subterfuge (Disguise)"], "talent":{"Entertainment":"Rank1"}, "perk":"Crowd Control"},
+        "level3": {"competency":"Charm (Persuasion/Seduction)"},
+        "level6": {"talent":"Subterfuge (Espionage) Rank1"},
+        "level10": {"signature":"Command the Room (seize social spotlight once/session)"}
+      },
+      {
+        "name": "G-Man",
+        "level1": {"competencies":["Pistol","Interrogation"], "talent":{"Coercion":"Interrogation Rank1"}, "perk":"Badge of Authority"},
+        "level3": {"talent":"Lore (Law/Criminology) Rank1"},
+        "level6": {"competency":"SMG/Shotgun"},
+        "level10": {"signature":"Invoke Bureau Resources (call team/evidence once/session)"}
+      },
+      {
+        "name": "Gangster",
+        "level1": {"competencies":["Tommy Gun","Streetwise"], "talent":{"Subterfuge":"Espionage Rank1"}, "perk":"Connected"},
+        "level3": {"talent":"Coercion (Persuasion) Rank1"},
+        "level6": {"competency":"Knife/Pistol"},
+        "level10": {"signature":"Underworld Clout (mob crew support once/session)"}
+      },
+      {
+        "name": "Scientist",
+        "level1": {"competencies":["Engineering (Electronics)","Lore (Science)"], "talent":{"Lore":"Occult or Science Rank1"}, "perk":"Prototype Access"},
+        "level3": {"talent":"Engineering (Chemistry) Rank1"},
+        "level6": {"competency":"Lore (History/Occult/Physics)"},
+        "level10": {"signature":"Breakthrough (invention/discovery tilts odds once/session)"}
+      }
+    ],
+    "flavor_perks_pool": {
+      "contacts": ["Street Informant","Military Buddy","Local Official","Occult Circle"],
+      "resources": ["Safehouse","Vehicle","Tool Cache","Prototype Gadget"],
+      "reputation": ["Feared","Renowned","Lucky","Notorious"],
+      "skills": ["Eidetic Memory","Intuition","Observation","Combat Sense"],
+      "quirks": ["Always Lands on Feet","Obsessive Collector","Charming","Superstitious"]
+    }
+  },
+  "wounds_and_damage": {
+    "design_intent": "Adeptus Titanicus-inspired location tracks scaled to humans; weapon strength + d6 roll vs class thresholds determines wound severity (Direct/Devastating/Critical)",
+    "weapon_strength": {
+      "handknife": 2,
+      "pistol": 3,
+      "rifle": {"small": 4, "military": 5, "high_power": 6},
+      "shotgun": 4,
+      "heavy_weapon": 6
+    },
+    "wound_roll_procedure": [
+      "1) Attack succeeds (2d6 + pool >= target defense).",
+      "2) Roll 1d6 + Weapon Strength (S).",
+      "3) Compare result to target's archetype thresholds (Direct/Devastating/Critical).",
+      "4) Mark wound level on targeted location track."
+    ],
+    "archetype_thresholds": {
+      "Brawler": {"direct": 5, "devastating": 8, "critical": 11},
+      "Balanced": {"direct": 4, "devastating": 7, "critical": 10},
+      "Fragile": {"direct": 3, "devastating": 6, "critical": 9},
+      "Monster": {"direct": 6, "devastating": 9, "critical": 12}
+    },
+    "hit_location_die": {
+      "d6_mapping": {"1":"Head","2-3":"Torso","4":"Right Arm","5":"Left Arm","6":"Legs"},
+      "d10_optional_mapping": {"1":"Head","2-3":"Torso","4-5":"Left Arm","6-7":"Right Arm","8-9":"Left Leg","10":"Right Leg"}
+    },
+    "severity_effects": {
+      "direct": {"wound": "Light", "mechanic": "-1 die to actions involving that location", "healing_time": "overnight"},
+      "devastating": {"wound": "Severe", "mechanic": "-2 dice to related actions; location impairment", "healing_time": "days-weeks; medical required"},
+      "critical": {"wound": "Fatal/Disabled", "mechanic": "limb lost or incapacitation; torso/head death risk", "healing_time": "requires advanced/supernatural aid"}
+    },
+    "wound_tracks_layout": {
+      "locations": ["Head","Torso","Left Arm","Right Arm","Left Leg","Right Leg"],
+      "levels_per_location": ["Scratch/Direct","Light","Severe/Devastating","Fatal/Disabled/Critical"]
+    },
+    "bleed_and_escalation": {
+      "rule": "Moderate/Severe (Devastating) wounds require bleed checks each combat round/scene. Failure escalates wound one step.",
+      "first_aid": "stabilizes and stops escalation; does not fully heal",
+      "automatic_escalation_conditions": ["time without treatment","failing bleed checks","critical hits"]
+    },
+    "healing_rules": {
+      "light": "overnight",
+      "moderate": "days to weeks with treatment",
+      "severe": "several weeks/months or supernatural intervention",
+      "critical": "permanent unless magic or extraordinary surgery"
+    },
+    "supernatural_integration": {
+      "vampire": "auto-downgrade one severity on Torso wounds; feeding restores wounds",
+      "lycanthrope": "ignore Light wounds to arms/legs; regenerate Light->Moderate once per round in some forms",
+      "celestial": "may spend Fate to negate Fatal wound once/session; healing touch",
+      "warlock": "rituals can shift or absorb wounds at cost"
+    }
+  },
+  "advanced_combat": {
+    "aiming": {"action":"aim instead of firing","effect":"+1 die or choose hit location next attack","talent_hook":"Marksmanship increases dice"},
+    "suppressive_fire": {"action":"fire at area","effect":"-1 to -2 dice to anyone acting in the zone","ammo_cost":"1-3 extra rounds","talent_hook":"Tactics extends duration"},
+    "called_shot": {"action":"declare body part","effect":"-2 dice but force location on success","talent_hook":"Hunter/Thief reduces penalty"},
+    "grappling": {"mechanic":"opposed Body test; success immobilizes; critical restrains limb/weapon","damage":"light unless enhanced"},
+    "dodge_dive": {"mechanic":"reaction Body test vs attacker; success reduces attacker dice or avoids hit"},
+    "overwatch": {"action":"hold fire on condition","effect":"attack resolves before target moves when triggered"},
+    "close_quarters_tactics": {"disarm":"opposed Body+Competency; success drop weapon","throw/shove":"opposed Body; knock prone or push"},
+    "dual_wielding": {"condition":"competent with both","effect":"+1 die but miss risk/penalty; talent mitigates"},
+    "melee_clash": {"mechanic":"opposed Body+dice; higher success inflicts wound; tie = both Light wounds"},
+    "environmental_interaction": "GM rewards creativity with +/- dice rather than new complex subsystems"
+  },
+  "supernatural_abilities_framework": {
+    "core_principles": [
+      "Hybrid system: passive innate + level-gated selectable powers",
+      "Bloodline defines innate powers; Class defines application",
+      "Powers use dice appropriate to effect (d6/d10/d100) and stack with talents/competencies",
+      "Fate Pool can boost supernatural rolls or prevent catastrophic failure"
+    ],
+    "level_gated_mechanics": {
+      "unlock_levels": [1,3,6,10],
+      "choice_at_gated_levels": "player picks one ability from list appropriate to bloodline/class",
+      "scaling": "powers increase dice, effects, or uses with higher level",
+      "balance": "powers have limits (cooldown, uses/day, Soul cost, or public exposure)"
+    },
+    "integration_with_wounds": "Supernatural attacks use same wound/location system; healing powers usually downgrade severity by 1 step and rarely undo Fatal without high-level effect",
+    "examples": [
+      {"type":"Vampire","level1":"+1 die at night (Nightwalker)"},
+      {"type":"Lycanthrope","level6":"Regeneration - recovers Light->Moderate in 1 round"},
+      {"type":"Celestial","level10":"Divine Intervention - auto-critical once/session"}
+    ]
+  },
+  "fate_pool": {
+    "formula": "1 + floor(level / 2)",
+    "uses": ["Flip a failure into a critical success", "Boost supernatural roll in emergency (GM adjudication)"],
+    "refresh": "Major milestones or GM discretion (level up, story beats)",
+    "narrative": "Represents cinematic fate, last-ditch heroism, or divine/ infernal favor"
+  },
+  "organizations": {
+    "Ashwood Foundation": {
+      "role": "Hunters, purge abnormal to protect humanity",
+      "tone": "Ruthless, orthodox purge orientation"
+    },
+    "Covenant of St. Michael": {
+      "role": "Balance - discern evil from misunderstood good; eliminate real threats",
+      "tone": "Stoic, investigative"
+    },
+    "Black Chamber": {
+      "role": "Exploit supernatural for national interest; morally gray, quasi-intelligence",
+      "tone": "Manipulative, secretive"
+    }
+  },
+  "quickstart_guide": {
+    "purpose": "Two-page intro for players, covers creation, rolling, wounds, example play",
+    "steps_summary": [
+      "1. Roll attributes (4d6 drop lowest per attribute) + add 40 baseline + distribute 12 bonus pool",
+      "2. Choose Background, Bloodline, Class",
+      "3. Assign competencies and talents (as background/class provides)",
+      "4. Determine Fate Pool",
+      "5. Play using 2d6 core engine"
+    ],
+    "example_play": {
+      "situation": "Player fires pistol at cultist",
+      "rolls": {
+        "player_dice_pool": "2d6 base + competency + talent ranks -> example 5d6 keep 2",
+        "player_roll_result": "6+4 = 10, add attribute modifier e.g., Body +5 -> final 15 = success"
+      },
+      "damage_flow": "On success -> location roll -> weapon strength + d6 -> compare to archetype thresholds -> mark wound level"
+    }
+  },
+  "cheat_sheet": {
+    "one_page_sections": [
+      "Character Creation quick list",
+      "Hit Locations mapping (d6)",
+      "Wound Severity table (Light/Moderate/Severe/Critical)",
+      "Combat Flow 1-5 steps",
+      "Bloodline level unlock summary"
+    ],
+    "visual_notes": "Minimalist wound diagram with 4 markable slots per body part: Direct/Devastating/Critical"
+  },
+  "sample_characters": [
+    {
+      "name": "Frank Mallory",
+      "background": "Veteran (Soldier)",
+      "bloodline": "Lycanthrope (Wolf)",
+      "class": "Hunter",
+      "level": 1,
+      "attributes": {"Mind":48,"Body":62,"Soul":55},
+      "competencies": ["Rifles","Tracking"],
+      "talents": [{"Warfare":"Rifles Rank1"},{"Tracking":"Rank1"}],
+      "flavor_perk": "War Stories",
+      "bloodline_powers": {"level1":"Wolf Senses (+1 die perception/tracking)"},
+      "class_ability": "Marked Quarry (+damage to tracked enemy)",
+      "gear": ["Hunting rifle","Army jacket","Combat knife"]
+    },
+    {
+      "name": "Evelyn Price",
+      "background": "Performer (Jazz Singer)",
+      "bloodline": "Vampire (Daywalker)",
+      "class": "Empath",
+      "level": 1,
+      "attributes": {"Mind":52,"Body":45,"Soul":65},
+      "competencies": ["Performance","Pistols"],
+      "talents": [{"Entertainment":"Rank1"},{"Occult (Vampiric Lore)":"Rank1"}],
+      "flavor_perk": "Radio Star",
+      "bloodline_powers": {"level1":"Heightened Charm (social influence)"},
+      "class_ability": "Empathic Read (sense surface emotions)",
+      "gear": ["Revolver","Microphone charm","Fashionable clothes"]
+    }
+  ],
+  "appendices": {
+    "wound_diagram_spec": {
+      "layout": {
+        "head": {"slots":["Direct","Devastating","Critical"]},
+        "torso": {"slots":["Direct","Devastating","Critical"]},
+        "left_arm": {"slots":["Direct","Devastating","Critical"]},
+        "right_arm": {"slots":["Direct","Devastating","Critical"]},
+        "left_leg": {"slots":["Direct","Devastating","Critical"]},
+        "right_leg": {"slots":["Direct","Devastating","Critical"]}
+      },
+      "print_notes": "Minimalistic clean layout, each slot a checkbox for quick tracking"
+    },
+    "quick_reference_tables": {
+      "weapon_strength_examples": {"knife":2,"pistol":3,"rifle":5,"shotgun":4,"heavy":6},
+      "archetype_thresholds_summary": {
+        "Brawler":"Direct 5 / Devastating 8 / Critical 11",
+        "Balanced":"Direct 4 / Devastating 7 / Critical 10",
+        "Fragile":"Direct 3 / Devastating 6 / Critical 9",
+        "Monster":"Direct 6 / Devastating 9 / Critical 12"
+      }
+    }
+  },
+  "editorial_notes": {
+    "status": "Draft",
+    "next_steps": [
+      "Proofread for tone/clarity",
+      "Format into player & GM PDF manuals",
+      "Create fillable character sheet and printable wound trackers",
+      "Playtest weapons/threshold numbers for balance",
+      "Add more bloodline branches or cryptid templates"
+    ],
+    "credits": ["System design and content derived from user conversation with assistant (Midnight Nation)"]
+  }
+}

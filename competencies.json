@@ -1,0 +1,168 @@
+{
+  "competencies": {
+    "Weapons": {
+      "pistol": {
+        "description": "Training with pistols and revolvers.",
+        "effect": "+1 die when firing or maintaining pistols.",
+        "examples": ["Colt M1911", "Smith & Wesson M&P"]
+      },
+      "rifle": {
+        "description": "Proficiency with bolt-action and semi-automatic rifles.",
+        "effect": "+1 die when firing rifles.",
+        "examples": ["M1 Garand", "Springfield M1903"]
+      },
+      "shotgun": {
+        "description": "Training in pump-action and break-action shotguns.",
+        "effect": "+1 die when firing shotguns.",
+        "examples": ["Winchester 1897", "Remington 870"]
+      },
+      "smg": {
+        "description": "Proficiency with submachine guns and automatic pistol-caliber firearms.",
+        "effect": "+1 die when firing SMGs.",
+        "examples": ["Thompson M1A1", "M3 Grease Gun"]
+      },
+      "melee": {
+        "description": "Skill with handheld and improvised melee weapons.",
+        "effect": "+1 die in melee combat.",
+        "examples": ["Knives", "Bats", "Clubs"]
+      },
+      "unarmed": {
+        "description": "Hand-to-hand combat techniques including boxing, wrestling, and street fighting.",
+        "effect": "+1 die in unarmed attacks or grapples.",
+        "examples": ["Punches", "Throws"]
+      },
+      "explosives": {
+        "description": "Training in safe use of grenades and demolition charges.",
+        "effect": "+1 die when using or placing explosives.",
+        "examples": ["Frag grenades", "Demo charges"]
+      }
+    },
+
+    "Tools": {
+      "lockpicks": {
+        "description": "Proficiency with lockpicking tools and bypass techniques.",
+        "effect": "+1 die when picking mechanical locks.",
+        "examples": ["Padlocks", "Door locks"]
+      },
+      "medicineKit": {
+        "description": "Training in basic medical tools such as bandages, gauze, disinfectants, and splints.",
+        "effect": "+1 die when stabilizing wounds.",
+        "examples": ["Field dressings", "First aid kits"]
+      },
+      "engineeringTools": {
+        "description": "Skill with mechanical tools such as wrenches, pliers, and repair kits.",
+        "effect": "+1 die when repairing or modifying machinery.",
+        "examples": ["Engines", "Generators"]
+      },
+      "vehicleMaintenance": {
+        "description": "Training in automotive repair and upkeep.",
+        "effect": "+1 die when fixing or assessing vehicular issues.",
+        "examples": ["Cars", "Trucks"]
+      },
+      "ritualTools": {
+        "description": "Familiarity with occult implements such as candles, chalk, charms, and ceremonial knives.",
+        "effect": "+1 die when performing rituals or drawing sigils.",
+        "examples": ["Ritual daggers", "Incense", "Chalk circles"]
+      },
+      "pharmaceuticals": {
+        "description": "Knowledge of medicines, injections, anesthetics, and controlled substances.",
+        "effect": "+1 die when administering drugs or determining their effects.",
+        "examples": ["Morphine", "Sedatives", "Painkillers"]
+      }
+    },
+
+    "Methods": {
+      "stealth": {
+        "description": "Training in silent movement and concealment.",
+        "effect": "+1 die when avoiding detection.",
+        "examples": ["Sneaking", "Hiding"]
+      },
+      "interrogation": {
+        "description": "Structured questioning and pressure-based information extraction.",
+        "effect": "+1 die on interrogation attempts.",
+        "examples": ["Suspects", "Prisoners"]
+      },
+      "performance": {
+        "description": "Acting, singing, distracting, crowd control, and stage presence.",
+        "effect": "+1 die when performing or diverting attention.",
+        "examples": ["Concerts", "Speeches", "Distractions"]
+      },
+      "tracking": {
+        "description": "Skill in following tracks, clues, and movement patterns.",
+        "effect": "+1 die to pursuit or tracking attempts.",
+        "examples": ["Footprints", "Trails"]
+      },
+      "shadyDeals": {
+        "description": "Underworld negotiation, back-alley trading, and criminal connections.",
+        "effect": "+1 die when conducting illegal deals or bargaining.",
+        "examples": ["Black market", "Smuggling"]
+      },
+      "coercion": {
+        "description": "Threats, intimidation, and forceful persuasion.",
+        "effect": "+1 die on intimidation checks.",
+        "examples": ["Shakedowns", "Interrogations"]
+      },
+      "disguise": {
+        "description": "Acting, impersonation, and alteration of appearance.",
+        "effect": "+1 die when using disguises or false identities.",
+        "examples": ["Fake IDs", "Costumes"]
+      }
+    },
+
+    "Knowledge": {
+      "loreFolklore": {
+        "description": "Understanding of myths, urban legends, regional stories, and supernatural folklore.",
+        "effect": "+1 die when identifying or recalling folklore about creatures or places.",
+        "examples": ["Cryptid myths", "Local legends"]
+      },
+      "loreScience": {
+        "description": "Academic scientific understanding including chemistry, physics, and biology.",
+        "effect": "+1 die when applying scientific principles to a problem.",
+        "examples": ["Chemical analysis", "Biological samples"]
+      }
+    }
+  },
+
+  "backgroundCompetencies": {
+    "Soldier": [
+      "rifle",
+      "explosives"
+    ],
+    "Mechanic": [
+      "engineeringTools",
+      "vehicleMaintenance"
+    ],
+    "PrivateEye": [
+      "pistol",
+      "lockpicks"
+    ],
+    "Occultist": [
+      "ritualTools",
+      "loreFolklore"
+    ],
+    "Brawler": [
+      "unarmed",
+      "melee"
+    ],
+    "Doctor": [
+      "medicineKit",
+      "pharmaceuticals"
+    ],
+    "Performer": [
+      "performance",
+      "disguise"
+    ],
+    "G-Man": [
+      "pistol",
+      "interrogation"
+    ],
+    "Gangster": [
+      "smg",
+      "shadyDeals"
+    ],
+    "Scientist": [
+      "engineeringTools",
+      "loreScience"
+    ]
+  }
+}

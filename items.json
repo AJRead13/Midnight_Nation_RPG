@@ -1,0 +1,288 @@
+{
+  "prices": {
+    "Melee  One Handed": [
+      {
+        "item": "Combat Knife / Fighting Knife",
+        "price": "$5–12",
+        "notes": "Military issue; depends on quality."
+      },
+      {
+        "item": "Bayonet",
+        "price": "$7–15",
+        "notes": "Military surplus; attachable to rifles."
+      },
+      {
+        "item": "Brass Knuckles",
+        "price": "$2–5",
+        "notes": "Illegal in some states; low cost."
+      },
+      {
+        "item": "Pocket Knife / Switchblade",
+        "price": "$1–8",
+        "notes": "Folding knives popular with civilians."
+      }
+    ],
+    "Melee – Two Handed": [
+      {
+        "item": "Baseball Bat",
+        "price": "$3–10",
+        "notes": "Wood bat; sporting goods."
+      },
+      {
+        "item": "Crowbar",
+        "price": "$2–6",
+        "notes": "Standard tool; widely available."
+      },
+      {
+        "item": "Machete",
+        "price": "$5–12",
+        "notes": "Agricultural or military variant."
+      },
+      {
+        "item": "Sledgehammer / Firefighter Axe",
+        "price": "$10–20",
+        "notes": "Heavy duty tools; some surplus."
+      }
+    ],
+    "Firearms – Handguns": [
+      {
+        "item": "Colt M1911",
+        "price": "$65–75",
+        "notes": "Military or police issue."
+      },
+      {
+        "item": "Smith & Wesson M&P",
+        "price": "$45–60",
+        "notes": "Police/civilian revolver."
+      },
+      {
+        "item": "Colt Woodsman",
+        "price": "$30–40",
+        "notes": "Civilian target pistol."
+      }
+    ],
+    "Firearms – Submachine Guns": [
+      {
+        "item": "Thompson M1A1",
+        "price": "$200–250",
+        "notes": "Military SMG; surplus cheaper than new."
+      },
+      {
+        "item": "M3 “Grease Gun”",
+        "price": "$100–150",
+        "notes": "Military issue; inexpensive and effective."
+      }
+    ],
+    "Firearms – Rifles": [
+      {
+        "item": "M1 Garand",
+        "price": "$85–100",
+        "notes": "Military issue; government price."
+      },
+      {
+        "item": "M1 Carbine",
+        "price": "$60–75",
+        "notes": "Lightweight service rifle."
+      },
+      {
+        "item": "Springfield M1903A3",
+        "price": "$75–90",
+        "notes": "Older military rifle; surplus."
+      },
+      {
+        "item": "Winchester Model 70",
+        "price": "$65–80",
+        "notes": "Civilian hunting rifle."
+      },
+      {
+        "item": "Krag–Jørgensen",
+        "price": "$50–65",
+        "notes": "Older surplus rifle; slower."
+      }
+    ],
+    "Firearms – Shotguns": [
+      {
+        "item": "Remington 870",
+        "price": "$55–70",
+        "notes": "Civilian / police variant."
+      },
+      {
+        "item": "Winchester Model 12",
+        "price": "$50–65",
+        "notes": "Pump action; military/civilian."
+      },
+      {
+        "item": "Ithaca 37",
+        "price": "$55–70",
+        "notes": "Reliable pump action."
+      },
+      {
+        "item": "Winchester Model 1897",
+        "price": "$45–60",
+        "notes": "Older trench gun; surplus."
+      }
+    ],
+    "Firearms – Machine Guns": [
+      {
+        "item": "Browning M1919",
+        "price": "$500–650",
+        "notes": "Heavy military support weapon; unlikely civilian."
+      },
+      {
+        "item": "Browning M2",
+        "price": "$1000+",
+        "notes": "Extremely rare; military vehicle mounted."
+      },
+      {
+        "item": "BAR M1918A2",
+        "price": "$400–550",
+        "notes": "Squad automatic; military issue."
+      },
+      {
+        "item": "Browning M1917",
+        "price": "$450–600",
+        "notes": "Water cooled; military support."
+      }
+    ],
+    "Items – Personal Gear": [
+      {
+        "item": "Flashlight",
+        "price": "$3–10",
+        "notes": "Battery powered; civilian or police."
+      },
+      {
+        "item": "Compass",
+        "price": "$1–5",
+        "notes": "Civilian or military type."
+      },
+      {
+        "item": "Pocket Watch",
+        "price": "$15–50",
+        "notes": "Quality depends on brand."
+      },
+      {
+        "item": "Binoculars",
+        "price": "$10–40",
+        "notes": "Civilian or military type."
+      },
+      {
+        "item": "Maps / Atlases",
+        "price": "$1–3",
+        "notes": "Paper maps; inexpensive."
+      }
+    ],
+    "Items – Survival / Utility": [
+      {
+        "item": "Rope / Cord",
+        "price": "$1–3",
+        "notes": "Standard utility rope."
+      },
+      {
+        "item": "Crowbar",
+        "price": "$2–6",
+        "notes": "Tool; also usable as weapon."
+      },
+      {
+        "item": "Pocket Tools / Multi tool",
+        "price": "$5–15",
+        "notes": "Basic or higher quality versions."
+      },
+      {
+        "item": "First Aid Kit",
+        "price": "$5–15",
+        "notes": "Civilian or field kit."
+      },
+      {
+        "item": "Canteen / Water Bottle",
+        "price": "$2–6",
+        "notes": "Military or civilian."
+      }
+    ],
+    "Items – Combat / Defense": [
+      {
+        "item": "Gas Mask",
+        "price": "$15–25",
+        "notes": "Military surplus; some civilian."
+      },
+      {
+        "item": "Helmet (Military)",
+        "price": "$10–20",
+        "notes": "Steel; surplus cheap."
+      },
+      {
+        "item": "Body Armor (Flak Vest)",
+        "price": "$50–100",
+        "notes": "Limited protection; rare civilian."
+      },
+      {
+        "item": "Grenades (Smoke / Fragmentation)",
+        "price": "$5–15",
+        "notes": "Military only; civilian possession illegal."
+      }
+    ],
+    "Items – Occult / Ritual": [
+      {
+        "item": "Holy Water",
+        "price": "$1–5",
+        "notes": "Blessed by clergy; effects vary."
+      },
+      {
+        "item": "Silver Bullets (per round)",
+        "price": "$2–5",
+        "notes": "Custom made; effective vs lycanthropes."
+      },
+      {
+        "item": "Iron Nails",
+        "price": "$0.50–2",
+        "notes": "Cold iron; wards against fae."
+      },
+      {
+        "item": "Ritual Chalk",
+        "price": "$1–3",
+        "notes": "For circles and symbols."
+      },
+      {
+        "item": "Blessed Cross",
+        "price": "$5–20",
+        "notes": "Religious symbol; varies by quality."
+      },
+      {
+        "item": "Grimoire / Occult Book",
+        "price": "$50–500",
+        "notes": "Rare texts; price varies wildly."
+      },
+      {
+        "item": "Sage Bundle",
+        "price": "$2–5",
+        "notes": "For cleansing rituals."
+      }
+    ],
+    "Vehicles": [
+      {
+        "item": "Sedan (Used)",
+        "price": "$500–1500",
+        "notes": "Common civilian car; 4-5 passengers."
+      },
+      {
+        "item": "Truck (Used)",
+        "price": "$800–2000",
+        "notes": "Utility vehicle; cargo capacity."
+      },
+      {
+        "item": "Motorcycle",
+        "price": "$300–800",
+        "notes": "Fast, maneuverable; 1-2 passengers."
+      },
+      {
+        "item": "Police Car",
+        "price": "$1200–2000",
+        "notes": "Radio equipped; official use."
+      },
+      {
+        "item": "Military Jeep",
+        "price": "$1000–1800",
+        "notes": "Surplus; rugged all-terrain."
+      }
+    ]
+  }
+}

@@ -1,0 +1,181 @@
+{
+  "Talents": {
+    "Warfare": {
+      "description": "Training in weapons, tactics, and battlefield skill. Governs combat proficiency with firearms, melee weapons, and heavy equipment.",
+      "subTalents": {
+        "Firearms": {
+          "description": "Skilled handling of pistols, rifles, carbines, and SMGs.",
+          "effects": [
+            "+1 die when attacking with pistols, revolvers, rifles, or SMGs.",
+            "No penalty for using two-handed firearms in tight spaces."
+          ]
+        },
+        "HeavyWeapons": {
+          "description": "Training in machine guns, launchers, and experimental weapons.",
+          "effects": [
+            "+1 die when using MGs, launchers, or mounted weapons.",
+            "Can identify a weapon's caliber and ammo type on sight."
+          ]
+        },
+        "CloseCombat": {
+          "description": "Expertise in knives, batons, fists, and improvised tools.",
+          "effects": [
+            "+1 die in melee combat.",
+            "When armed with a knife or improvised weapon, escalate damage 1 step on a critical."
+          ]
+        },
+        "Tactics": {
+          "description": "Understanding battlefield positioning, cover, and coordinated maneuvers.",
+          "effects": [
+            "Once per scene, let 1 ally reposition before initiative is rolled.",
+            "Allies gain +1 die to their first action when you issue a command."
+          ]
+        }
+      }
+    },
+
+    "Lore": {
+      "description": "Knowledge of history, cultures, languages, religions, cryptids, and the occult.",
+      "subTalents": {
+        "Occult": {
+          "description": "Understanding supernatural symbols, magic, demons, angels, and rituals.",
+          "effects": [
+            "+1 die when identifying supernatural threats.",
+            "Once per session, declare you 'recognize this ritual' to learn one GM hint."
+          ]
+        },
+        "History": {
+          "description": "Academic or practical understanding of historical events, artifacts, and politics.",
+          "effects": [
+            "+1 die to checks involving old documents, ruins, or political groups.",
+            "Recognize authentic relics vs. forgeries."
+          ]
+        },
+        "Cryptids": {
+          "description": "Specialized knowledge of monsters, folklore, and creature behaviors.",
+          "effects": [
+            "+1 die to track, hunt, or evade nonhuman creatures.",
+            "Once per session, identify a monster's weakness."
+          ]
+        },
+        "Linguistics": {
+          "description": "Understanding of multiple languages or ability to decipher text.",
+          "effects": [
+            "+1 die to translate or decode inscriptions.",
+            "Can communicate simple ideas across language barriers."
+          ]
+        }
+      }
+    },
+
+    "Medicine": {
+      "description": "Training in field medicine, surgery, first aid, and trauma response.",
+      "effects": [
+        "+1 die to stabilize bleeding characters.",
+        "With proper tools, downgrade one Moderate Wound to Light during downtime."
+      ]
+    },
+
+    "Thievery": {
+      "description": "Covers infiltration, mechanical bypassing, sleight of hand, and burglary.",
+      "subTalents": {
+        "Lockpicking": {
+          "description": "Opening doors, safes, chests, and mechanical locks.",
+          "effects": [
+            "+1 die to pick locks.",
+            "Pick simple locks instantly outside of combat."
+          ]
+        },
+        "Pickpocketing": {
+          "description": "Subtle theft, lifting keys, wallets, or items unnoticed.",
+          "effects": [
+            "+1 die to steal without being seen.",
+            "Once per scene, retroactively declare you lifted a small object."
+          ]
+        },
+        "Mechanics": {
+          "description": "Understanding mechanical traps, devices, and simple machines.",
+          "effects": [
+            "+1 die to disarm traps or sabotage devices.",
+            "Can identify mechanical weaknesses on sight."
+          ]
+        }
+      }
+    },
+
+    "Subterfuge": {
+      "description": "Social deception, disguise, manipulation, forgery.",
+      "effects": [
+        "+1 die to lying, bluffing, or impersonation.",
+        "Create a believable false identity with preparation."
+      ]
+    },
+
+    "Coercion": {
+      "description": "Intimidation, interrogation, authority projection.",
+      "effects": [
+        "+1 die when threatening or forcing compliance.",
+        "Interrogations take half the usual time."
+      ]
+    },
+
+    "Occult": {
+      "description": "Active magical practice — rituals, runes, sigils, charms.",
+      "effects": [
+        "+1 die to cast or perform rituals.",
+        "Once per session, safely disrupt a minor supernatural effect."
+      ]
+    },
+
+    "Entertainment": {
+      "description": "Performance, charm, acting, music, and presence.",
+      "effects": [
+        "+1 die when performing or distracting a crowd.",
+        "Gain small favors from impressed audiences."
+      ]
+    },
+
+    "Engineering": {
+      "description": "Mechanical, electrical, and structural knowledge.",
+      "subTalents": {
+        "Demolitions": {
+          "description": "Handling explosives, charges, and structural damage.",
+          "effects": [
+            "+1 die when placing or defusing explosives.",
+            "Once per session, identify a structure's weak point."
+          ]
+        },
+        "Mechanics": {
+          "description": "Fixing vehicles, engines, generators, or machinery.",
+          "effects": [
+            "+1 die to repair checks.",
+            "During downtime, restore a broken item to working order."
+          ]
+        },
+        "Electronics": {
+          "description": "Radios, wiring, transmitters, circuits.",
+          "effects": [
+            "+1 die to reroute or bypass electrical systems.",
+            "Can build crude transmitters/receivers with scavenged parts."
+          ]
+        }
+      }
+    },
+
+    "Stealth": {
+      "description": "Remaining unseen, silent movement, concealment.",
+      "effects": [
+        "+1 die to hide or move silently.",
+        "Difficult terrain does not impose stealth penalties."
+      ]
+    },
+
+    "Tracking": {
+      "description": "Following footprints, trails, scents, and environmental clues.",
+      "effects": [
+        "+1 die to follow or evade a target.",
+        "Once per session, ask the GM one question about what the target did last."
+      ]
+    }
+  }
+}

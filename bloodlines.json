@@ -1,0 +1,343 @@
+{
+  "bloodlines": {
+    "Celestial": {
+      "description": "Half-divine souls touched by Heaven or Hell. Celestials are drawn into the hidden war between angels and demons.",
+      "sharedTrait": {
+        "name": "Detect Evil Aura",
+        "effect": "Once per scene, roll Soul to sense nearby supernatural malice, corruption, or divine presence."
+      },
+      "branches": {
+        "Angelic": {
+          "description": "Radiant, protective, and burdened with impossible standards of purity and truth.",
+          "drawback": "Cannot tell outright lies. If you do, suffer -1 die on all Soul-based checks until you seek absolution (confession, prayer, or major act of contrition).",
+          "progression": [
+            {
+              "level": 1,
+              "name": "Halo of Light",
+              "type": "passive",
+              "effect": "Ignore the first -1 die penalty from Soul-based wound effects (fear, shock, spiritual harm). Your presence feels calm and reassuring to mortals."
+            },
+            {
+              "level": 3,
+              "name": "Wings of Radiance",
+              "type": "active",
+              "effect": "Once per day, manifest spectral wings for 1d6 rounds. You can fly short distances, ignore most ground obstacles, and gain +1 die to movement-related rolls."
+            },
+            {
+              "level": 6,
+              "name": "Divine Smite",
+              "type": "active",
+              "effect": "When you hit with a melee or ranged attack, you may spend 1 Fate to add a radiant blow: escalate the resulting wound by 1 step (ignores mundane armor and natural DR)."
+            },
+            {
+              "level": 10,
+              "name": "True Form (Angelic)",
+              "type": "active",
+              "effect": "Once per session, assume your full angelic aspect for one scene: gain flight, a radiant aura, and +2 dice to Soul checks. Hostile supernatural creatures must pass a Soul save or flee, cower, or avert their gaze."
+            }
+          ]
+        },
+        "Demonic": {
+          "description": "Infernal-blooded, walking a fine line between weapon and catastrophe.",
+          "drawback": "Once per session, the GM may compel you toward a selfish, destructive, or cruel choice. Refusing costs 1 Fate.",
+          "progression": [
+            {
+              "level": 1,
+              "name": "Infernal Resistance",
+              "type": "passive",
+              "effect": "+1 die on rolls to resist fire, extreme heat, and fear or intimidation effects."
+            },
+            {
+              "level": 3,
+              "name": "Hellfire Bolt",
+              "type": "active",
+              "effect": "Once per scene, make a ranged Soul attack that manifests as flame, shadow, or hellfire. Treat as a rifle-strength attack for damage/wounds and it counts as supernatural."
+            },
+            {
+              "level": 6,
+              "name": "Infernal Might",
+              "type": "active",
+              "effect": "Once per fight, gain +2 dice on melee attacks for 1d3 rounds. Your blows count as supernatural for overcoming resistances."
+            },
+            {
+              "level": 10,
+              "name": "True Form (Demonic)",
+              "type": "active",
+              "effect": "Once per session, assume a terrifying demonic form for one scene: horns, wings, or other monstrous traits. Gain +2 dice to Body, your unarmed and melee attacks escalate wounds by 1 step on a critical, and mortals must pass a Soul save to stand their ground."
+            }
+          ]
+        }
+      }
+    },
+
+    "Lycanthrope": {
+      "description": "Humans bearing the curse or blessing of the Beast. They struggle between human restraint and predatory instinct.",
+      "sharedTrait": {
+        "name": "Heightened Senses",
+        "effect": "+1 die on perception, tracking, and scent/hearing-based rolls. You can often tell when something is 'off' before others notice."
+      },
+      "branches": {
+        "Wolf": {
+          "description": "Pack hunters and battlefield alphas, driven by loyalty and rage.",
+          "drawback": "On a critical failure in combat, roll Soul. On a failure, you frenzy and must attack the nearest creature (friend or foe) until you pass a Soul check or combat ends.",
+          "progression": [
+            {
+              "level": 1,
+              "name": "Pack Instinct",
+              "type": "passive",
+              "effect": "Allies within close range gain +1 die to melee attacks when you are engaged with the same target."
+            },
+            {
+              "level": 3,
+              "name": "Feral Dash",
+              "type": "active",
+              "effect": "Once per scene, double your movement and leap or clear obstacles effortlessly for 1d3 rounds. Gain +1 die on chase or closing distance rolls."
+            },
+            {
+              "level": 6,
+              "name": "Savage Frenzy",
+              "type": "active",
+              "effect": "Once per fight, ignore all wound penalties until the end of combat. When the effect ends, you must make a Soul test or gain an additional Light Wound from overexertion."
+            },
+            {
+              "level": 10,
+              "name": "Alpha’s Howl",
+              "type": "active",
+              "effect": "Once per session, unleash a commanding howl. All allied characters who can hear you immediately remove 1 step of fear or panic, and may either heal 1 Light Wound or gain +1 die on all rolls for the next round."
+            }
+          ]
+        },
+        "Bear": {
+          "description": "Lumbering juggernauts that shrug off punishment and hit like freight trains.",
+          "drawback": "Slow to react. Suffer -1 die on initiative or first-action rolls at the start of combat.",
+          "progression": [
+            {
+              "level": 1,
+              "name": "Tough Hide",
+              "type": "passive",
+              "effect": "Reduce incoming wound severity from physical attacks: a d10 damage result is treated as a d6, and a d6 that would inflict only a Light Wound is ignored on a roll of 1."
+            },
+            {
+              "level": 3,
+              "name": "Maul",
+              "type": "active",
+              "effect": "On a critical hit in melee, you may escalate the resulting wound by an additional 1 step (Light → Moderate → Severe)."
+            },
+            {
+              "level": 6,
+              "name": "Last Stand",
+              "type": "active",
+              "effect": "Once per day, when you would suffer a fatal wound, you instead remain standing and functional for 1d3 more rounds before collapsing. During this time, you retain all penalties but cannot be dropped below 'fatal' again."
+            },
+            {
+              "level": 10,
+              "name": "Titan Form",
+              "type": "active",
+              "effect": "Once per session, swell to an intimidating, near-monstrous size for one combat. Gain +2 dice to Body, your melee hits inflict automatic knockback, and objects like doors, barricades, and light cover are smashed aside without a roll."
+            }
+          ]
+        },
+        "Rat": {
+          "description": "Survivors, scavengers, and plague-carriers that thrive in society’s cracks.",
+          "drawback": "People instinctively distrust you. Suffer -1 die on most persuasion attempts unless you lean into intimidation, blackmail, or shared criminal ties.",
+          "progression": [
+            {
+              "level": 1,
+              "name": "Survivor’s Cunning",
+              "type": "passive",
+              "effect": "+1 die on stealth and thievery-related rolls. You excel at slipping away and finding ways to live through anything."
+            },
+            {
+              "level": 3,
+              "name": "Plague Bite",
+              "type": "active",
+              "effect": "When you inflict a melee wound with teeth or claws, you may choose to infect the target. They suffer -1 die on all physical rolls until properly treated (Medicine or supernatural healing)."
+            },
+            {
+              "level": 6,
+              "name": "Scurry",
+              "type": "active",
+              "effect": "Once per scene, you can slip through gaps, vents, or tight crawlspaces that a normal human could not, and gain +2 dice on rolls to escape capture, manacles, or grapples."
+            },
+            {
+              "level": 10,
+              "name": "Swarm Lord",
+              "type": "active",
+              "effect": "Once per session, summon a writhing mass of vermin (rats, insects, etc.) that floods an area. Foes in the area suffer -1 to -2 dice on attacks and checks due to panic and distraction, and the swarm can inflict Light Wounds on exposed or restrained targets."
+            }
+          ]
+        },
+        "Raven": {
+          "description": "Harbingers and omens, soaring above the battlefield and feeding on secrets.",
+          "drawback": "A bad omen. If you are taken out or visibly harmed, allies suffer -1 die on morale- or fear-related checks for the rest of the scene.",
+          "progression": [
+            {
+              "level": 1,
+              "name": "Omen-Sight",
+              "type": "passive",
+              "effect": "Once per day, ask the GM for a symbolic omen or vision related to the near future. The GM must provide a truthful, though cryptic, hint."
+            },
+            {
+              "level": 3,
+              "name": "Flight Burst",
+              "type": "active",
+              "effect": "Grow or manifest spectral wings for 1d6 rounds, allowing gliding, short flights, and impressive leaps. Gain +1 die on mobility and repositioning rolls."
+            },
+            {
+              "level": 6,
+              "name": "Carrion’s Cry",
+              "type": "active",
+              "effect": "Once per scene, unleash an eerie caw or scream. Enemies who can hear it suffer -1 die on all rolls for 1d3 rounds unless they pass a Soul save."
+            },
+            {
+              "level": 10,
+              "name": "Harbinger Form",
+              "type": "active",
+              "effect": "Once per session, become a living omen: black wings, shadowy aura, and eyes like coals. Allies in range gain +1 die on Soul-based rolls, while enemies suffer -1 die on the same for the duration of the scene or until you are driven off."
+            }
+          ]
+        },
+        "Lion": {
+          "description": "Royal predators embodying pride, courage, and command.",
+          "drawback": "Prideful. Retreating, surrendering, or publicly backing down from a direct challenge costs 1 Fate (or inflicts -1 die on all rolls until you reclaim your pride).",
+          "progression": [
+            {
+              "level": 1,
+              "name": "Regal Presence",
+              "type": "passive",
+              "effect": "+1 die to coercion or command checks. People feel the weight of your authority even without a badge."
+            },
+            {
+              "level": 3,
+              "name": "Roar of Dominion",
+              "type": "active",
+              "effect": "Once per fight, unleash a dominating roar. All enemies who can hear must pass a Soul save or flee, freeze, or cower for 1d3 rounds."
+            },
+            {
+              "level": 6,
+              "name": "Leader’s Shield",
+              "type": "passive",
+              "effect": "Allies within close range ignore the first wound they would suffer each combat (it is reduced by 1 step instead)."
+            },
+            {
+              "level": 10,
+              "name": "King of Beasts",
+              "type": "active",
+              "effect": "Once per session, assume a leonine avatar: your size, presence, or aura becomes unmistakably predatory. Gain +2 dice to both Body and Soul, and hostile mortals must test Soul to act against you directly."
+            }
+          ]
+        }
+      }
+    },
+
+    "Vampire": {
+      "description": "Predators of blood and shadow, walking the thin line between human emotion and monstrous hunger.",
+      "sharedTrait": {
+        "name": "Blood Hunger",
+        "effect": "By feeding on mortal blood, you can heal 1 wound step (usually Light → healed or Moderate → Light). Excessive feeding may create obsession, guilt, or hunters."
+      },
+      "branches": {
+        "Daywalker": {
+          "description": "Adapted to the sun, but never fully at home in it.",
+          "drawback": "Addictive Hunger. When you feed from a specific mortal more than once, the GM may declare you become fixated on them; resisting this fixation may cost Fate or impose -1 die on social checks involving them.",
+          "progression": [
+            {
+              "level": 1,
+              "name": "Sun-Kissed",
+              "type": "passive",
+              "effect": "You can endure sunlight without immediate harm, but suffer -1 die on Body-based rolls while in direct, strong sunlight."
+            },
+            {
+              "level": 3,
+              "name": "Enthrall",
+              "type": "active",
+              "effect": "Once per day, target a mortal within close range and roll Soul vs. their Soul. On success, they are charmed for 1d6 rounds, treating you as trusted or irresistible; they will not take obviously suicidal actions."
+            },
+            {
+              "level": 6,
+              "name": "Rapid Healing",
+              "type": "active",
+              "effect": "Spend 1 Fate or consume a fresh blood source to instantly heal 1 wound step (e.g., Moderate → Light or Light → healed). Cannot undo Fatal wounds."
+            },
+            {
+              "level": 10,
+              "name": "Crimson Majesty",
+              "type": "active",
+              "effect": "Once per session, radiate overwhelming vampiric charisma and menace. For one scene, gain +2 dice to Soul checks, and ordinary mortals must pass a Soul save or either obey, flee, or worship you."
+            }
+          ]
+        },
+        "Nightwalker": {
+          "description": "The classic creature of the night: powerful in darkness, cursed by the sun.",
+          "drawback": "Sunlight Burns. Each round or scene of direct sunlight exposure inflicts an automatic wound step (usually starting as Light, quickly escalating if not sheltered).",
+          "progression": [
+            {
+              "level": 1,
+              "name": "True Vampire",
+              "type": "passive",
+              "effect": "At night or in deep shadow, gain +1 die on Body-based rolls, including attacks, movement, and physical feats."
+            },
+            {
+              "level": 3,
+              "name": "Mist Form",
+              "type": "active",
+              "effect": "Once per day, transform into mist or shadow for 1d3 rounds. In this state you cannot attack or directly interact, but are immune to physical damage and can slip through cracks, vents, or under doors."
+            },
+            {
+              "level": 6,
+              "name": "Dominate",
+              "type": "active",
+              "effect": "Target a mortal you can see and roll Soul vs. their Soul. On success, you issue a one-sentence command they must obey for one action or a few seconds, unless it is blatantly suicidal."
+            },
+            {
+              "level": 10,
+              "name": "Lord of Shadows",
+              "type": "active",
+              "effect": "Once per session, summon a zone of living darkness for one scene. Mortals within are effectively blinded and suffer heavy penalties, while you gain +2 dice to Body rolls and can see clearly."
+            }
+          ]
+        }
+      }
+    },
+
+    "Cryptid": {
+      "description": "Bloodlines tied to regional myths, urban legends, and unexplained creatures. Highly customizable with the GM.",
+      "template": {
+        "notes": "Cryptid branches are created collaboratively by the player and GM. Choose a theme (flight, premonition, shapeshifting, etc.), define a drawback, and assign 4 powers at levels 1, 3, 6, and 10.",
+        "typicalDrawback": "Mortals react with fear, unease, or hostility when they glimpse your true nature."
+      },
+      "branches": {
+        "Mothman": {
+          "description": "A winged harbinger of disaster, seen on the edges of catastrophe.",
+          "drawback": "Harbinger of Doom. Mortals instinctively associate you with disaster. Your presence may cause panic, suspicion, or rumors, even when you mean well.",
+          "progression": [
+            {
+              "level": 1,
+              "name": "Red Eyes",
+              "type": "passive",
+              "effect": "Your glowing or reflective eyes unnerves onlookers. Gain +1 die on intimidation checks in low light or eerie situations."
+            },
+            {
+              "level": 3,
+              "name": "Premonition",
+              "type": "active",
+              "effect": "Once per session, ask the GM: “What doom lies ahead?” The GM must provide a truthful warning about a looming danger or major threat, though details may be vague."
+            },
+            {
+              "level": 6,
+              "name": "Wings",
+              "type": "active",
+              "effect": "Manifest full wings for 1d6 rounds, granting true flight. Gain +2 dice on movement-related rolls and may ignore most ground-based hazards and obstacles."
+            },
+            {
+              "level": 10,
+              "name": "Harbinger of Calamity",
+              "type": "active",
+              "effect": "Once per campaign arc (or major story), your presence foreshadows a massive disaster. You automatically sense when a major catastrophe is imminent, and the GM must give you a strong vision or sign pointing to its nature or source."
+            }
+          ]
+        }
+      }
+    }
+  }
+}
