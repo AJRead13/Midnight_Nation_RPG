@@ -100,9 +100,20 @@ router.post(
       }
 
       const campaign = new Campaign({
-        ...req.body,
+        name: req.body.name,
+        description: req.body.description,
+        startingLevel: req.body.startingLevel || 1,
         gameMaster: req.user._id
       });
+
+      // Add first session date if provided
+      if (req.body.sessionDate) {
+        campaign.sessions.push({
+          date: new Date(req.body.sessionDate),
+          summary: 'First session',
+          notes: ''
+        });
+      }
 
       // Generate invite code if not public
       if (!campaign.isPublic) {
@@ -196,6 +207,150 @@ router.delete('/:id', authMiddleware, async (req, res) => {
     res.json({ message: 'Campaign deleted successfully' });
   } catch (error) {
     console.error('Delete campaign error:', error);
+    res.status(500).json({ message: 'Server error' });
+  }
+});
+
+// @route   POST /api/campaigns/join
+// @desc    Join a campaign using invite code
+// @access  Private
+router.post('/join', authMiddleware, async (req, res) => {
+  try {
+    const { inviteCode, characterId } = req.body;
+
+    if (!inviteCode) {
+      return res.status(400).json({ message: 'Invite code is required' });
+    }
+
+    // Find campaign by invite code
+    const campaign = await Campaign.findOne({ inviteCode: inviteCode.toUpperCase() });
+
+    if (!campaign) {
+      return res.status(404).json({ message: 'Invalid invite code' });
+    }
+
+    // Check if campaign is full
+    if (campaign.players.length >= campaign.maxPlayers) {
+      return res.status(400).json({ message: 'Campaign is full' });
+    }
+
+    // Check if user is already in the campaign
+    const alreadyInCampaign = campaign.players.some(
+      p => p.user.toString() === req.user._id.toString()
+    );
+
+    if (alreadyInCampaign) {
+      return res.status(400).json({ message: 'You are already in this campaign' });
+    }
+
+    // Check if user is the game master
+    if (campaign.gameMaster.toString() === req.user._id.toString()) {
+      return res.status(400).json({ message: 'You are the Game Master of this campaign' });
+    }
+
+    // If character ID provided, validate it
+    if (characterId) {
+      const character = await Character.findById(characterId);
+
+      if (!character) {
+        return res.status(404).json({ message: 'Character not found' });
+      }
+
+      if (character.owner.toString() !== req.user._id.toString()) {
+        return res.status(403).json({ message: 'You do not own this character' });
+      }
+
+      if (character.campaign) {
+        return res.status(400).json({ message: 'Character is already in another campaign' });
+      }
+
+      // Update character's campaign
+      character.campaign = campaign._id;
+      await character.save();
+    }
+
+    // Add player to campaign
+    campaign.players.push({
+      user: req.user._id,
+      character: characterId || null
+    });
+
+    await campaign.save();
+
+    // Add campaign to user's campaign list
+    await User.findByIdAndUpdate(
+      req.user._id,
+      { $addToSet: { campaigns: campaign._id } }
+    );
+
+    await campaign.populate('gameMaster', 'username');
+
+    res.json({
+      message: 'Successfully joined campaign',
+      campaign
+    });
+  } catch (error) {
+    console.error('Join campaign by code error:', error);
+    res.status(500).json({ message: 'Server error' });
+  }
+});
+
+// @route   POST /api/campaigns/:id/assign-character
+// @desc    Assign a character to the campaign for current user
+// @access  Private
+router.post('/:id/assign-character', authMiddleware, async (req, res) => {
+  try {
+    const { characterId } = req.body;
+    const campaign = await Campaign.findById(req.params.id);
+
+    if (!campaign) {
+      return res.status(404).json({ message: 'Campaign not found' });
+    }
+
+    // Check if user is in the campaign
+    const playerIndex = campaign.players.findIndex(
+      p => p.user.toString() === req.user._id.toString()
+    );
+
+    if (playerIndex === -1) {
+      return res.status(403).json({ message: 'You are not a member of this campaign' });
+    }
+
+    // Verify character exists and belongs to user
+    const character = await Character.findById(characterId);
+
+    if (!character) {
+      return res.status(404).json({ message: 'Character not found' });
+    }
+
+    if (character.owner.toString() !== req.user._id.toString()) {
+      return res.status(403).json({ message: 'You do not own this character' });
+    }
+
+    if (character.campaign && character.campaign.toString() !== campaign._id.toString()) {
+      return res.status(400).json({ message: 'Character is already in another campaign' });
+    }
+
+    // Update character's campaign
+    character.campaign = campaign._id;
+    await character.save();
+
+    // Update player's character in campaign
+    campaign.players[playerIndex].character = characterId;
+    await campaign.save();
+
+    await campaign.populate([
+      { path: 'gameMaster', select: 'username' },
+      { path: 'players.user', select: 'username' },
+      { path: 'players.character', select: 'name level class' }
+    ]);
+
+    res.json({
+      message: 'Character assigned successfully',
+      campaign
+    });
+  } catch (error) {
+    console.error('Assign character error:', error);
     res.status(500).json({ message: 'Server error' });
   }
 });

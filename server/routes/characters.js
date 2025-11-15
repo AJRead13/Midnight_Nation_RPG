@@ -88,7 +88,9 @@ router.post(
       });
     } catch (error) {
       console.error('Create character error:', error);
-      res.status(500).json({ message: 'Server error' });
+      console.error('Error details:', error.message);
+      console.error('Stack:', error.stack);
+      res.status(500).json({ message: 'Server error', error: error.message });
     }
   }
 );
@@ -122,7 +124,9 @@ router.put('/:id', authMiddleware, async (req, res) => {
     });
   } catch (error) {
     console.error('Update character error:', error);
-    res.status(500).json({ message: 'Server error' });
+    console.error('Error details:', error.message);
+    console.error('Stack:', error.stack);
+    res.status(500).json({ message: 'Server error', error: error.message });
   }
 });
 

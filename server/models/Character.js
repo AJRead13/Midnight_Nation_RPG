@@ -12,17 +12,22 @@ const characterSchema = new mongoose.Schema({
     ref: 'User',
     required: true
   },
-  // Core attributes
+  // Core attributes - Midnight Nation RPG uses Mind, Body, Soul
   attributes: {
-    strength: { type: Number, default: 10, min: 1, max: 20 },
-    dexterity: { type: Number, default: 10, min: 1, max: 20 },
-    constitution: { type: Number, default: 10, min: 1, max: 20 },
-    intelligence: { type: Number, default: 10, min: 1, max: 20 },
-    wisdom: { type: Number, default: 10, min: 1, max: 20 },
-    charisma: { type: Number, default: 10, min: 1, max: 20 }
+    Mind: { type: Number, default: 40, min: 1, max: 100 },
+    Body: { type: Number, default: 40, min: 1, max: 100 },
+    Soul: { type: Number, default: 40, min: 1, max: 100 }
   },
   // Character details
-  race: {
+  background: {
+    type: String,
+    trim: true
+  },
+  bloodline: {
+    type: String,
+    trim: true
+  },
+  bloodlineBranch: {
     type: String,
     trim: true
   },
@@ -35,39 +40,74 @@ const characterSchema = new mongoose.Schema({
     default: 1,
     min: 1
   },
-  experience: {
+  fatePool: {
     type: Number,
-    default: 0,
+    default: 1,
     min: 0
   },
-  // Health and resources
-  health: {
-    current: { type: Number, default: 10 },
-    max: { type: Number, default: 10 }
+  // Wounds system
+  wounds: {
+    head: {
+      direct: { type: Boolean, default: false },
+      devastating: { type: Boolean, default: false },
+      critical: { type: Boolean, default: false }
+    },
+    torso: {
+      direct: { type: Boolean, default: false },
+      devastating: { type: Boolean, default: false },
+      critical: { type: Boolean, default: false }
+    },
+    leftArm: {
+      direct: { type: Boolean, default: false },
+      devastating: { type: Boolean, default: false },
+      critical: { type: Boolean, default: false }
+    },
+    rightArm: {
+      direct: { type: Boolean, default: false },
+      devastating: { type: Boolean, default: false },
+      critical: { type: Boolean, default: false }
+    },
+    leftLeg: {
+      direct: { type: Boolean, default: false },
+      devastating: { type: Boolean, default: false },
+      critical: { type: Boolean, default: false }
+    },
+    rightLeg: {
+      direct: { type: Boolean, default: false },
+      devastating: { type: Boolean, default: false },
+      critical: { type: Boolean, default: false }
+    }
   },
+  // Competencies
+  competencies: [{
+    name: String,
+    description: String,
+    effect: String,
+    category: String
+  }],
+  // Talents
+  talents: [{
+    name: String,
+    category: String,
+    subTalent: String,
+    applied: { type: Boolean, default: false },
+    description: String,
+    effects: [String]
+  }],
+  // Boons
+  boons: [{
+    name: String,
+    category: String,
+    effect: String
+  }],
   // Equipment and inventory
   equipment: [{
     name: String,
-    type: String,
+    category: String,
     description: String,
-    quantity: { type: Number, default: 1 }
+    price: String
   }],
-  // Skills and abilities
-  skills: [{
-    name: String,
-    proficiency: Boolean,
-    bonus: Number
-  }],
-  abilities: [{
-    name: String,
-    description: String,
-    cost: String
-  }],
-  // Background and notes
-  background: {
-    type: String,
-    maxlength: [2000, 'Background cannot exceed 2000 characters']
-  },
+  // Notes
   notes: {
     type: String,
     maxlength: [5000, 'Notes cannot exceed 5000 characters']

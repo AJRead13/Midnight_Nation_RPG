@@ -11,6 +11,12 @@ const campaignSchema = new mongoose.Schema({
     type: String,
     maxlength: [2000, 'Description cannot exceed 2000 characters']
   },
+  startingLevel: {
+    type: Number,
+    default: 1,
+    min: 1,
+    max: 10
+  },
   gameMaster: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
