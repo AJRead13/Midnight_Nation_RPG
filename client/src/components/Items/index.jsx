@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import infoData from '../../../../info.json';
-import itemsData from '../../../../items.json';
+import infoData from '../../../../data/info.json';
+import itemsData from '../../../../data/items.json';
 
 function Items() {
   const [selectedCategory, setSelectedCategory] = useState('melee');

@@ -1,0 +1,466 @@
+{
+  "backgrounds": {
+    "Soldier": {
+      "name": "Soldier",
+      "shortDescription": "WWII/Korea veteran or active-duty soldier trained in firearms and demolitions.",
+      "startingCompetencies": [
+        "rifle",
+        "explosives"
+      ],
+      "startingTalents": [
+        {
+          "talent": "Warfare",
+          "subTalent": "Firearms",
+          "rank": 1
+        }
+      ],
+      "startingPerk": {
+        "name": "Military Contacts",
+        "effect": "You can lean on former unit buddies, officers, or quartermasters for favors, gear, and information. The GM may attach strings, delays, or complications."
+      },
+      "progression": [
+        {
+          "level": 3,
+          "type": "competencyChoice",
+          "description": "Gain one additional weapon competency reflecting your combat specialty.",
+          "choices": [
+            "pistol",
+            "smg",
+            "shotgun",
+            "melee"
+          ]
+        },
+        {
+          "level": 6,
+          "type": "talentGain",
+          "description": "You have seen enough battles to read the field.",
+          "talent": {
+            "talent": "Warfare",
+            "subTalent": "Tactics",
+            "rank": 1
+          }
+        },
+        {
+          "level": 10,
+          "type": "signatureMove",
+          "name": "Call in Heavy Support",
+          "effect": "Once per session, you may call in military-grade support (artillery, air support, an armored convoy, or a small team). The exact form, timing, and collateral consequences are determined by the GM, but it should significantly shift the scene in your favor."
+        }
+      ]
+    },
+
+    "Mechanic": {
+      "name": "Mechanic",
+      "shortDescription": "Grease monkey who keeps engines, machines, and vehicles running against all odds.",
+      "startingCompetencies": [
+        "engineeringTools",
+        "vehicleMaintenance"
+      ],
+      "startingTalents": [
+        {
+          "talent": "Engineering",
+          "subTalent": "Mechanics",
+          "rank": 1
+        }
+      ],
+      "startingPerk": {
+        "name": "Grease Monkey",
+        "effect": "Given time, tools, and parts, you can restore almost anything with wheels or an engine to working order. The GM may shorten repair times or waive some penalties for improvised fixes."
+      },
+      "progression": [
+        {
+          "level": 3,
+          "type": "talentGain",
+          "description": "You’ve picked up wiring and radio work.",
+          "talent": {
+            "talent": "Engineering",
+            "subTalent": "Electronics",
+            "rank": 1
+          }
+        },
+        {
+          "level": 6,
+          "type": "competencyGain",
+          "description": "Specialize in operating demanding vehicles under pressure.",
+          "competency": "vehicles"
+        },
+        {
+          "level": 10,
+          "type": "signatureMove",
+          "name": "Prototype Workshop",
+          "effect": "Once per session, you can rapidly jury-rig or repair a complex device or vehicle in the field: a custom weapon mount, a sabotaged engine, a cobbled-together generator, etc. The creation should grant a strong one-scene advantage but may be unstable or short-lived at the GM’s discretion."
+        }
+      ]
+    },
+
+    "PrivateEye": {
+      "name": "Private Eye",
+      "shortDescription": "Hardboiled investigator who digs up secrets in the alleys, bars, and back offices.",
+      "startingCompetencies": [
+        "pistol",
+        "lockpicks"
+      ],
+      "startingTalents": [
+        {
+          "talent": "Subterfuge",
+          "subTalent": "Infiltration",
+          "rank": 1
+        }
+      ],
+      "startingPerk": {
+        "name": "Streetwise",
+        "effect": "You always know where to start asking around for information, rumors, and favors in any town or neighborhood, though the leads may be unreliable or dangerous."
+      },
+      "progression": [
+        {
+          "level": 3,
+          "type": "talentGain",
+          "description": "You’ve learned to read trails and physical clues as well as people.",
+          "talent": {
+            "talent": "Tracking",
+            "subTalent": "Urban/Investigative",
+            "rank": 1
+          }
+        },
+        {
+          "level": 6,
+          "type": "competencyChoice",
+          "description": "Gain a social-pressure competency that reflects your interrogation style.",
+          "choices": [
+            "interrogation",
+            "coercion",
+            "persuasion"
+          ]
+        },
+        {
+          "level": 10,
+          "type": "signatureMove",
+          "name": "Know a Guy",
+          "effect": "Once per session, you may declare that you know a helpful NPC connected to the current situation (informant, clerk, criminal, journalist, etc.). The GM creates this contact, who is inclined to assist—though their help may come with baggage or complications."
+        }
+      ]
+    },
+
+    "Occultist": {
+      "name": "Occultist",
+      "shortDescription": "Researcher of grimoires and forbidden lore, drawing power from symbols, pacts, and rituals.",
+      "startingCompetencies": [
+        "ritualTools",
+        "loreFolklore"
+      ],
+      "startingTalents": [
+        {
+          "talent": "Occult",
+          "subTalent": "Rituals",
+          "rank": 1
+        }
+      ],
+      "startingPerk": {
+        "name": "Hidden Library",
+        "effect": "You begin play with access to rare occult tomes and notes (a personal library, secret study, or stash). Once per session, you may consult it to gain a clue, weakness, or GM hint regarding a supernatural threat or ritual."
+      },
+      "progression": [
+        {
+          "level": 3,
+          "type": "talentGain",
+          "description": "You’ve learned how to inscribe lines of protection and barriers.",
+          "talent": {
+            "talent": "Occult",
+            "subTalent": "Warding",
+            "rank": 1
+          }
+        },
+        {
+          "level": 6,
+          "type": "competencyChoice",
+          "description": "Gain a lore competency reflecting your deeper studies.",
+          "choices": [
+            "religion",
+            "history",
+            "loreScience"
+          ]
+        },
+        {
+          "level": 10,
+          "type": "signatureMove",
+          "name": "Forbidden Rite",
+          "effect": "Once per session, you may perform a dangerous, high-stakes ritual that turns a failed roll into a success—or severely tilts a supernatural scene in your favor. Doing so costs either 1 wound step, 1 Fate, or some significant narrative price, as agreed with the GM."
+        }
+      ]
+    },
+
+    "Brawler": {
+      "name": "Brawler",
+      "shortDescription": "Ex-boxer, dockside tough, or enforcer who specializes in brutal hand-to-hand work.",
+      "startingCompetencies": [
+        "unarmed",
+        "melee"
+      ],
+      "startingTalents": [
+        {
+          "talent": "Coercion",
+          "subTalent": "Intimidation",
+          "rank": 1
+        }
+      ],
+      "startingPerk": {
+        "name": "Fearsome Presence",
+        "effect": "Once per session, you can use sheer menace to make a group back down, disperse, or hesitate without a roll, unless they are fanatics or utterly fearless."
+      },
+      "progression": [
+        {
+          "level": 3,
+          "type": "competencyUpgrade",
+          "description": "Your fists are legendary. Upgrade your unarmed competency: you gain an extra +1 die when grappling or restraining, or when using unarmed attacks to control rather than kill."
+        },
+        {
+          "level": 6,
+          "type": "talentGain",
+          "description": "You’ve learned more refined techniques for close combat.",
+          "talent": {
+            "talent": "Warfare",
+            "subTalent": "CloseCombat",
+            "rank": 1
+          }
+        },
+        {
+          "level": 10,
+          "type": "signatureMove",
+          "name": "Adrenaline Surge",
+          "effect": "Once per session, when a wound would incapacitate or drop you, you may ignore that effect for the rest of the scene. You still take the wound on your track, but you stay active and dangerous until the conflict ends, after which you immediately suffer all consequences."
+        }
+      ]
+    },
+
+    "Doctor": {
+      "name": "Doctor",
+      "shortDescription": "Physician, surgeon, or battlefield medic who keeps others alive when they shouldn’t be.",
+      "startingCompetencies": [
+        "medicineKit",
+        "pharmaceuticals"
+      ],
+      "startingTalents": [
+        {
+          "talent": "Medicine",
+          "subTalent": "FirstAid",
+          "rank": 1
+        }
+      ],
+      "startingPerk": {
+        "name": "Licensed",
+        "effect": "You can generally move through hospitals, clinics, morgues, and some official scenes with less suspicion, especially if you have paperwork or credentials. You may also procure common medical supplies more easily."
+      },
+      "progression": [
+        {
+          "level": 3,
+          "type": "talentGain",
+          "description": "You are trained to perform complex operations under pressure.",
+          "talent": {
+            "talent": "Medicine",
+            "subTalent": "Surgery",
+            "rank": 1
+          }
+        },
+        {
+          "level": 6,
+          "type": "competencyGain",
+          "description": "Gain a specialized medical competency focused on emergency trauma and stabilization.",
+          "competency": "traumaCare"
+        },
+        {
+          "level": 10,
+          "type": "signatureMove",
+          "name": "Pull from Death",
+          "effect": "Once per session, if you can reach a dying character (PC or NPC) within a brief window (usually 1–3 rounds), you may attempt an emergency intervention. On a successful Medicine roll, convert a Fatal wound to Severe or stabilize them at death’s door instead of letting them die."
+        }
+      ]
+    },
+
+    "Performer": {
+      "name": "Performer",
+      "shortDescription": "Musician, actor, con artist, or showman who lives by charm and spectacle.",
+      "startingCompetencies": [
+        "performance",
+        "disguise"
+      ],
+      "startingTalents": [
+        {
+          "talent": "Entertainment",
+          "subTalent": "Performance",
+          "rank": 1
+        }
+      ],
+      "startingPerk": {
+        "name": "Crowd Control",
+        "effect": "Once per session, you can direct the attention of a crowd—calming them, riling them, or distracting them long enough for you or your allies to act."
+      },
+      "progression": [
+        {
+          "level": 3,
+          "type": "competencyGain",
+          "description": "You know exactly how to work a mark.",
+          "competency": "persuasion"
+        },
+        {
+          "level": 6,
+          "type": "talentGain",
+          "description": "You’ve picked up the finer points of espionage and subtle manipulation.",
+          "talent": {
+            "talent": "Subterfuge",
+            "subTalent": "Espionage",
+            "rank": 1
+          }
+        },
+        {
+          "level": 10,
+          "type": "signatureMove",
+          "name": "Command the Room",
+          "effect": "Once per session, you seize complete narrative and emotional control over a scene with a performance, speech, or act. For several rounds, you dictate the general mood of onlookers (awed, distracted, panicked, reverent), making it extremely hard for others to steal the spotlight or counter your influence without great effort."
+        }
+      ]
+    },
+
+    "G-Man": {
+      "name": "G-Man",
+      "shortDescription": "Federal investigator or intelligence agent with a badge, a sidearm, and a mandate.",
+      "startingCompetencies": [
+        "pistol",
+        "interrogation"
+      ],
+      "startingTalents": [
+        {
+          "talent": "Coercion",
+          "subTalent": "Interrogation",
+          "rank": 1
+        }
+      ],
+      "startingPerk": {
+        "name": "Badge of Authority",
+        "effect": "When you flash legitimate-looking credentials, most civilians and some local law enforcement will comply with reasonable orders or at least hesitate to refuse—until things become obviously illegal, supernatural, or politically sensitive."
+      },
+      "progression": [
+        {
+          "level": 3,
+          "type": "talentGain",
+          "description": "You’ve studied the law, crime patterns, and how cases really work.",
+          "talent": {
+            "talent": "Lore",
+            "subTalent": "Law/Criminology",
+            "rank": 1
+          }
+        },
+        {
+          "level": 6,
+          "type": "competencyChoice",
+          "description": "Gain a heavier weapon competency suited to raids and close combat.",
+          "choices": [
+            "smg",
+            "shotgun"
+          ]
+        },
+        {
+          "level": 10,
+          "type": "signatureMove",
+          "name": "Invoke Bureau Resources",
+          "effect": "Once per session, you may call on your agency’s reach: backup teams, forensic labs, warrants, or rapid information pulls. The GM determines the exact form, response time, and any political or moral fallout from leveraging such power."
+        }
+      ]
+    },
+
+    "Gangster": {
+      "name": "Gangster",
+      "shortDescription": "Mobster, bootlegger, fixer, or enforcer wrapped up in organized crime.",
+      "startingCompetencies": [
+        "smg",
+        "shadyDeals"
+      ],
+      "startingTalents": [
+        {
+          "talent": "Subterfuge",
+          "subTalent": "Espionage",
+          "rank": 1
+        }
+      ],
+      "startingPerk": {
+        "name": "Connected",
+        "effect": "You have access to criminal fences, smugglers, and muscle. You can usually find illegal goods, jobs, or favors—though the mob always remembers what you owe."
+      },
+      "progression": [
+        {
+          "level": 3,
+          "type": "talentGain",
+          "description": "You’ve learned how to lean on people without always resorting to bullets.",
+          "talent": {
+            "talent": "Coercion",
+            "subTalent": "Persuasion",
+            "rank": 1
+          }
+        },
+        {
+          "level": 6,
+          "type": "competencyChoice",
+          "description": "Gain an additional personal weapon competency that reflects your preferred sidearm.",
+          "choices": [
+            "pistol",
+            "melee"
+          ]
+        },
+        {
+          "level": 10,
+          "type": "signatureMove",
+          "name": "Underworld Clout",
+          "effect": "Once per session, you can call in a mob crew, bribe, or criminal favor big enough to tilt a scene: extra gunmen, a rigged shipment, a union slowdown, or a targeted hit. The GM determines specifics and fallout; such favors almost always come with long-term consequences."
+        }
+      ]
+    },
+
+    "Scientist": {
+      "name": "Scientist",
+      "shortDescription": "Academic, lab rat, or atomic-age thinker armed with theory, gadgets, and curiosity.",
+      "startingCompetencies": [
+        "engineeringTools",
+        "loreScience"
+      ],
+      "startingTalents": [
+        {
+          "talent": "Lore",
+          "subTalent": "Science",
+          "rank": 1
+        }
+      ],
+      "startingPerk": {
+        "name": "Prototype Access",
+        "effect": "You start with, or can occasionally access, unstable experimental devices: prototype detectors, improvised weapons, or strange sensors. Once per session, you may introduce a plausible one-use gadget that offers a strong but risky advantage."
+      },
+      "progression": [
+        {
+          "level": 3,
+          "type": "talentGain",
+          "description": "You branch out into chemical analysis, explosives, or reactive compounds.",
+          "talent": {
+            "talent": "Engineering",
+            "subTalent": "Chemistry",
+            "rank": 1
+          }
+        },
+        {
+          "level": 6,
+          "type": "competencyChoice",
+          "description": "Gain a new lore competency representing your expanded academic focus.",
+          "choices": [
+            "history",
+            "loreFolklore",
+            "religion",
+            "loreScience"
+          ]
+        },
+        {
+          "level": 10,
+          "type": "signatureMove",
+          "name": "Breakthrough",
+          "effect": "Once per session, you achieve a sudden insight, discovery, or invention that meaningfully alters the current mystery or conflict. This might neutralize a specific threat, reveal a hidden truth, or create a one-time tool that bypasses a major obstacle, as agreed with the GM."
+        }
+      ]
+    }
+  }
+}

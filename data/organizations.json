@@ -1,0 +1,168 @@
+{
+  "organizations": [
+    {
+      "name": "Ashwood Foundation",
+      "founded": "1929",
+      "motto": "Preservation through purgation.",
+      "overview": "A militant, anti-supernatural organization dedicated to eradication of all non-human entities. Believes coexistence is impossible and humanity must purge the shadows to survive.",
+      "history": "Founded by WWI veterans and prohibition-era lawmen after encountering inexplicable horrors. Grew during WWII as a clandestine monster-hunting force. Rebuilt in 1947 as a nationwide militia for supernatural extermination.",
+      "philosophy": [
+        "Supernatural entities are inherently dangerous.",
+        "Coexistence is naive and fatal.",
+        "Humanity must cleanse the hidden world."
+      ],
+      "structure": {
+        "Director-General": "Overall leadership and strategy.",
+        "Regional Marshals": "State-level operational commanders.",
+        "Pale Riders": "Elite hunters specializing in extermination.",
+        "Archivists": "Researchers and occult record keepers.",
+        "Cleaners": "Cover-up, disposal, and evidence removal."
+      },
+      "methods": [
+        "Direct armed assaults",
+        "Precision strikes against supernatural dens",
+        "Aggressive intelligence gathering",
+        "Witness intimidation",
+        "Site sanitization and cover-ups"
+      ],
+      "locations": [
+        "Ashwood Lodge, Wyoming",
+        "Archive House 17, Boston",
+        "Blackwell Arsenal",
+        "Safehouses in Chicago, Detroit, Denver, Baltimore"
+      ],
+      "notableNPCs": [
+        {
+          "name": "Silas Vane",
+          "role": "Director-General",
+          "description": "WWII hero with a cold, strategic mind. Believes coexistence is impossible and views all supernatural beings as threats."
+        },
+        {
+          "name": "Dr. Eleanor Graves",
+          "role": "Head Archivist",
+          "description": "Brilliant occult scholar secretly sympathetic toward benevolent supernatural beings."
+        },
+        {
+          "name": "Marcus 'Buckshot' Hale",
+          "role": "Senior Pale Rider",
+          "description": "Legendary hunter missing an arm from a werewolf encounter; holds deep hatred for lycanthropes."
+        }
+      ],
+      "secrets": [
+        "Attempted to weaponize a captured vampire who later escaped.",
+        "Possesses classified files on angelic activities during WWII.",
+        "A radical faction seeks to exterminate supernatural-friendly humans."
+      ]
+    },
+    {
+      "name": "Covenant of St. Michael",
+      "founded": "1800s (US branch)",
+      "motto": "In darkness, truth. In truth, mercy.",
+      "overview": "A protective, spiritual order dedicated to balance between humanity and the supernatural. Advocates discernment and mercy, fighting only when necessary.",
+      "history": "Descended from European ritual orders. Migrated to America in the 19th century. Expanded globally and now functions as mediators, exorcists, and scholars.",
+      "philosophy": [
+        "Not all supernatural beings are evil.",
+        "Balance is vital.",
+        "Justice and truth come before judgment.",
+        "Redemption is possible—for some."
+      ],
+      "structure": {
+        "The Choir": "Mysterious council believed to include angelic influence.",
+        "High Custodians": "Regional leaders focused on balance.",
+        "Wardens": "Field operatives and monster mediators.",
+        "Scribes": "Researchers and ritual experts.",
+        "Sanctifiers": "Exorcists and spiritual healers."
+      },
+      "methods": [
+        "Investigation before combat",
+        "Wards, rituals, and protective sigils",
+        "Nonlethal capture methods",
+        "Exorcisms and purification",
+        "Diplomacy with supernatural beings"
+      ],
+      "locations": [
+        "St. Raphael’s Monastery (New Mexico)",
+        "St. Dymphna Refuge (Philadelphia)",
+        "The Lantern Archive (Seattle)"
+      ],
+      "notableNPCs": [
+        {
+          "name": "Father Jonah Mercer",
+          "role": "High Custodian",
+          "description": "Former soldier turned priest, calm and wise. Believes every being deserves a chance at redemption."
+        },
+        {
+          "name": "Sister Calista Ward",
+          "role": "Master Exorcist",
+          "description": "Performs miracles few can explain. Whispers say she may be part angel."
+        },
+        {
+          "name": "Elias Crowe",
+          "role": "Warden Mediator",
+          "description": "Expert negotiator with cryptids and spirits. Deeply distrusts the Black Chamber."
+        }
+      ],
+      "secrets": [
+        "The Choir may include disguised angels.",
+        "Prophecy tied to 'The Midnight Rise' and supernatural bloodlines.",
+        "Protects a repentant demon in secret."
+      ]
+    },
+    {
+      "name": "The Black Chamber",
+      "founded": "1943 (modern), 1919 (historic)",
+      "motto": "Knowledge is power. Power is control.",
+      "overview": "A covert U.S. government division that captures, studies, and weaponizes supernatural forces for national security and advantage.",
+      "history": "Evolved from Room 108 and the earlier Cipher Bureau. Reborn in WWII to investigate Nazi occult research. Now a Cold War shadow agency exploiting supernatural phenomena.",
+      "philosophy": [
+        "The supernatural is a resource.",
+        "Monsters can be weaponized.",
+        "America must win the occult arms race.",
+        "Collateral damage is acceptable."
+      ],
+      "structure": {
+        "Director of Special Phenomena": "Overall director of Black Chamber operations.",
+        "Project Heads": "Lead researchers on specific supernatural programs.",
+        "Field Collectors": "Tasked with capturing entities alive.",
+        "Science Corps": "Occult scientists and supernatural theorists.",
+        "Containment Officers": "Manage supernatural prisons.",
+        "Handlers": "Operate trained or bound supernatural assets."
+      },
+      "methods": [
+        "Supernatural abductions",
+        "Illegal experimentation",
+        "Occult espionage",
+        "Monster-binding rituals",
+        "Blackmail and disinformation"
+      ],
+      "locations": [
+        "Fort Ironsight (Utah)",
+        "Project Seraphim (Los Alamos)",
+        "Project Gorgon (Langley)",
+        "Project Sable (Chicago)"
+      ],
+      "notableNPCs": [
+        {
+          "name": "Dr. Miriam Locke",
+          "role": "Director of Special Phenomena",
+          "description": "Brilliant and cold. Sees monsters as untapped military assets."
+        },
+        {
+          "name": "Agent Victor Harlow",
+          "role": "Senior Field Collector",
+          "description": "Charming and ruthless. Known for capturing live supernatural beings more than anyone."
+        },
+        {
+          "name": "Prof. Alton Reed",
+          "role": "Head of Project Seraphim",
+          "description": "Believes angels are extraterrestrials. Stripped of faith, obsessed with power."
+        }
+      ],
+      "secrets": [
+        "Running a synthetic lycanthropy program.",
+        "Maintains a controlled vampire unit—barely stable.",
+        "Knows of a coming supernatural event but lacks the means to stop it."
+      ]
+    }
+  ]
+}

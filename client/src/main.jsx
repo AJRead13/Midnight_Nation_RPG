@@ -10,6 +10,7 @@ import Items from './components/Items';
 import Portfolio from './components/Portfolio';
 import Contact from './components/Contact';
 import Resume from './components/Resume';
+import CampaignDetail from './components/CampaignDetail';
 import './index.css';
 
 const router = createBrowserRouter([
@@ -49,6 +50,10 @@ const router = createBrowserRouter([
       {
         path: 'resume',
         element: <Resume />,
+      },
+      {
+        path: 'campaign/:id',
+        element: <CampaignDetail />,
       },
     ],
   },

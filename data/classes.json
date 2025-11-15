@@ -1,0 +1,327 @@
+{
+  "classes": {
+    "Brawler": {
+      "description": "Frontline bruiser who solves problems with fists, pipes, and whatever is within arm’s reach. Tough, relentless, and hard to put down.",
+      "combatRole": "Melee bruiser, crowd control",
+      "supernaturalRole": "Mundane or lightly awakened",
+      "woundDie": "d12",
+      "primaryAttributes": ["Body"],
+      "secondaryAttributes": ["Soul"],
+      "signatureWeapons": ["unarmed", "melee"],
+      "progression": [
+        {
+          "level": 1,
+          "name": "Street Tough",
+          "type": "passive",
+          "effect": "Reduce the severity of the first physical wound you suffer each fight by 1 step (Severe → Moderate, Moderate → Light, Light → Scratch)."
+        },
+        {
+          "level": 3,
+          "name": "Brutal Follow-Through",
+          "type": "active",
+          "effect": "When you drop or disable an enemy in melee, you may immediately make a free unarmed or melee attack against another adjacent target at -1 die."
+        },
+        {
+          "level": 6,
+          "name": "Pain Threshold",
+          "type": "passive",
+          "effect": "Ignore -1 die in penalties from Body-based wound effects. You can keep fighting when others would go down."
+        },
+        {
+          "level": 10,
+          "name": "Adrenaline Rush",
+          "type": "active",
+          "effect": "Once per session, when reduced to a Severe or Fatal wound, you can choose to stay on your feet for the rest of the scene. During this time, you gain +2 dice to melee attacks, but collapse at the end of the scene and require immediate medical or supernatural aid."
+        }
+      ]
+    },
+
+    "Gunner": {
+      "description": "Firearms specialist who dominates mid- to long-range combat with ruthless precision and suppressive fire.",
+      "combatRole": "Ranged damage, suppression",
+      "supernaturalRole": "Mundane or occult marksman",
+      "woundDie": "d10",
+      "primaryAttributes": ["Body"],
+      "secondaryAttributes": ["Mind"],
+      "signatureWeapons": ["pistol", "rifle", "smg", "shotgun"],
+      "progression": [
+        {
+          "level": 1,
+          "name": "Marksman",
+          "type": "passive",
+          "effect": "Ignore -1 die from range or light cover penalties when using firearms."
+        },
+        {
+          "level": 3,
+          "name": "Controlled Burst",
+          "type": "active",
+          "effect": "Once per fight, when firing a SMG or automatic weapon, roll an extra die and choose up to two targets in a small area. Apply a single attack roll against both; if you succeed, both may suffer wounds (roll damage separately)."
+        },
+        {
+          "level": 6,
+          "name": "Quick Draw",
+          "type": "passive",
+          "effect": "You may draw or switch firearms as a free action and gain +1 die on initiative rolls when you start with a gun holstered or in hand."
+        },
+        {
+          "level": 10,
+          "name": "Deadly Accuracy",
+          "type": "active",
+          "effect": "Once per session, declare a shot as a perfect kill or disabling strike. Roll as normal; on a success, escalate the resulting wound by 2 steps instead of 1 (e.g., Light → Severe, Moderate → Fatal) against a single target."
+        }
+      ]
+    },
+
+    "Hunter": {
+      "description": "Tracker and monster-slayer who brings down both human and inhuman prey using cunning, traps, and precision strikes.",
+      "combatRole": "Skirmisher, monster control",
+      "supernaturalRole": "Informed slayer, occult tracker",
+      "woundDie": "d10",
+      "primaryAttributes": ["Body"],
+      "secondaryAttributes": ["Mind"],
+      "signatureWeapons": ["rifle", "shotgun", "melee"],
+      "progression": [
+        {
+          "level": 1,
+          "name": "Monster Lore",
+          "type": "passive",
+          "effect": "Gain +1 die when identifying supernatural creatures or guessing at their weaknesses. Once per scene, ask the GM one question about a monster’s capabilities or habits."
+        },
+        {
+          "level": 3,
+          "name": "Marked Prey",
+          "type": "active",
+          "effect": "Once per scene, mark a single target as your quarry. You gain +1 die on all attacks and tracking rolls against that target until the scene ends or the target is destroyed/escaped."
+        },
+        {
+          "level": 6,
+          "name": "Trap Setter",
+          "type": "active",
+          "effect": "With a few minutes of preparation, you can place a simple trap (snare, deadfall, tripwire). The first enemy to blunder into it must pass a Body check or suffer a Light or Moderate wound (GM’s call based on trap) and become hindered."
+        },
+        {
+          "level": 10,
+          "name": "Relentless Pursuit",
+          "type": "active",
+          "effect": "Once per session, you may declare that you never truly lost the trail. Immediately close the gap to a fleeing or hidden quarry, arriving at a dramatically appropriate moment (kick in the door, step out of the shadows, etc.). Gain +2 dice on your first roll in that confrontation."
+        }
+      ]
+    },
+
+    "Warlock": {
+      "description": "Mortals who wield forbidden pacts, infernal bargains, and dangerous arcane power.",
+      "combatRole": "Debuff, battlefield control, occult artillery",
+      "supernaturalRole": "Pact-bound caster",
+      "woundDie": "d8",
+      "primaryAttributes": ["Soul"],
+      "secondaryAttributes": ["Mind"],
+      "signatureWeapons": ["pistol", "rituals", "hexes"],
+      "progression": [
+        {
+          "level": 1,
+          "name": "Minor Hex",
+          "type": "active",
+          "effect": "Once per scene, curse a visible target. They suffer -1 die on their next roll. If your Soul roll critically succeeds, also inflict a Light Wound (psychic or spiritual in nature)."
+        },
+        {
+          "level": 3,
+          "name": "Pact Channeling",
+          "type": "active",
+          "effect": "You may voluntarily suffer 1 Light Wound to gain +2 dice on any single occult or Soul-based roll (attack, ritual, exorcism, etc.)."
+        },
+        {
+          "level": 6,
+          "name": "Summoned Aid",
+          "type": "active",
+          "effect": "Once per session, call forth a minor entity (imp, shadow, elemental) for one scene. It can perform simple tasks, aid in a roll (+1 die to you or an ally), or harass foes (imposing -1 die on a target for one round)."
+        },
+        {
+          "level": 10,
+          "name": "Grand Malediction",
+          "type": "active",
+          "effect": "Once per session, unleash a powerful curse on a single target. On a successful Soul roll, escalate their next wound by 2 steps, or apply a lasting penalty (such as -1 die to all rolls for the remainder of the scene). The GM may also apply narrative consequences for such a blatant use of dark power."
+        }
+      ]
+    },
+
+    "Witch": {
+      "description": "Ritualist and hedge-mage who works through charms, circles, potions, and long-prepared rites.",
+      "combatRole": "Support, control, preparation caster",
+      "supernaturalRole": "Ritual magic, wards, blessings",
+      "woundDie": "d6",
+      "primaryAttributes": ["Soul"],
+      "secondaryAttributes": ["Mind"],
+      "signatureWeapons": ["rituals", "talismans", "small arms"],
+      "progression": [
+        {
+          "level": 1,
+          "name": "Charm & Ward",
+          "type": "active",
+          "effect": "With a few minutes of preparation, you can create a minor charm or ward that grants +1 die to a specific type of roll (fear resistance, stealth, protection from a known creature type) for one scene to the bearer."
+        },
+        {
+          "level": 3,
+          "name": "Cauldron Craft",
+          "type": "active",
+          "effect": "During downtime, you may brew a small number of potions or concoctions (GM-limited) that can heal 1 Light Wound, grant +1 die on a single roll, or counter a minor curse."
+        },
+        {
+          "level": 6,
+          "name": "Circle of Power",
+          "type": "active",
+          "effect": "Given several minutes and appropriate space, you can create a ritual circle. While inside the circle, you gain +2 dice on occult rolls and may attempt more complex rites such as banishments, bindings, or divinations."
+        },
+        {
+          "level": 10,
+          "name": "Grand Working",
+          "type": "active",
+          "effect": "Once per session (or major story beat), you may attempt a powerful ritual that can change the course of a scene: sealing a gateway, purging a location of spirits, weakening a major entity, or reshaping a small area. The GM sets difficulty and cost; failure may have significant backlash."
+        }
+      ]
+    },
+
+    "Empath": {
+      "description": "Psychic attuned to emotions, pain, and the unseen currents of human feeling.",
+      "combatRole": "Support, debuff, social control",
+      "supernaturalRole": "Psychic healer and manipulator",
+      "woundDie": "d6",
+      "primaryAttributes": ["Soul"],
+      "secondaryAttributes": ["Mind"],
+      "signatureWeapons": ["emotional influence", "small arms"],
+      "progression": [
+        {
+          "level": 1,
+          "name": "Emotional Read",
+          "type": "passive",
+          "effect": "Gain +1 die when trying to sense someone’s emotional state, fear, or hidden stress. Once per scene, you may ask the GM what an NPC is most afraid of or most desires right now."
+        },
+        {
+          "level": 3,
+          "name": "Shared Burden",
+          "type": "active",
+          "effect": "You may take on 1 Light Wound from an ally within reach, transferring it from them to yourself. This can also be used to absorb an emotional or psychic attack directed at them (GM’s discretion)."
+        },
+        {
+          "level": 6,
+          "name": "Calming Presence",
+          "type": "active",
+          "effect": "Once per scene, you may calm a group of mortals or weak-willed supernatural beings. On a successful Soul roll, remove panic or fear effects and grant them +1 die on their next Soul-based save."
+        },
+        {
+          "level": 10,
+          "name": "Psychic Shock",
+          "type": "active",
+          "effect": "Once per session, unleash a targeted blast of psychic pain. Make a Soul attack against a single target; on a success, inflict a Severe mental or spiritual wound and daze them, imposing -2 dice to all actions for the next round or two."
+        }
+      ]
+    },
+
+    "Telekine": {
+      "description": "Psychic who manipulates objects and forces with the power of their mind.",
+      "combatRole": "Ranged control, battlefield manipulation",
+      "supernaturalRole": "Psychic force user",
+      "woundDie": "d6",
+      "primaryAttributes": ["Mind"],
+      "secondaryAttributes": ["Soul"],
+      "signatureWeapons": ["telekinesis", "small arms"],
+      "progression": [
+        {
+          "level": 1,
+          "name": "Minor Telekinesis",
+          "type": "active",
+          "effect": "You can move small objects at a distance (keys, pistols, tools). Gain +1 die when using your powers to interact with light items or press distant switches, pull levers, etc."
+        },
+        {
+          "level": 3,
+          "name": "Force Push",
+          "type": "active",
+          "effect": "Once per scene, roll Mind to shove a target or small group back, knock them prone, or push them off balance. On a success, they lose their next move or suffer a Light Wound from impact if the environment is hazardous."
+        },
+        {
+          "level": 6,
+          "name": "Psychic Shield",
+          "type": "active",
+          "effect": "Once per fight, you or an ally within sight may reduce the severity of an incoming physical attack by 1 step (Severe → Moderate, etc.) as you interpose a telekinetic barrier."
+        },
+        {
+          "level": 10,
+          "name": "Crushing Grip",
+          "type": "active",
+          "effect": "Once per session, target a single enemy or object and apply overwhelming telekinetic force. On a successful Mind attack, inflict a Severe wound (or worse on a crit), shatter weapons, or pin a target helplessly for 1d3 rounds, at GM’s discretion."
+        }
+      ]
+    },
+
+    "Priest": {
+      "description": "Clergy, exorcist, or devoted believer who channels faith into protective and purging miracles.",
+      "combatRole": "Support, protection, anti-supernatural",
+      "supernaturalRole": "Divine channel and exorcist",
+      "woundDie": "d8",
+      "primaryAttributes": ["Soul"],
+      "secondaryAttributes": ["Mind"],
+      "signatureWeapons": ["prayers", "holy symbols", "small arms"],
+      "progression": [
+        {
+          "level": 1,
+          "name": "Blessing",
+          "type": "active",
+          "effect": "Once per scene, you may bless an ally. They gain +1 die on a single roll of your choosing (attack, save, or skill check), especially against supernatural foes."
+        },
+        {
+          "level": 3,
+          "name": "Turn the Unholy",
+          "type": "active",
+          "effect": "Roll Soul against a group of lesser undead or demons. On a success, they must flee, cower, or refuse to approach you for 1d3 rounds unless their will is unusually strong."
+        },
+        {
+          "level": 6,
+          "name": "Sanctuary",
+          "type": "active",
+          "effect": "You may consecrate a small area (a room, a chapel, a makeshift altar). While inside, allies gain +1 die on Soul saves, and weaker spirits or entities cannot enter without passing a difficult Soul test."
+        },
+        {
+          "level": 10,
+          "name": "Miraculous Intervention",
+          "type": "active",
+          "effect": "Once per session, you may call upon your faith for a major miracle: negating a fatal wound, banishing a powerful entity, or preventing a catastrophic event in a localized area. The GM sets any additional cost, complications, or requirements for such a powerful act."
+        }
+      ]
+    },
+
+    "Thief": {
+      "description": "Sneak, burglar, fixer, and infiltrator who excels at slipping in and out unseen.",
+      "combatRole": "Skirmisher, ambush specialist",
+      "supernaturalRole": "Mundane or lightly occult infiltrator",
+      "woundDie": "d8",
+      "primaryAttributes": ["Body"],
+      "secondaryAttributes": ["Mind"],
+      "signatureWeapons": ["pistol", "melee", "improvised"],
+      "progression": [
+        {
+          "level": 1,
+          "name": "Cat Burglar",
+          "type": "passive",
+          "effect": "Ignore -1 die of penalties when moving silently or in poor lighting. Gain +1 die to checks to bypass simple physical security (windows, fences, ledges)."
+        },
+        {
+          "level": 3,
+          "name": "Sneak Attack",
+          "type": "active",
+          "effect": "When attacking a surprised or unaware target at close range, gain +1 die on the attack and escalate any resulting wound by 1 step on a success."
+        },
+        {
+          "level": 6,
+          "name": "Ghost in the Crowd",
+          "type": "active",
+          "effect": "Once per scene, you may vanish into a crowd or the environment after performing a bold action (theft, shot, or sabotage). Enemies must pass a Mind or Soul check to track you; otherwise you slip away unseen."
+        },
+        {
+          "level": 10,
+          "name": "Master Infiltrator",
+          "type": "active",
+          "effect": "Once per session, declare that you previously gained access, planted gear, or scouted a location now in play. You and the GM work out a plausible advantage: a hidden weapon cache, an unlocked door, or a known guard rotation, granting you and allies +2 dice on one crucial infiltration or escape roll."
+        }
+      ]
+    }
+  }
+}

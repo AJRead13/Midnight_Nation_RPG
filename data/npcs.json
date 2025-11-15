@@ -1,0 +1,565 @@
+{
+  "npcSchema": {
+    "description": "Standard structure for Midnight Nation NPCs and templates.",
+    "fields": {
+      "name": "NPC or archetype name.",
+      "role": "Short label describing their function (e.g. 'Mob Enforcer', 'Field Agent').",
+      "tier": "Relative power level: minion, standard, elite, boss.",
+      "faction": "Organization or allegiance (Ashwood Foundation, Covenant of St. Michael, Black Chamber, Mob, Independent, Cult, etc.).",
+      "background": "Closest matching PC background (Soldier, Mechanic, Private Eye, Occultist, Brawler, Doctor, Performer, G-Man, Gangster, Scientist).",
+      "class": "Closest matching PC class (Brawler, Gunner, Hunter, Warlock, Witch, Empath, Telekine, Priest, Thief).",
+      "bloodline": "If applicable: Celestial:Angelic, Celestial:Demonic, Lycanthrope:Wolf, Vampire:Nightwalker, etc., or null for mundane.",
+      "attributes": {
+        "mind": "0–100 scale, baseline 40–60 for normal humans.",
+        "body": "0–100 scale (physical).",
+        "soul": "0–100 scale (will, presence, spiritual)."
+      },
+      "competencies": "Array of competency IDs from competencies.json.",
+      "talents": "Array of talent objects: { talent, subTalent, rank }.",
+      "boons": "Array of boon names from the boons JSON if the NPC has special edges.",
+      "woundProfile": {
+        "robustness": "minion, human, tough, supernatural",
+        "notes": "How many wound steps they typically endure; minions often drop at first Severe or Torso/Head hit."
+      },
+      "equipment": {
+        "weapons": "Array of weapon names matching your price/gear table.",
+        "armor": "Simple text description (e.g. 'none', 'leather jacket', 'flak vest').",
+        "gear": "Miscellaneous items or tools they commonly carry."
+      },
+      "tactics": "How they fight, behave, and use abilities.",
+      "storyHooks": "Short notes on how to use this NPC in the narrative."
+    }
+  },
+
+  "archetypes": [
+    {
+      "name": "Mob Enforcer",
+      "role": "Muscle",
+      "tier": "standard",
+      "faction": "Mob",
+      "background": "Gangster",
+      "class": "Brawler",
+      "bloodline": null,
+      "attributes": {
+        "mind": 45,
+        "body": 70,
+        "soul": 50
+      },
+      "competencies": [
+        "smg",
+        "melee"
+      ],
+      "talents": [
+        {
+          "talent": "Warfare",
+          "subTalent": "CloseCombat",
+          "rank": 1
+        },
+        {
+          "talent": "Coercion",
+          "subTalent": "Intimidation",
+          "rank": 1
+        }
+      ],
+      "boons": [
+        "Street Brawler",
+        "Steely Nerves"
+      ],
+      "woundProfile": {
+        "robustness": "tough",
+        "notes": "Treat as having a slightly longer torso/arm track; usually fights on through Moderate wounds."
+      },
+      "equipment": {
+        "weapons": [
+          "Thompson M1A1",
+          "Combat Knife"
+        ],
+        "armor": "Leather jacket (counts as very light armor vs. melee)",
+        "gear": [
+          "Pack of cigarettes",
+          "Brass knuckles",
+          "Roll of cash"
+        ]
+      },
+      "tactics": "Leads with intimidation and brute force. Uses SMG at close to medium range, closes to melee if cornered or ordered to make an example.",
+      "storyHooks": "Collects debts, guards mob warehouses, escorts high-ranking gangsters, or acts as the 'example' when the crew sends a message."
+    },
+    {
+      "name": "Street Tough (Mob Goons)",
+      "role": "Cannon Fodder",
+      "tier": "minion",
+      "faction": "Mob",
+      "background": "Brawler",
+      "class": "Brawler",
+      "bloodline": null,
+      "attributes": {
+        "mind": 40,
+        "body": 60,
+        "soul": 40
+      },
+      "competencies": [
+        "unarmed",
+        "melee"
+      ],
+      "talents": [
+        {
+          "talent": "Coercion",
+          "subTalent": "Intimidation",
+          "rank": 1
+        }
+      ],
+      "boons": [],
+      "woundProfile": {
+        "robustness": "minion",
+        "notes": "Drop or flee on first Severe wound or any Torso/Head Moderate+."
+      },
+      "equipment": {
+        "weapons": [
+          "Baseball Bat",
+          "Pocket Knife / Switchblade"
+        ],
+        "armor": "None",
+        "gear": [
+          "Flask",
+          "Lighter"
+        ]
+      },
+      "tactics": "Fight in groups, try to surround and overwhelm. Break and run once someone goes down hard or guns come out.",
+      "storyHooks": "Used as early combat encounters, bar troublemakers, or muscle backing up bigger villains."
+    },
+    {
+      "name": "Beat Cop",
+      "role": "Law Enforcement Patrol",
+      "tier": "standard",
+      "faction": "Local Police",
+      "background": "Soldier",
+      "class": "Gunner",
+      "bloodline": null,
+      "attributes": {
+        "mind": 55,
+        "body": 55,
+        "soul": 50
+      },
+      "competencies": [
+        "pistol",
+        "interrogation"
+      ],
+      "talents": [
+        {
+          "talent": "Coercion",
+          "subTalent": "Interrogation",
+          "rank": 1
+        },
+        {
+          "talent": "Warfare",
+          "subTalent": "Firearms",
+          "rank": 1
+        }
+      ],
+      "boons": [
+        "Observation"
+      ],
+      "woundProfile": {
+        "robustness": "human",
+        "notes": "Standard human wound tracks; likely to withdraw once seriously hurt."
+      },
+      "equipment": {
+        "weapons": [
+          "Smith & Wesson M&P",
+          "Baton"
+        ],
+        "armor": "Police uniform, cap; no real ballistic protection.",
+        "gear": [
+          "Handcuffs",
+          "Flashlight",
+          "Radio or call box access",
+          "Notebook"
+        ]
+      },
+      "tactics": "Issue verbal commands first, call for backup, fire only when threatened. Unprepared for serious supernatural events.",
+      "storyHooks": "Harass PCs snooping around, be a potential ally if convinced, or become tragic collateral in a supernatural incident."
+    },
+    {
+      "name": "Ashwood Foundation Hunter",
+      "role": "Professional Monster Hunter",
+      "tier": "elite",
+      "faction": "Ashwood Foundation",
+      "background": "Soldier",
+      "class": "Hunter",
+      "bloodline": null,
+      "attributes": {
+        "mind": 60,
+        "body": 70,
+        "soul": 55
+      },
+      "competencies": [
+        "rifle",
+        "shotgun",
+        "tracking"
+      ],
+      "talents": [
+        {
+          "talent": "Warfare",
+          "subTalent": "Firearms",
+          "rank": 2
+        },
+        {
+          "talent": "Tracking",
+          "subTalent": "Survival",
+          "rank": 1
+        },
+        {
+          "talent": "Lore",
+          "subTalent": "Cryptids",
+          "rank": 1
+        }
+      ],
+      "boons": [
+        "Monster Slayer",
+        "Keen Instincts",
+        "Steely Nerves"
+      ],
+      "woundProfile": {
+        "robustness": "tough",
+        "notes": "Can take multiple wounds before backing off; trained not to panic at the first sign of blood."
+      },
+      "equipment": {
+        "weapons": [
+          "M1 Garand",
+          "Remington 870",
+          "Combat Knife"
+        ],
+        "armor": "Rugged coat, maybe light vest.",
+        "gear": [
+          "Binoculars",
+          "Maps / Atlases",
+          "First Aid Kit",
+          "Rope / Cord",
+          "Occult reference notes",
+          "Flashlight"
+        ]
+      },
+      "tactics": "Plans ambushes, uses cover and elevation, focuses fire on the most dangerous unnatural target. Will withdraw to re-engage under better conditions rather than die pointlessly.",
+      "storyHooks": "Rival or uneasy ally to the PCs, shows up at the same hunts, may execute creatures the PCs want to spare or study."
+    },
+    {
+      "name": "Covenant Inquisitor",
+      "role": "Discerning Exorcist",
+      "tier": "elite",
+      "faction": "Covenant of St. Michael",
+      "background": "Priest",
+      "class": "Priest",
+      "bloodline": "Celestial:Angelic",
+      "attributes": {
+        "mind": 65,
+        "body": 50,
+        "soul": 80
+      },
+      "competencies": [
+        "religion",
+        "ritualTools"
+      ],
+      "talents": [
+        {
+          "talent": "Occult",
+          "subTalent": "Warding",
+          "rank": 2
+        },
+        {
+          "talent": "Medicine",
+          "subTalent": "FirstAid",
+          "rank": 1
+        }
+      ],
+      "boons": [
+        "Faithful",
+        "Iron Will",
+        "Exorcist’s Rite"
+      ],
+      "woundProfile": {
+        "robustness": "supernatural",
+        "notes": "Treat Soul wounds differently; may resist possession or spiritual attacks more strongly than physical harm."
+      },
+      "equipment": {
+        "weapons": [
+          "Colt M1911",
+          "Ritual Dagger"
+        ],
+        "armor": "Clerical clothing or coat, no serious armor.",
+        "gear": [
+          "Crucifix or holy symbol",
+          "Protective Amulet",
+          "Ritual Candles",
+          "Incense / Herbs",
+          "Occult Grimoire",
+          "Pocket Bible or prayer book"
+        ]
+      },
+      "tactics": "Attempts to classify threats before acting. Uses wards and prayers to protect allies and drive off lesser spirits; only resorts to lethal force when necessary.",
+      "storyHooks": "May judge the PCs as acceptable, heretical, or dangerous. Could be an ally in an exorcism or a doctrinal antagonist whose methods clash with the party’s."
+    },
+    {
+      "name": "Black Chamber Operative",
+      "role": "Shadow Government Agent",
+      "tier": "elite",
+      "faction": "Black Chamber",
+      "background": "G-Man",
+      "class": "Gunner",
+      "bloodline": null,
+      "attributes": {
+        "mind": 70,
+        "body": 60,
+        "soul": 60
+      },
+      "competencies": [
+        "pistol",
+        "smg",
+        "interrogation",
+        "stealth"
+      ],
+      "talents": [
+        {
+          "talent": "Warfare",
+          "subTalent": "Firearms",
+          "rank": 2
+        },
+        {
+          "talent": "Subterfuge",
+          "subTalent": "Espionage",
+          "rank": 1
+        },
+        {
+          "talent": "Lore",
+          "subTalent": "Occult",
+          "rank": 1
+        }
+      ],
+      "boons": [
+        "Combat Sense",
+        "Intuition"
+      ],
+      "woundProfile": {
+        "robustness": "tough",
+        "notes": "Planned extraction routes; rarely fights to the death unless mission-critical."
+      },
+      "equipment": {
+        "weapons": [
+          "Colt M1911",
+          "M3 Grease Gun"
+        ],
+        "armor": "Concealed vest or reinforced coat (light armor).",
+        "gear": [
+          "Fake IDs",
+          "Radio Receiver / Transmitter",
+          "Camera",
+          "Classified dossier",
+          "Cash"
+        ]
+      },
+      "tactics": "Prefers control, blackmail, and containment over open fights. Shoots to disable or eliminate only when secrecy is at risk.",
+      "storyHooks": "Sent to observe, recruit, or shut down the PCs. May be a recurring antagonist or manipulative patron."
+    },
+    {
+      "name": "Cult Acolyte",
+      "role": "Fanatic Follower",
+      "tier": "minion",
+      "faction": "Occult Cult",
+      "background": "Occultist",
+      "class": "Witch",
+      "bloodline": null,
+      "attributes": {
+        "mind": 50,
+        "body": 45,
+        "soul": 55
+      },
+      "competencies": [
+        "ritualTools"
+      ],
+      "talents": [
+        {
+          "talent": "Occult",
+          "subTalent": "Rituals",
+          "rank": 1
+        }
+      ],
+      "boons": [
+        "Superstitious"
+      ],
+      "woundProfile": {
+        "robustness": "minion",
+        "notes": "Fold quickly under focused fire; may fight to the death if fanatically loyal."
+      },
+      "equipment": {
+        "weapons": [
+          "Ritual Dagger"
+        ],
+        "armor": "Robes or street clothing.",
+        "gear": [
+          "Sigil Chalk / Powder",
+          "Candles",
+          "Small idol or talisman"
+        ]
+      },
+      "tactics": "Swarm PCs with numbers or serve as ritual assistants. Rarely act independently, usually directed by a cult leader.",
+      "storyHooks": "Initial sign of a larger cult, captured for interrogation, or encountered mid-ritual."
+    },
+    {
+      "name": "Cult High Priest",
+      "role": "Ritual Leader",
+      "tier": "boss",
+      "faction": "Occult Cult",
+      "background": "Occultist",
+      "class": "Warlock",
+      "bloodline": "Demonic",
+      "attributes": {
+        "mind": 70,
+        "body": 50,
+        "soul": 75
+      },
+      "competencies": [
+        "ritualTools",
+        "occultSymbols"
+      ],
+      "talents": [
+        {
+          "talent": "Occult",
+          "subTalent": "Rituals",
+          "rank": 2
+        },
+        {
+          "talent": "Occult",
+          "subTalent": "Summoning",
+          "rank": 1
+        }
+      ],
+      "boons": [
+        "Pact Brand",
+        "Occult Scholar",
+        "Hexbreaker"
+      ],
+      "woundProfile": {
+        "robustness": "supernatural",
+        "notes": "May redirect or mitigate some wounds via pacts or dark protection; likely surrounded by acolytes and wards."
+      },
+      "equipment": {
+        "weapons": [
+          "Ritual Dagger",
+          "Colt M1911"
+        ],
+        "armor": "Ritual robes, sometimes reinforced underlayers.",
+        "gear": [
+          "Occult Grimoire",
+          "Altar / Ritual Kit",
+          "Incense / Herbs",
+          "Bottled Essence / Vial"
+        ]
+      },
+      "tactics": "Avoids direct combat; uses hexes, summoned entities, and hostages. Tries to escape through secret routes or dimensional tricks if the ritual goes badly.",
+      "storyHooks": "Centerpiece villain for a cult-focused arc; may be trying to summon something, ascend, or bargain with Infernal powers the PCs oppose."
+    },
+    {
+      "name": "Vampire Night Stalker",
+      "role": "Supernatural Predator",
+      "tier": "boss",
+      "faction": "Independent / Vampire Brood",
+      "background": "Gangster",
+      "class": "Brawler",
+      "bloodline": "Vampire:Nightwalker",
+      "attributes": {
+        "mind": 60,
+        "body": 80,
+        "soul": 70
+      },
+      "competencies": [
+        "melee",
+        "stealth"
+      ],
+      "talents": [
+        {
+          "talent": "Warfare",
+          "subTalent": "CloseCombat",
+          "rank": 2
+        },
+        {
+          "talent": "Stealth",
+          "subTalent": "Shadowing",
+          "rank": 1
+        }
+      ],
+      "boons": [
+        "Monster Slayer",
+        "Iron Will",
+        "Shadowstep"
+      ],
+      "woundProfile": {
+        "robustness": "supernatural",
+        "notes": "Regeneration outside sunlight; can ignore Light wounds, downgrades some Moderate wounds to Light with feeding."
+      },
+      "equipment": {
+        "weapons": [
+          "Combat Knife"
+        ],
+        "armor": "Dark coat or suit.",
+        "gear": [
+          "Pocket Watch",
+          "Protective Amulet (personal)",
+          "Hidden lair key"
+        ]
+      },
+      "tactics": "Strikes from ambush at night, isolates targets, uses claws/teeth and supernatural strength. Avoids bright lights and will retreat if exposed to serious sunlight sources or holy wards.",
+      "storyHooks": "Recurring nemesis, mysterious serial killer, or reluctant ally against something worse."
+    },
+    {
+      "name": "Street Informant",
+      "role": "Information Broker",
+      "tier": "standard",
+      "faction": "Independent",
+      "background": "Performer",
+      "class": "Thief",
+      "bloodline": null,
+      "attributes": {
+        "mind": 60,
+        "body": 50,
+        "soul": 55
+      },
+      "competencies": [
+        "performance",
+        "stealth"
+      ],
+      "talents": [
+        {
+          "talent": "Entertainment",
+          "subTalent": "Performance",
+          "rank": 1
+        },
+        {
+          "talent": "Subterfuge",
+          "subTalent": "Espionage",
+          "rank": 1
+        }
+      ],
+      "boons": [
+        "Street Informant",
+        "Intuition"
+      ],
+      "woundProfile": {
+        "robustness": "human",
+        "notes": "Avoids violence; will flee at first sign of real danger."
+      },
+      "equipment": {
+        "weapons": [
+          "Pocket Knife / Switchblade"
+        ],
+        "armor": "None",
+        "gear": [
+          "Hat / Fedora",
+          "Cheap suit",
+          "Notebook of contacts",
+          "Small stash of cash"
+        ]
+      },
+      "tactics": "Avoids fights entirely. Uses crowds, alleys, and exits. Knows who to talk to and who to avoid.",
+      "storyHooks": "First link to deeper conspiracies, source of rumors, may play all sides if desperate."
+    }
+  ]
+}

@@ -1,0 +1,1206 @@
+{
+  "monsterSchema": {
+    "description": "Standard structure for Midnight Nation monsters and creatures.",
+    "fields": {
+      "name": "Monster or creature name.",
+      "category": "Broad type: demon, undead, spirit, beast, cryptid, celestial, construct, hybrid, etc.",
+      "threatTier": "Relative danger level: minion, standard, elite, boss, ancient.",
+      "origin": "Where it comes from (Hell, haunted battlefield, government lab, urban legend, etc.).",
+      "attributes": {
+        "mind": "0–100 scale, for cunning, awareness, and supernatural intelligence.",
+        "body": "0–100 scale, for physical resilience and damage output.",
+        "soul": "0–100 scale, for spiritual presence, fear, and magic resistance."
+      },
+      "competencies": "Array of competency IDs or pseudo-competencies (melee, stealth, tracking, occultSymbols, etc.).",
+      "abilities": [
+        {
+          "name": "Ability name.",
+          "type": "passive or active.",
+          "effect": "Mechanical and narrative effect, using the 2d6 + dice engine where relevant."
+        }
+      ],
+      "weaknesses": "Array of textual weaknesses (e.g. silver, holy symbols, fire, sunlight, decapitation).",
+      "woundProfile": {
+        "robustness": "minion, human, tough, supernatural, monstrous, legendary.",
+        "notes": "How their wound tracks behave (regeneration, immunity to Light wounds, special death conditions, etc.)."
+      },
+      "attacks": [
+        {
+          "name": "Attack name.",
+          "range": "melee, short, medium, long.",
+          "baseDiceBonus": "Suggested bonus dice above 2d6 (before competencies/talents).",
+          "woundNotes": "How it inflicts wounds: bite, claws, soul damage, fear, etc."
+        }
+      ],
+      "tactics": "Typical combat and hunting style.",
+      "storyHooks": "How to use this monster in Midnight Nation stories."
+    }
+  },
+
+  "monsters": [
+    {
+      "name": "Lesser Demon",
+      "category": "demon",
+      "threatTier": "standard",
+      "origin": "Summoned by cult rituals or slipped through a thin spot between worlds.",
+      "attributes": {
+        "mind": 50,
+        "body": 65,
+        "soul": 70
+      },
+      "competencies": [
+        "melee",
+        "stealth",
+        "occultSymbols"
+      ],
+      "abilities": [
+        {
+          "name": "Hellfire Claws",
+          "type": "passive",
+          "effect": "Melee attacks count as supernatural and can burn or corrode flesh and mundane armor. Treat Light wounds as Moderate on a critical success."
+        },
+        {
+          "name": "Fear Aura",
+          "type": "active",
+          "effect": "Once per scene, force nearby mortals to roll Soul or suffer -1 die on all actions for 1d3 rounds as terror grips them."
+        }
+      ],
+      "weaknesses": [
+        "Holy symbols and sincere prayer impose -1 die on its Soul-based rolls.",
+        "Wards and circles can bind or block it.",
+        "Banished by appropriate exorcism rituals."
+      ],
+      "woundProfile": {
+        "robustness": "supernatural",
+        "notes": "Takes reduced effect from mundane Light wounds; strong hits or rituals are needed to seriously harm it."
+      },
+      "attacks": [
+        {
+          "name": "Claw Swipe",
+          "range": "melee",
+          "baseDiceBonus": 2,
+          "woundNotes": "On Moderate+ wounds, may also inflict burning or corrosive secondary damage as GM sees fit."
+        },
+        {
+          "name": "Infernal Grasp",
+          "range": "melee",
+          "baseDiceBonus": 1,
+          "woundNotes": "Can grapple and pin; if it holds a victim, it can attempt a soul-tearing attack next round."
+        }
+      ],
+      "tactics": "Prefers ambush and terror tactics. Tries to isolate weaker targets, break morale, and flee through shadows or fissures if losing.",
+      "storyHooks": "A cult lost control of one in a factory, asylum, or church basement. PCs might be sent to clean up the mess before authorities or rival factions arrive."
+    },
+    {
+      "name": "Greater Demon",
+      "category": "demon",
+      "threatTier": "boss",
+      "origin": "High-ranking infernal entity bargained or dragged into the world by a major rite.",
+      "attributes": {
+        "mind": 75,
+        "body": 85,
+        "soul": 90
+      },
+      "competencies": [
+        "melee",
+        "occultSymbols",
+        "coercion"
+      ],
+      "abilities": [
+        {
+          "name": "Infernal Dominion",
+          "type": "active",
+          "effect": "Can command lesser demons and heavily influence corrupted mortals; gains +2 dice on attempts to intimidate or dominate such beings."
+        },
+        {
+          "name": "Hellfire Storm",
+          "type": "active",
+          "effect": "Once per scene, can unleash a cone or area of burning supernatural flame. Treat as multiple rifle-strength hits; anyone caught must roll Body or suffer at least a Moderate wound."
+        },
+        {
+          "name": "Reality Warp",
+          "type": "active",
+          "effect": "Can twist local reality—lights fail, walls bleed, gravity shivers. Mechanically, impose -1 to -2 dice on enemy rolls in the affected area until banished or disrupted."
+        }
+      ],
+      "weaknesses": [
+        "Powerful exorcism or banishment rituals.",
+        "Consecrated ground and holy relics can weaken it (-1 to -2 dice).",
+        "Bound to pacts and true names; these can be exploited."
+      ],
+      "woundProfile": {
+        "robustness": "monstrous",
+        "notes": "Ignore most Light wounds entirely. Needs repeated Severe wounds or focused rituals to dispel. Killing the host form may only banish, not destroy it."
+      },
+      "attacks": [
+        {
+          "name": "Devastating Blow",
+          "range": "melee",
+          "baseDiceBonus": 3,
+          "woundNotes": "Claw, horn, or heavy limb that often escalates a hit directly to Severe on a critical success."
+        },
+        {
+          "name": "Soul Rend",
+          "range": "short",
+          "baseDiceBonus": 2,
+          "woundNotes": "Against a single target, attacks Soul instead of Body; can inflict psychic/ spiritual wounds that act like Head or Torso damage."
+        }
+      ],
+      "tactics": "Overwhelming force and fear. Tries to break the strongest foe first and turn survivors against each other. Rarely appears without preparation by a cult or major event.",
+      "storyHooks": "End-arc boss for a cult storyline; perhaps only partially manifested at first, giving the PCs time to stop its full arrival."
+    },
+    {
+      "name": "Possessed Host",
+      "category": "demon",
+      "threatTier": "standard",
+      "origin": "A mortal body taken over by an infernal or parasitic spirit.",
+      "attributes": {
+        "mind": 40,
+        "body": 55,
+        "soul": 80
+      },
+      "competencies": [
+        "melee",
+        "stealth"
+      ],
+      "abilities": [
+        {
+          "name": "Unnatural Resilience",
+          "type": "passive",
+          "effect": "Ignore the first Light wound the host suffers in a scene as the possessing entity knits flesh from within."
+        },
+        {
+          "name": "Voice of the Pit",
+          "type": "active",
+          "effect": "Can speak in multiple voices, reveal secret knowledge, or psychologically torment targets. Gain +1 die on attempts to break morale or manipulate through fear."
+        }
+      ],
+      "weaknesses": [
+        "Exorcism rites targeting the spirit rather than the body.",
+        "Holy symbols and blessed water can cause it pain (treat as Light or Moderate wounds vs. Soul).",
+        "Killing the host may free or disperse the spirit… or set it loose."
+      ],
+      "woundProfile": {
+        "robustness": "tough",
+        "notes": "Treat as a durable human; Severe wounds to Torso/Head can force the spirit to flee or risk exorcism."
+      },
+      "attacks": [
+        {
+          "name": "Feral Assault",
+          "range": "melee",
+          "baseDiceBonus": 1,
+          "woundNotes": "Bites, nails, and unnatural strength; on a critical, may inflict an extra Light wound."
+        }
+      ],
+      "tactics": "Uses the familiarity of the host to get close, then attacks suddenly. May throw itself recklessly into danger, uncaring of the host’s survival.",
+      "storyHooks": "A loved one, priest, or official is acting wrong; PCs must decide whether to save or end them."
+    },
+    {
+      "name": "Restless Ghost",
+      "category": "spirit",
+      "threatTier": "standard",
+      "origin": "Human soul bound to a place, object, or unresolved trauma.",
+      "attributes": {
+        "mind": 60,
+        "body": 10,
+        "soul": 75
+      },
+      "competencies": [
+        "stealth",
+        "occultSymbols"
+      ],
+      "abilities": [
+        {
+          "name": "Incorporeal",
+          "type": "passive",
+          "effect": "Immune to mundane physical attacks. Only blessed weapons, certain rituals, or specific vulnerabilities (like its anchor) can truly harm it."
+        },
+        {
+          "name": "Cold Spot",
+          "type": "active",
+          "effect": "Can drain warmth and courage from a room. Mortals in the area must roll Soul or suffer -1 die on actions for 1d3 rounds due to fear and discomfort."
+        },
+        {
+          "name": "Haunting Manifestation",
+          "type": "active",
+          "effect": "Can trigger visual and auditory phenomena (apparitions, whispers, moving objects) to mislead or terrify."
+        }
+      ],
+      "weaknesses": [
+        "Resolving its unfinished business.",
+        "Destroying or sanctifying its anchor (personal effects, grave, etc.).",
+        "Exorcism or spiritually empowered interventions."
+      ],
+      "woundProfile": {
+        "robustness": "supernatural",
+        "notes": "Does not track wounds like a body; instead, a few strong spiritual blows (rituals, holy relics, psychic attacks) can disperse it."
+      },
+      "attacks": [
+        {
+          "name": "Chill Touch",
+          "range": "melee",
+          "baseDiceBonus": 1,
+          "woundNotes": "Inflicts Soul- or Head-like wounds: numbness, confusion, or fainting rather than physical damage."
+        }
+      ],
+      "tactics": "Avoids direct combat; prefers terror, isolation, and slow psychological breakdown of intruders.",
+      "storyHooks": "Classic haunted house case; may be more victim than villain, needing help rather than destruction."
+    },
+    {
+      "name": "Poltergeist",
+      "category": "spirit",
+      "threatTier": "elite",
+      "origin": "Concentrated psychic rage or fragmented spirit manifesting as violent kinetic phenomena.",
+      "attributes": {
+        "mind": 50,
+        "body": 5,
+        "soul": 85
+      },
+      "competencies": [
+        "stealth"
+      ],
+      "abilities": [
+        {
+          "name": "Telekinetic Fury",
+          "type": "active",
+          "effect": "Hurls objects, slams doors, and shatters glass. Treat as a ranged attack at short/medium range using Mind, inflicting Light to Moderate wounds depending on the object size."
+        },
+        {
+          "name": "Unseen Stalker",
+          "type": "passive",
+          "effect": "Extremely difficult to pinpoint; attackers suffer -1 to -2 dice unless using specialized detection (psychics, occult gadgets, rituals)."
+        }
+      ],
+      "weaknesses": [
+        "Psychic calming or Empath abilities.",
+        "Discovering and addressing the source of its rage.",
+        "Rituals specifically tuned to disruptive kinetic spirits."
+      ],
+      "woundProfile": {
+        "robustness": "supernatural",
+        "notes": "Cannot be fought with conventional weapons; treat each successful psychic or ritual attack as degrading its cohesion until it dissipates."
+      },
+      "attacks": [
+        {
+          "name": "Flying Debris",
+          "range": "short",
+          "baseDiceBonus": 2,
+          "woundNotes": "Uses available objects as weapons; GM chooses damage type and location."
+        }
+      ],
+      "tactics": "Makes the environment itself hostile—stairs, tools, furniture, even vehicles. Retreats or quiets if appeased or weakened.",
+      "storyHooks": "Escalating activity in a tenement, hospital, or school. Authorities blame vandals, but the PCs know better."
+    },
+    {
+      "name": "Ghoul",
+      "category": "undead",
+      "threatTier": "standard",
+      "origin": "Corpse-eater warped by necromantic energy, cursed grounds, or long-term exposure to the supernatural.",
+      "attributes": {
+        "mind": 35,
+        "body": 70,
+        "soul": 30
+      },
+      "competencies": [
+        "melee",
+        "tracking",
+        "stealth"
+      ],
+      "abilities": [
+        {
+          "name": "Grave Stench",
+          "type": "passive",
+          "effect": "Close-range attackers may suffer -1 die from nausea unless they pass a Body or Soul check."
+        },
+        {
+          "name": "Carrion Tracker",
+          "type": "passive",
+          "effect": "Can follow the scent of blood and rot for miles, granting +2 dice to tracking wounded or dead targets."
+        }
+      ],
+      "weaknesses": [
+        "Headshots, fire, and dismemberment.",
+        "Holy symbols may repel or bait them, depending on how feral they are."
+      ],
+      "woundProfile": {
+        "robustness": "tough",
+        "notes": "Ignore some Light wounds to limbs; will keep crawling unless the head or torso is destroyed."
+      },
+      "attacks": [
+        {
+          "name": "Claws & Teeth",
+          "range": "melee",
+          "baseDiceBonus": 1,
+          "woundNotes": "If they feed on a fresh corpse, they may regain 1 wound step (GM’s call). Bite wounds risk infection or corruption."
+        }
+      ],
+      "tactics": "Swarm in packs, drag victims away to devour in lairs. Intelligent enough for simple ambushes.",
+      "storyHooks": "Something is robbing graves or eating morgue bodies. Could be a lone ghoul or a developing nest."
+    },
+    {
+      "name": "Shambling Corpse",
+      "category": "undead",
+      "threatTier": "minion",
+      "origin": "Animated dead bodies—occult experiments, cursed battlefields, or side-effect of greater magic.",
+      "attributes": {
+        "mind": 10,
+        "body": 50,
+        "soul": 5
+      },
+      "competencies": [
+        "melee"
+      ],
+      "abilities": [
+        {
+          "name": "Mindless Tenacity",
+          "type": "passive",
+          "effect": "Feels no pain and never tests morale. Continues fighting until physically destroyed."
+        }
+      ],
+      "weaknesses": [
+        "Headshots, decapitation, fire.",
+        "Holy rites or banishment effects."
+      ],
+      "woundProfile": {
+        "robustness": "minion",
+        "notes": "Drop on first Severe wound to Torso/Head or after multiple limb losses. Easy to hit but dangerous in numbers."
+      },
+      "attacks": [
+        {
+          "name": "Clumsy Grasp",
+          "range": "melee",
+          "baseDiceBonus": 0,
+          "woundNotes": "Typically inflicts Light wounds; only serious if the target is pinned or swarmed."
+        }
+      ],
+      "tactics": "Move toward noise or living flesh. Used as shock troops or distractions by smarter foes.",
+      "storyHooks": "A necromantic spillover from a bigger ritual, or the aftermath of experimentation in a secret facility."
+    },
+    {
+      "name": "Feral Vampire",
+      "category": "undead",
+      "threatTier": "elite",
+      "origin": "Turned vampire with little self-control, often lurking in alleyways, tunnels, or ruins.",
+      "attributes": {
+        "mind": 55,
+        "body": 80,
+        "soul": 70
+      },
+      "competencies": [
+        "melee",
+        "stealth"
+      ],
+      "abilities": [
+        {
+          "name": "Night Predator",
+          "type": "passive",
+          "effect": "+2 dice on stealth and tracking rolls at night. Treat most darkness penalties as bonuses instead."
+        },
+        {
+          "name": "Regeneration",
+          "type": "passive",
+          "effect": "At night and after feeding, can downgrade one wound step (Moderate → Light, Light → healed) between scenes. Sunlight halts this ability."
+        },
+        {
+          "name": "Blood Frenzy",
+          "type": "active",
+          "effect": "Once per fight, when exposed to blood or fresh prey, gain +2 dice on melee attacks for 1d3 rounds. May lose control and overextend."
+        }
+      ],
+      "weaknesses": [
+        "Sunlight inflicts automatic escalating wounds.",
+        "Wooden stakes to the heart, decapitation, or thorough burning.",
+        "Strong holy symbols and blessed water force Soul saves or repel."
+      ],
+      "woundProfile": {
+        "robustness": "supernatural",
+        "notes": "Ignore most Light wounds; must be pinned, staked, decapitated, or burned to be permanently destroyed."
+      },
+      "attacks": [
+        {
+          "name": "Claws",
+          "range": "melee",
+          "baseDiceBonus": 2,
+          "woundNotes": "On a critical, escalate the wound by 1 extra step."
+        },
+        {
+          "name": "Vampiric Bite",
+          "range": "melee",
+          "baseDiceBonus": 1,
+          "woundNotes": "If used on a restrained or helpless target, can drain blood to heal 1 wound step and potentially infect the victim (GM decides infection rules)."
+        }
+      ],
+      "tactics": "Stalks from the shadows, isolates a target, and strikes fast. Retreats to hidden lairs if seriously injured or confronted by strong faith.",
+      "storyHooks": "A string of exsanguinated bodies points to something worse than a human killer; maybe tied to a larger vampire brood."
+    },
+    {
+      "name": "Werewolf (Alpha)",
+      "category": "beast",
+      "threatTier": "boss",
+      "origin": "Lycanthrope of the Wolf bloodline that has fully embraced the Beast.",
+      "attributes": {
+        "mind": 60,
+        "body": 90,
+        "soul": 65
+      },
+      "competencies": [
+        "melee",
+        "tracking",
+        "stealth"
+      ],
+      "abilities": [
+        {
+          "name": "Pack Commander",
+          "type": "passive",
+          "effect": "Allied wolves, werewolves, or feral followers gain +1 die on attacks and fear checks while the Alpha remains active on the field."
+        },
+        {
+          "name": "Rending Claws",
+          "type": "passive",
+          "effect": "Treat melee claw attacks as if they were using a higher wound tier; on a critical, escalate the wound 2 steps instead of 1."
+        },
+        {
+          "name": "Howl of Blood",
+          "type": "active",
+          "effect": "Once per scene, unleash a terrifying howl. Enemies must pass a Soul check or flee, freeze, or suffer -2 dice on actions from fear for 1d3 rounds."
+        }
+      ],
+      "weaknesses": [
+        "Silver weapons bypass natural resistance and may escalate wounds.",
+        "Powerful binding rituals or Celestial intervention.",
+        "Killing the Alpha may break or weaken the local pack."
+      ],
+      "woundProfile": {
+        "robustness": "monstrous",
+        "notes": "Regenerates between scenes unless wounded with silver or holy power. Needs multiple Severe or a silver-inflicted Fatal wound to stay down."
+      },
+      "attacks": [
+        {
+          "name": "Claw & Fang Assault",
+          "range": "melee",
+          "baseDiceBonus": 3,
+          "woundNotes": "Often attacks multiple adjacent targets; GM may allow a cleave-style effect on great success."
+        }
+      ],
+      "tactics": "Leads ambushes and hunts, drives prey into pack members, and focuses on the greatest perceived threat first.",
+      "storyHooks": "Centerpiece of a rural horror arc—slaughtered livestock, missing hikers, and a secretive family with something to hide."
+    },
+    {
+      "name": "Shadow Hound",
+      "category": "beast",
+      "threatTier": "standard",
+      "origin": "Supernatural hunting dog created by occult rites or infernal breeding.",
+      "attributes": {
+        "mind": 30,
+        "body": 65,
+        "soul": 50
+      },
+      "competencies": [
+        "tracking",
+        "stealth",
+        "melee"
+      ],
+      "abilities": [
+        {
+          "name": "Blend with Darkness",
+          "type": "passive",
+          "effect": "+2 dice to stealth in dim light or darkness; can become almost invisible in deep shadow."
+        },
+        {
+          "name": "Unerring Scent",
+          "type": "passive",
+          "effect": "Can follow a chosen target across long distances as long as it has their scent; treat tracking as almost impossible to shake without strong countermeasures."
+        }
+      ],
+      "weaknesses": [
+        "Bright light sources or fire impose -1 to -2 dice.",
+        "Killing the summoner or breaking the binding ritual may force it to dissolve."
+      ],
+      "woundProfile": {
+        "robustness": "tough",
+        "notes": "Roughly akin to a large, extremely dangerous dog with some supernatural resilience."
+      },
+      "attacks": [
+        {
+          "name": "Shadow Pounce",
+          "range": "melee",
+          "baseDiceBonus": 2,
+          "woundNotes": "If attacking from stealth, may knock the target prone and inflict an extra Light wound."
+        }
+      ],
+      "tactics": "Stalks quietly, then lunges from darkness. Often used as a tracker and shock attacker for demons or cults.",
+      "storyHooks": "PCs realize something has been following them from city to city—only visible in reflections or at the edge of vision."
+    },
+    {
+      "name": "Jersey Devil",
+      "category": "cryptid",
+      "threatTier": "elite",
+      "origin": "American folklore chimera; possibly a cryptid bloodline or failed occult experiment.",
+      "attributes": {
+        "mind": 55,
+        "body": 75,
+        "soul": 60
+      },
+      "competencies": [
+        "stealth",
+        "tracking",
+        "melee"
+      ],
+      "abilities": [
+        {
+          "name": "Wings & Leap",
+          "type": "active",
+          "effect": "Can fly or glide over short distances, granting +2 dice on movement and escape rolls in rough terrain."
+        },
+        {
+          "name": "Terrifying Scream",
+          "type": "active",
+          "effect": "Once per scene, shriek to impose a fear test; on failure, victims suffer -1 to -2 dice on their next action."
+        }
+      ],
+      "weaknesses": [
+        "May be driven off by strong light, fire, or loud noise.",
+        "Some regional folk rituals might repel or bind it."
+      ],
+      "woundProfile": {
+        "robustness": "supernatural",
+        "notes": "Though mortal, its resilience is beyond that of a typical animal; may require multiple well-placed shots to bring down."
+      },
+      "attacks": [
+        {
+          "name": "Gore & Slash",
+          "range": "melee",
+          "baseDiceBonus": 2,
+          "woundNotes": "Horns, claws, wings; can attempt hit-and-run strikes from above."
+        }
+      ],
+      "tactics": "Attacks lone travelers, livestock, or remote communities, then disappears into wilds. Rarely engages in prolonged fights.",
+      "storyHooks": "Sightings spike in a specific region, possibly linked to cult activity or military experimentation."
+    },
+    {
+      "name": "Angel Remnant",
+      "category": "celestial",
+      "threatTier": "elite",
+      "origin": "Fragment of an angelic being, stranded or bound to Earth after a long-forgotten war.",
+      "attributes": {
+        "mind": 80,
+        "body": 60,
+        "soul": 95
+      },
+      "competencies": [
+        "religion",
+        "occultSymbols"
+      ],
+      "abilities": [
+        {
+          "name": "Radiant Presence",
+          "type": "passive",
+          "effect": "Mortals feel overwhelming awe, guilt, or comfort. Allies gain +1 die on Soul saves; enemies of Heaven suffer -1 die on most actions near it."
+        },
+        {
+          "name": "Smite",
+          "type": "active",
+          "effect": "Can unleash a holy blast against a single foe; treat as a powerful ranged Soul attack that often escalates wounds by 1 step vs. demons or undead."
+        }
+      ],
+      "weaknesses": [
+        "Bound by complex rules, oaths, or missions; may be unable to act freely.",
+        "Corrupt or infernal magic can destabilize it."
+      ],
+      "woundProfile": {
+        "robustness": "legendary",
+        "notes": "Hard to truly hurt; most mundane attacks simply pass through or cause momentary disruption. Defeated more often through story resolution than raw damage."
+      },
+      "attacks": [
+        {
+          "name": "Lance of Light",
+          "range": "medium",
+          "baseDiceBonus": 3,
+          "woundNotes": "Particularly devastating versus explicitly evil or corrupted beings; may only stun or rebuke mortals."
+        }
+      ],
+      "tactics": "Rarely fights to kill mortals; primarily intervenes against demons or great injustices. Might test PCs’ morals rather than their armor.",
+      "storyHooks": "A mysterious glowing figure appears at key moments, possibly guiding or judging the PCs. Different factions may try to capture or destroy it."
+    },
+    {
+      "name": "Wendigo",
+      "category": "beast",
+      "threatTier": "elite",
+      "origin": "Born from cannibalism and starvation in the frozen north, a cursed spirit that hungers eternally for human flesh.",
+      "attributes": {
+        "mind": 45,
+        "body": 80,
+        "soul": 65
+      },
+      "competencies": [
+        "tracking",
+        "stealth",
+        "survival"
+      ],
+      "abilities": [
+        {
+          "name": "Eternal Hunger",
+          "type": "passive",
+          "effect": "The Wendigo never tires and can track prey across vast distances. Once it marks a target, it will pursue relentlessly for days."
+        },
+        {
+          "name": "Whisper of Starvation",
+          "type": "active",
+          "effect": "Forces nearby victims to roll Mind or become overwhelmed with hunger and paranoia, potentially turning on allies. Lasts 1d3 rounds."
+        },
+        {
+          "name": "Ice Stride",
+          "type": "passive",
+          "effect": "Moves silently through snow and ice, gaining +2 dice to stealth in winter conditions."
+        }
+      ],
+      "weaknesses": [
+        "Fire weakens and terrifies it; fire-based attacks gain +1 die.",
+        "Destroying its heart or burning the body completely prevents regeneration.",
+        "Native American protective rituals can ward against it."
+      ],
+      "woundProfile": {
+        "robustness": "supernatural",
+        "notes": "Regenerates minor wounds rapidly in cold environments. Must be incapacitated and burned to truly destroy it."
+      },
+      "attacks": [
+        {
+          "name": "Rending Claws",
+          "range": "melee",
+          "baseDiceBonus": 3,
+          "woundNotes": "Razor-sharp claws designed to tear through flesh and bone. Critical hits may result in dismemberment."
+        },
+        {
+          "name": "Frozen Bite",
+          "range": "melee",
+          "baseDiceBonus": 2,
+          "woundNotes": "Bite causes frostbite damage in addition to physical trauma, potentially leading to infection or hypothermia."
+        }
+      ],
+      "tactics": "Stalks prey from a distance, wearing them down through isolation and fear. Attacks when victims are weakened, cold, or separated. Uses terrain to its advantage.",
+      "storyHooks": "Disappearances in remote mountain towns. Survivors speak of a skeletal figure with glowing eyes. The local tribe knows the truth but is reluctant to speak to outsiders."
+    },
+    {
+      "name": "Djinn",
+      "category": "spirit",
+      "threatTier": "elite",
+      "origin": "Ancient beings of smokeless fire from Islamic mythology, capable of granting wishes but at terrible costs.",
+      "attributes": {
+        "mind": 85,
+        "body": 55,
+        "soul": 80
+      },
+      "competencies": [
+        "deception",
+        "occultSymbols",
+        "illusions"
+      ],
+      "abilities": [
+        {
+          "name": "Reality Weaving",
+          "type": "active",
+          "effect": "Can create elaborate illusions that seem real to all senses. Victims live in a perfect dream world while their body wastes away. Breaking free requires Soul roll at -2 dice."
+        },
+        {
+          "name": "Wish Corruption",
+          "type": "active",
+          "effect": "If someone makes a wish near the Djinn, it can grant it but will twist the intent to cause maximum suffering."
+        },
+        {
+          "name": "Silver Poisoning",
+          "type": "passive",
+          "effect": "Vulnerable to silver weapons; takes double wounds from silver."
+        }
+      ],
+      "weaknesses": [
+        "Silver weapons inflict double damage.",
+        "Ancient binding tattoos can trap or control it.",
+        "Lamb's blood marks can prevent it from entering a dwelling.",
+        "Destroying its vessel (lamp, ring, or anchor) banishes it for decades."
+      ],
+      "woundProfile": {
+        "robustness": "supernatural",
+        "notes": "Difficult to harm with mundane weapons. Can shift partially into smoke to avoid attacks unless surprised or bound by ritual."
+      },
+      "attacks": [
+        {
+          "name": "Scorching Touch",
+          "range": "melee",
+          "baseDiceBonus": 2,
+          "woundNotes": "Burns with the heat of desert flames, leaving second-degree burns even through clothing."
+        },
+        {
+          "name": "Psychic Assault",
+          "range": "medium",
+          "baseDiceBonus": 3,
+          "woundNotes": "Targets the victim's Soul, causing intense psychological trauma and hallucinations."
+        }
+      ],
+      "tactics": "Prefers manipulation and deception to direct combat. Creates elaborate scenarios to trap victims in fantasy worlds. Only fights when cornered or its vessel is threatened.",
+      "storyHooks": "A series of missing persons all disappeared after visiting an antique shop. Victims are found days later, starved and dehydrated, claiming they lived perfect lives for years."
+    },
+    {
+      "name": "Rakshasa",
+      "category": "demon",
+      "threatTier": "boss",
+      "origin": "Ancient Hindu demons that feed on human flesh and have infiltrated society through perfect disguises.",
+      "attributes": {
+        "mind": 90,
+        "body": 75,
+        "soul": 85
+      },
+      "competencies": [
+        "deception",
+        "persuasion",
+        "combat",
+        "occultSymbols"
+      ],
+      "abilities": [
+        {
+          "name": "Perfect Disguise",
+          "type": "passive",
+          "effect": "Can shapeshift into any human form perfectly, including memories and mannerisms. Detection requires specialized magic or blessed objects."
+        },
+        {
+          "name": "Invulnerability",
+          "type": "passive",
+          "effect": "Immune to all mundane weapons and most supernatural attacks. Only brass or blessed weapons harm it."
+        },
+        {
+          "name": "Hypnotic Eyes",
+          "type": "active",
+          "effect": "Eye contact forces a Soul roll or the victim becomes enthralled for 1d6 rounds, following simple commands."
+        }
+      ],
+      "weaknesses": [
+        "Can only be killed by a brass blade piercing the heart.",
+        "Vedic mantras recited correctly can weaken its powers temporarily.",
+        "Cannot cross a line of pure brass filings or enter a building ringed with them."
+      ],
+      "woundProfile": {
+        "robustness": "legendary",
+        "notes": "Virtually indestructible except by specific means. Regenerates from most injuries within minutes. Only brass through the heart ends it permanently."
+      },
+      "attacks": [
+        {
+          "name": "Clawed Hand (Reversed)",
+          "range": "melee",
+          "baseDiceBonus": 4,
+          "woundNotes": "Rakshasa hands bend backwards at the wrist. Claws are supernaturally sharp and poisonous, causing necrotic damage."
+        },
+        {
+          "name": "Reality Distortion",
+          "range": "short",
+          "baseDiceBonus": 3,
+          "woundNotes": "Warps perception and physics in a small area, disorienting victims and causing psychic damage."
+        }
+      ],
+      "tactics": "Infiltrates high society positions (lawyers, politicians, executives) and feeds slowly over years. When discovered, uses charm and disguise to escape or eliminates threats quietly. Fights only when cornered.",
+      "storyHooks": "A string of mutilated bodies with strange feeding patterns. All victims worked for the same corporation. The CEO seems normal but never eats in public and has an unusual aversion to brass fixtures."
+    },
+    {
+      "name": "Banshee",
+      "category": "undead",
+      "threatTier": "standard",
+      "origin": "A vengeful female spirit bound to a bloodline, heralding death with her mournful wail.",
+      "attributes": {
+        "mind": 60,
+        "body": 30,
+        "soul": 85
+      },
+      "competencies": [
+        "intimidation",
+        "occultSymbols"
+      ],
+      "abilities": [
+        {
+          "name": "Death Wail",
+          "type": "active",
+          "effect": "Her scream forces all who hear it to roll Soul at -2 dice or suffer Moderate Soul wounds. Those already injured may die instantly on a critical failure."
+        },
+        {
+          "name": "Incorporeal Form",
+          "type": "passive",
+          "effect": "Physical attacks pass through her harmlessly. Only iron, salt, or ritual magic can harm her."
+        },
+        {
+          "name": "Death Sense",
+          "type": "passive",
+          "effect": "Knows when someone in her bloodline will die within 24 hours. Appears to keen at their window."
+        }
+      ],
+      "weaknesses": [
+        "Iron weapons and bindings can wound her spirit form.",
+        "Salt lines prevent her from crossing.",
+        "Resolving her original grievance may put her to rest.",
+        "Cannot appear during daylight hours."
+      ],
+      "woundProfile": {
+        "robustness": "supernatural",
+        "notes": "Incorporeal and difficult to damage. Each wound disperses her form temporarily but she reforms at sunset unless her bones are salted and burned."
+      },
+      "attacks": [
+        {
+          "name": "Keening Wail",
+          "range": "long",
+          "baseDiceBonus": 4,
+          "woundNotes": "Sonic attack that targets Soul directly. Can shatter glass and rupture eardrums on critical success."
+        },
+        {
+          "name": "Spectral Touch",
+          "range": "melee",
+          "baseDiceBonus": 1,
+          "woundNotes": "Drains life force, leaving victims aged and weakened. Effect is temporary but cumulative."
+        }
+      ],
+      "tactics": "Does not seek combat; appears as an omen of death. If attacked or preventing her keening, becomes hostile. Retreats to her grave if overwhelmed.",
+      "storyHooks": "An old Irish family in Midnight City is being picked off one by one. Each victim heard screaming the night before their death. The family matriarch knows the truth but refuses to speak of the ancient curse."
+    },
+    {
+      "name": "Revenant",
+      "category": "undead",
+      "threatTier": "elite",
+      "origin": "A murder victim who refused to stay dead, rising with singular purpose to kill their murderer.",
+      "attributes": {
+        "mind": 50,
+        "body": 85,
+        "soul": 70
+      },
+      "competencies": [
+        "tracking",
+        "combat",
+        "intimidation"
+      ],
+      "abilities": [
+        {
+          "name": "Relentless Pursuit",
+          "type": "passive",
+          "effect": "Cannot be permanently stopped until their killer is dead. Will reform from any damage within 24 hours unless properly laid to rest."
+        },
+        {
+          "name": "Unyielding Strength",
+          "type": "passive",
+          "effect": "Ignores wound penalties and pain. Continues fighting even with catastrophic damage until completely destroyed."
+        },
+        {
+          "name": "Aura of Dread",
+          "type": "passive",
+          "effect": "Their target feels watched constantly and suffers nightmares. Others near the Revenant feel intense cold and dread."
+        }
+      ],
+      "weaknesses": [
+        "Only interested in killing their murderer; won't attack others unless they interfere.",
+        "Can be temporarily stopped by destroying the head or severing major limbs.",
+        "Putting their body to rest properly (burial with penny over eyes, confession of killer) ends the curse.",
+        "Proving the killer's guilt to authorities may satisfy their need for justice."
+      ],
+      "woundProfile": {
+        "robustness": "supernatural",
+        "notes": "Functionally immortal in pursuit of revenge. Damage merely slows it. Resurrection occurs each night unless curse is broken."
+      },
+      "attacks": [
+        {
+          "name": "Crushing Grip",
+          "range": "melee",
+          "baseDiceBonus": 3,
+          "woundNotes": "Superhuman strength allows it to crush bones and tear limbs. Grapples are nearly impossible to break."
+        },
+        {
+          "name": "Strangler's Hands",
+          "range": "melee",
+          "baseDiceBonus": 4,
+          "woundNotes": "If it gets hands on the throat of its target, death is nearly certain without immediate intervention."
+        }
+      ],
+      "tactics": "Walks slowly but inexorably toward its target. Cannot be reasoned with. Ignores all other threats unless they physically impede it. Grows stronger as it gets closer to its killer.",
+      "storyHooks": "A mob informant's body was dumped in the river five years ago. Now his waterlogged corpse has crawled out and is methodically hunting down everyone involved in his death. The PCs are protecting one of the targets."
+    },
+    {
+      "name": "Striga",
+      "category": "hybrid",
+      "threatTier": "standard",
+      "origin": "A living human cursed to become a soul-devouring monster at night, similar to European vampire-witch hybrids.",
+      "attributes": {
+        "mind": 65,
+        "body": 60,
+        "soul": 55
+      },
+      "competencies": [
+        "stealth",
+        "occultSymbols",
+        "deception"
+      ],
+      "abilities": [
+        {
+          "name": "Soul Drain",
+          "type": "active",
+          "effect": "While victim sleeps, can drain life force, causing them to weaken over multiple nights. Each feeding inflicts cumulative -1 die to all actions."
+        },
+        {
+          "name": "Night Transformation",
+          "type": "passive",
+          "effect": "At night, takes on monstrous form with enhanced physical abilities. By day, appears completely human with no memory of nighttime activities."
+        },
+        {
+          "name": "Unnatural Agility",
+          "type": "passive",
+          "effect": "In monster form, can climb walls and ceilings like a spider, and move with supernatural silence."
+        }
+      ],
+      "weaknesses": [
+        "Completely vulnerable during daytime human form.",
+        "Placing iron under the bed of a victim prevents nighttime attacks.",
+        "Must be killed in monster form; killing the human host while in day form often doesn't work.",
+        "Mirrors reveal their true monstrous face even in human form."
+      ],
+      "woundProfile": {
+        "robustness": "human",
+        "notes": "In human form, as fragile as any person. In monster form, tough but not supernatural. Standard combat rules apply."
+      },
+      "attacks": [
+        {
+          "name": "Life Drain",
+          "range": "melee",
+          "baseDiceBonus": 2,
+          "woundNotes": "Targets Soul rather than Body. Victims age rapidly and weaken. Three successful drains typically result in death."
+        },
+        {
+          "name": "Clawed Rake",
+          "range": "melee",
+          "baseDiceBonus": 2,
+          "woundNotes": "If interrupted during feeding, fights with animalistic claws and fangs."
+        }
+      ],
+      "tactics": "Feeds on sleeping victims over multiple nights, typically targeting children or the elderly. Avoids direct confrontation. If discovered, may flee or kill witnesses to maintain cover.",
+      "storyHooks": "Children in a neighborhood are falling ill with no medical explanation. They're pale, weak, and complain of nightmares about an old woman in their room. The kindly elderly neighbor who watches them seems very concerned."
+    },
+    {
+      "name": "Tulpa",
+      "category": "construct",
+      "threatTier": "elite",
+      "origin": "A thought-form given physical reality through collective belief or intense emotional trauma.",
+      "attributes": {
+        "mind": 70,
+        "body": 65,
+        "soul": 75
+      },
+      "competencies": [
+        "varies based on belief"
+      ],
+      "abilities": [
+        {
+          "name": "Belief-Sustained",
+          "type": "passive",
+          "effect": "Grows stronger as more people believe in or fear it. Can manifest abilities based on what people expect it to do."
+        },
+        {
+          "name": "Reality Anchor",
+          "type": "passive",
+          "effect": "Extremely difficult to banish or kill through normal means. Destroying it requires eliminating the belief that sustains it."
+        },
+        {
+          "name": "Adaptive Form",
+          "type": "passive",
+          "effect": "Appearance and abilities shift based on collective perception. May become stronger or weaker based on the prevailing myth."
+        }
+      ],
+      "weaknesses": [
+        "Disbelief weakens it; those who truly don't believe it exists are harder for it to harm.",
+        "Exposing the truth behind the legend reduces its power.",
+        "Changing the narrative around it can alter or weaken its nature.",
+        "Creator's death or renunciation can destabilize it."
+      ],
+      "woundProfile": {
+        "robustness": "supernatural",
+        "notes": "Damage regenerates as long as belief persists. 'Killing' it is temporary unless the source belief is addressed."
+      },
+      "attacks": [
+        {
+          "name": "Manifestation Strike",
+          "range": "varies",
+          "baseDiceBonus": 3,
+          "woundNotes": "Attack form depends on what people believe it should do. May be claws, energy, or psychological assault."
+        }
+      ],
+      "tactics": "Behavior matches the legend or expectations around it. If believed to be a stalker, it stalks. If believed to be a protector, it protects. Unpredictable as belief shifts.",
+      "storyHooks": "An urban legend about a killer in an abandoned hospital has become real. Each retelling makes it stronger. The original story was based on a real murder, but the details have been twisted by years of rumors."
+    },
+    {
+      "name": "Aswang",
+      "category": "hybrid",
+      "threatTier": "standard",
+      "origin": "Filipino shapeshifter that appears human by day but hunts pregnant women and children by night.",
+      "attributes": {
+        "mind": 55,
+        "body": 70,
+        "soul": 50
+      },
+      "competencies": [
+        "deception",
+        "stealth",
+        "tracking"
+      ],
+      "abilities": [
+        {
+          "name": "Segmented Body",
+          "type": "active",
+          "effect": "Can detach upper torso from legs, flying with bat-like wings while lower half remains hidden. Must reunite before dawn or die."
+        },
+        {
+          "name": "Proboscis Tongue",
+          "type": "passive",
+          "effect": "Extends a thread-thin tongue through roofs to drain fetuses or sleeping victims. Nearly invisible and difficult to detect."
+        },
+        {
+          "name": "Perfect Impersonation",
+          "type": "active",
+          "effect": "Can perfectly mimic someone they've killed, taking their place in the community."
+        }
+      ],
+      "weaknesses": [
+        "Reflection shows true monster form in mirrors.",
+        "Salt, garlic, and ginger root repel it.",
+        "Loud noises while in segmented form can disorient it.",
+        "Separated halves must reunite by dawn or both die.",
+        "Ashes or salt on the discarded lower half prevents rejoining."
+      ],
+      "woundProfile": {
+        "robustness": "human",
+        "notes": "While whole, as tough as a strong human. In segmented form, each half is more vulnerable. Destroying either half kills the Aswang."
+      },
+      "attacks": [
+        {
+          "name": "Draining Tongue",
+          "range": "short",
+          "baseDiceBonus": 1,
+          "woundNotes": "Targets sleeping or unaware victims. Difficult to detect until victim begins to weaken. Multiple feedings result in death."
+        },
+        {
+          "name": "Savage Mauling",
+          "range": "melee",
+          "baseDiceBonus": 3,
+          "woundNotes": "If interrupted during feeding or discovered, attacks viciously with claws and fangs to silence witnesses."
+        }
+      ],
+      "tactics": "Integrates into communities by killing and replacing isolated individuals. Feeds carefully to avoid detection. If threatened, attempts to flee in flying form. Only fights when escape is impossible.",
+      "storyHooks": "A Filipino immigrant community is being terrorized. Pregnant women are miscarrying mysteriously, and children are found drained and dead. The new family that moved in three months ago seems too helpful, too interested in everyone's business."
+    },
+    {
+      "name": "Nachzehrer",
+      "category": "undead",
+      "threatTier": "standard",
+      "origin": "German plague vampire that feeds on family members from within its grave, causing them to waste away.",
+      "attributes": {
+        "mind": 40,
+        "body": 55,
+        "soul": 60
+      },
+      "competencies": [
+        "occultSymbols"
+      ],
+      "abilities": [
+        {
+          "name": "Grave Feeding",
+          "type": "active",
+          "effect": "While in its grave, can psychically drain life from living family members, causing them to waste away over weeks. Range: up to one mile."
+        },
+        {
+          "name": "Chewing Curse",
+          "type": "passive",
+          "effect": "Constantly chews on its burial shroud and its own flesh. Each family member it drains eventually rises as a Nachzehrer themselves."
+        },
+        {
+          "name": "Plague Carrier",
+          "type": "passive",
+          "effect": "Anyone bitten or touched by it must roll Body or contract a wasting disease similar to consumption."
+        }
+      ],
+      "weaknesses": [
+        "Cannot leave its grave unless properly exhumed.",
+        "Placing a coin in its mouth and decapitating it ends the curse.",
+        "Scattering garlic and seeds in the grave forces it to count them, preventing feeding.",
+        "Staking it through the grave before it rises prevents awakening."
+      ],
+      "woundProfile": {
+        "robustness": "supernatural",
+        "notes": "More durable than a normal corpse. Blessed weapons or decapitation are most effective. Burns from holy water."
+      },
+      "attacks": [
+        {
+          "name": "Withering Touch",
+          "range": "melee",
+          "baseDiceBonus": 2,
+          "woundNotes": "Physical contact spreads disease and drains vitality. Wounds become infected and heal slowly."
+        },
+        {
+          "name": "Life Drain Ritual",
+          "range": "long",
+          "baseDiceBonus": 1,
+          "woundNotes": "Psychic feeding from grave. Victims don't realize they're under attack until they're severely weakened."
+        }
+      ],
+      "tactics": "Rarely leaves grave. Feeds psychically on family first. If grave is disturbed, rises to defend itself with mindless, plague-ridden aggression. Seeks to spread its curse to create more of its kind.",
+      "storyHooks": "An old cemetery is being relocated for development. One family is suddenly struck by a mysterious wasting illness. Research shows their ancestor died of plague in the 1800s and was buried improperly out of fear."
+    },
+    {
+      "name": "Black-Eyed Child",
+      "category": "demon",
+      "threatTier": "standard",
+      "origin": "Mysterious entities appearing as children with solid black eyes, seeking invitation into homes to claim souls.",
+      "attributes": {
+        "mind": 75,
+        "body": 40,
+        "soul": 80
+      },
+      "competencies": [
+        "persuasion",
+        "deception",
+        "intimidation"
+      ],
+      "abilities": [
+        {
+          "name": "Threshold Law",
+          "type": "passive",
+          "effect": "Cannot enter a dwelling without explicit verbal invitation. Once invited, can come and go freely."
+        },
+        {
+          "name": "Compulsion Aura",
+          "type": "active",
+          "effect": "Exudes unnatural need to comply. Victims must roll Soul at -2 dice or feel overwhelming urge to invite them in."
+        },
+        {
+          "name": "Child's Guise",
+          "type": "passive",
+          "effect": "Appears as lost or frightened children, triggering protective instincts. Disguise is nearly perfect except for the eyes."
+        }
+      ],
+      "weaknesses": [
+        "Cannot cross threshold uninvited.",
+        "Running water barriers (moats, streams) block them.",
+        "Photographing them reveals their true demonic nature in images.",
+        "Holy symbols cause them visible discomfort and fear.",
+        "Destroying their physical form banishes them for years but doesn't kill them."
+      ],
+      "woundProfile": {
+        "robustness": "supernatural",
+        "notes": "Physically weak and avoid direct combat. If attacked, typically vanish and return later. Vulnerable to holy weapons."
+      },
+      "attacks": [
+        {
+          "name": "Soul Siphon",
+          "range": "melee",
+          "baseDiceBonus": 3,
+          "woundNotes": "Once inside, drains soul slowly over hours. Victim becomes lethargic and eventually catatonic as their essence is consumed."
+        },
+        {
+          "name": "Terror Gaze",
+          "range": "short",
+          "baseDiceBonus": 2,
+          "woundNotes": "Direct eye contact forces Soul save or victim is paralyzed with primal fear for 1d3 rounds."
+        }
+      ],
+      "tactics": "Appear at night, knocking on doors or car windows. Use compulsion and human sympathy to gain entry. Once inside, reveal true nature and begin feeding. Work alone or in pairs, never groups larger than three.",
+      "storyHooks": "Multiple reports of strange children asking for help at odd hours. Those who let them in are found days later, alive but unresponsive, staring at nothing. Security footage shows the children's eyes are completely black."
+    }
+  ]
+}

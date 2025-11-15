@@ -7,6 +7,7 @@ const connectDB = require('./config/db');
 const authRoutes = require('./routes/auth');
 const characterRoutes = require('./routes/characters');
 const campaignRoutes = require('./routes/campaigns');
+const referenceDataRoutes = require('./routes/referenceData');
 
 const app = express();
 
@@ -15,7 +16,22 @@ connectDB();
 
 // Middleware
 app.use(cors({
-  origin: process.env.CLIENT_URL || 'http://localhost:5173',
+  origin: function(origin, callback) {
+    // Allow requests with no origin (like mobile apps or curl requests)
+    if (!origin) return callback(null, true);
+    
+    // In development, allow all localhost origins
+    if (process.env.NODE_ENV === 'development' && origin.startsWith('http://localhost:')) {
+      return callback(null, true);
+    }
+    
+    // In production, check against CLIENT_URL
+    if (origin === process.env.CLIENT_URL) {
+      return callback(null, true);
+    }
+    
+    callback(new Error('Not allowed by CORS'));
+  },
   credentials: true
 }));
 app.use(express.json());
@@ -25,6 +41,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use('/api/auth', authRoutes);
 app.use('/api/characters', characterRoutes);
 app.use('/api/campaigns', campaignRoutes);
+app.use('/api/reference', referenceDataRoutes);
 
 // Health check route
 app.get('/api/health', (req, res) => {
@@ -39,7 +56,8 @@ app.get('/', (req, res) => {
     endpoints: {
       auth: '/api/auth',
       characters: '/api/characters',
-      campaigns: '/api/campaigns'
+      campaigns: '/api/campaigns',
+      reference: '/api/reference'
     }
   });
 });

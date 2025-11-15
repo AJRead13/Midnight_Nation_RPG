@@ -1,10 +1,12 @@
-import { useState } from 'react';
-import infoData from '../../../../info.json';
-import boonsData from '../../../../boons.json';
-import talentsData from '../../../../talents.json';
-import itemsData from '../../../../items.json';
-import competenciesData from '../../../../competencies.json';
-import bloodlinesData from '../../../../bloodlines.json';
+import { useState, useEffect } from 'react';
+import infoData from '../../../../data/info.json';
+import boonsData from '../../../../data/boons.json';
+import talentsData from '../../../../data/talents.json';
+import itemsData from '../../../../data/items.json';
+import competenciesData from '../../../../data/competencies.json';
+import bloodlinesData from '../../../../data/bloodlines.json';
+import classesData from '../../../../data/classes.json';
+import backgroundsData from '../../../../data/backgrounds.json';
 
 function CharacterSheet() {
   const [character, setCharacter] = useState({
@@ -61,6 +63,51 @@ function CharacterSheet() {
         }
       }
     }));
+  };
+
+  const handleBackgroundClick = () => {
+    setTempBackgroundSelection(character.background);
+    setShowBackgroundModal(true);
+  };
+
+  const confirmBackgroundSelection = () => {
+    const backgroundName = tempBackgroundSelection;
+    
+    // Get competencies for this background
+    const bgData = backgroundsData.backgrounds[backgroundName];
+    const newCompetencies = [];
+
+    if (bgData && bgData.startingCompetencies) {
+      bgData.startingCompetencies.forEach(compKey => {
+        // Search through all categories to find the competency
+        Object.entries(competenciesData.competencies).forEach(([category, comps]) => {
+          if (comps[compKey]) {
+            newCompetencies.push({
+              name: compKey,
+              description: comps[compKey].description,
+              effect: comps[compKey].effect,
+              category: category
+            });
+          }
+        });
+      });
+    }
+
+    setCharacter(prev => ({
+      ...prev,
+      background: backgroundName,
+      competencies: newCompetencies
+    }));
+    setShowBackgroundModal(false);
+  };
+
+  const getAvailableBackgroundAbilities = () => {
+    if (!character.background) return [];
+    
+    const bgData = backgroundsData.backgrounds[character.background];
+    if (!bgData || !bgData.progression) return [];
+    
+    return bgData.progression.filter(ability => ability.level <= character.level);
   };
 
   const handleBackgroundChange = (backgroundName) => {
@@ -144,6 +191,28 @@ function CharacterSheet() {
     setShowBloodlineModal(false);
   };
 
+  const handleClassClick = () => {
+    setTempClassSelection(character.class);
+    setShowClassModal(true);
+  };
+
+  const confirmClassSelection = () => {
+    setCharacter(prev => ({
+      ...prev,
+      class: tempClassSelection
+    }));
+    setShowClassModal(false);
+  };
+
+  const getAvailableClassAbilities = () => {
+    if (!character.class) return [];
+    
+    const classData = classesData.classes[character.class];
+    if (!classData) return [];
+    
+    return classData.progression.filter(ability => ability.level <= character.level);
+  };
+
   const getAvailableBloodlineAbilities = () => {
     if (!character.bloodline || !character.bloodlineBranch) return [];
     
@@ -210,6 +279,14 @@ function CharacterSheet() {
   const [activeCompetency, setActiveCompetency] = useState(null);
   const [showBloodlineModal, setShowBloodlineModal] = useState(false);
   const [tempBloodlineSelection, setTempBloodlineSelection] = useState({ bloodline: '', branch: '' });
+  const [showClassModal, setShowClassModal] = useState(false);
+  const [tempClassSelection, setTempClassSelection] = useState('');
+  const [showBackgroundModal, setShowBackgroundModal] = useState(false);
+  const [tempBackgroundSelection, setTempBackgroundSelection] = useState('');
+  const [savedCharacters, setSavedCharacters] = useState([]);
+  const [showLoadModal, setShowLoadModal] = useState(false);
+  const [currentCharacterId, setCurrentCharacterId] = useState(null);
+  const [saveMessage, setSaveMessage] = useState('');
 
   const getAllTalents = () => {
     const allTalents = [];
@@ -338,7 +415,86 @@ function CharacterSheet() {
     }));
   };
 
-  const saveCharacter = () => {
+  // Fetch user's saved characters
+  const fetchUserCharacters = async () => {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      setSavedCharacters([]);
+      return;
+    }
+
+    try {
+      const response = await fetch('http://localhost:3001/api/characters', {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        setSavedCharacters(Array.isArray(data.characters) ? data.characters : []);
+      } else {
+        setSavedCharacters([]);
+      }
+    } catch (error) {
+      console.error('Error fetching characters:', error);
+      setSavedCharacters([]);
+    }
+  };
+
+  useEffect(() => {
+    fetchUserCharacters();
+  }, []);
+
+  const saveCharacter = async () => {
+    const token = localStorage.getItem('token');
+    
+    if (!token) {
+      setSaveMessage('Please sign in to save characters');
+      setTimeout(() => setSaveMessage(''), 3000);
+      return;
+    }
+
+    if (!character.name) {
+      setSaveMessage('Please enter a character name');
+      setTimeout(() => setSaveMessage(''), 3000);
+      return;
+    }
+
+    try {
+      const method = currentCharacterId ? 'PUT' : 'POST';
+      const url = currentCharacterId 
+        ? `http://localhost:3001/api/characters/${currentCharacterId}`
+        : 'http://localhost:3001/api/characters';
+
+      const response = await fetch(url, {
+        method,
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify(character)
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        const savedChar = data.character || data;
+        setCurrentCharacterId(savedChar._id);
+        setSaveMessage('Character saved successfully!');
+        fetchUserCharacters();
+      } else {
+        const error = await response.json();
+        setSaveMessage(error.message || 'Failed to save character');
+      }
+    } catch (error) {
+      setSaveMessage('Error saving character');
+      console.error('Save error:', error);
+    }
+
+    setTimeout(() => setSaveMessage(''), 3000);
+  };
+
+  const saveCharacterToFile = () => {
     const json = JSON.stringify(character, null, 2);
     const blob = new Blob([json], { type: 'application/json' });
     const url = URL.createObjectURL(blob);
@@ -349,7 +505,7 @@ function CharacterSheet() {
     URL.revokeObjectURL(url);
   };
 
-  const loadCharacter = (event) => {
+  const loadCharacterFromFile = (event) => {
     const file = event.target.files[0];
     if (file) {
       const reader = new FileReader();
@@ -357,6 +513,7 @@ function CharacterSheet() {
         try {
           const loadedCharacter = JSON.parse(e.target.result);
           setCharacter(loadedCharacter);
+          setCurrentCharacterId(null);
         } catch (error) {
           alert('Error loading character file');
         }
@@ -365,14 +522,122 @@ function CharacterSheet() {
     }
   };
 
+  const loadCharacterFromDatabase = async (characterId) => {
+    const token = localStorage.getItem('token');
+    if (!token) return;
+
+    try {
+      const response = await fetch(`http://localhost:3001/api/characters/${characterId}`, {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        const loadedChar = data.character || data;
+        setCharacter(loadedChar);
+        setCurrentCharacterId(loadedChar._id);
+        setShowLoadModal(false);
+      }
+    } catch (error) {
+      console.error('Error loading character:', error);
+    }
+  };
+
+  const deleteCharacter = async (characterId) => {
+    const token = localStorage.getItem('token');
+    if (!token || !confirm('Are you sure you want to delete this character?')) return;
+
+    try {
+      const response = await fetch(`http://localhost:3001/api/characters/${characterId}`, {
+        method: 'DELETE',
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+
+      if (response.ok) {
+        fetchUserCharacters();
+        if (currentCharacterId === characterId) {
+          setCharacter({
+            name: '',
+            background: '',
+            bloodline: '',
+            bloodlineBranch: '',
+            class: '',
+            level: 1,
+            attributes: { Mind: 40, Body: 40, Soul: 40 },
+            fatePool: 1,
+            wounds: {
+              head: { direct: false, devastating: false, critical: false },
+              torso: { direct: false, devastating: false, critical: false },
+              leftArm: { direct: false, devastating: false, critical: false },
+              rightArm: { direct: false, devastating: false, critical: false },
+              leftLeg: { direct: false, devastating: false, critical: false },
+              rightLeg: { direct: false, devastating: false, critical: false }
+            },
+            competencies: [],
+            talents: [],
+            boons: [],
+            equipment: [],
+            notes: ''
+          });
+          setCurrentCharacterId(null);
+        }
+      }
+    } catch (error) {
+      console.error('Error deleting character:', error);
+    }
+  };
+
+  const createNewCharacter = () => {
+    setCharacter({
+      name: '',
+      background: '',
+      bloodline: '',
+      bloodlineBranch: '',
+      class: '',
+      level: 1,
+      attributes: { Mind: 40, Body: 40, Soul: 40 },
+      fatePool: 1,
+      wounds: {
+        head: { direct: false, devastating: false, critical: false },
+        torso: { direct: false, devastating: false, critical: false },
+        leftArm: { direct: false, devastating: false, critical: false },
+        rightArm: { direct: false, devastating: false, critical: false },
+        leftLeg: { direct: false, devastating: false, critical: false },
+        rightLeg: { direct: false, devastating: false, critical: false }
+      },
+      competencies: [],
+      talents: [],
+      boons: [],
+      equipment: [],
+      notes: ''
+    });
+    setCurrentCharacterId(null);
+  };
+
   return (
     <div className="character-sheet-container">
       <div className="sheet-controls">
-        <button onClick={saveCharacter} className="btn-primary">Save Character</button>
-        <label className="btn-secondary">
+        <button onClick={saveCharacter} className="btn-primary">
+          {currentCharacterId ? 'Update Character' : 'Save Character'}
+        </button>
+        <button onClick={() => setShowLoadModal(true)} className="btn-secondary">
           Load Character
-          <input type="file" accept=".json" onChange={loadCharacter} style={{ display: 'none' }} />
+        </button>
+        <button onClick={createNewCharacter} className="btn-secondary">
+          New Character
+        </button>
+        <button onClick={saveCharacterToFile} className="btn-secondary">
+          Export to File
+        </button>
+        <label className="btn-secondary">
+          Import from File
+          <input type="file" accept=".json" onChange={loadCharacterFromFile} style={{ display: 'none' }} />
         </label>
+        {saveMessage && <span className="save-message">{saveMessage}</span>}
       </div>
 
       <section className="sheet-section">
@@ -392,15 +657,13 @@ function CharacterSheet() {
         <div className="form-grid">
           <div className="form-group">
             <label>Background</label>
-            <select
-              value={character.background}
-              onChange={(e) => handleBackgroundChange(e.target.value)}
+            <button 
+              onClick={handleBackgroundClick} 
+              className="bloodline-select-btn"
+              type="button"
             >
-              <option value="">Select Background</option>
-              {infoData.backgrounds.core_10_backgrounds.map((bg, idx) => (
-                <option key={idx} value={bg.name}>{bg.name}</option>
-              ))}
-            </select>
+              {character.background ? character.background : 'Select Background'}
+            </button>
           </div>
 
           <div className="form-group">
@@ -418,15 +681,13 @@ function CharacterSheet() {
 
           <div className="form-group">
             <label>Class</label>
-            <select
-              value={character.class}
-              onChange={(e) => setCharacter({ ...character, class: e.target.value })}
+            <button 
+              onClick={handleClassClick} 
+              className="bloodline-select-btn"
+              type="button"
             >
-              <option value="">Select Class</option>
-              {infoData.classes.list.map((cls, idx) => (
-                <option key={idx} value={cls.name}>{cls.name} ({cls.die})</option>
-              ))}
-            </select>
+              {character.class ? character.class : 'Select Class'}
+            </button>
           </div>
 
           <div className="form-group">
@@ -496,6 +757,129 @@ function CharacterSheet() {
                 ))
               }
             </div>
+          )}
+        </section>
+      )}
+
+      {character.background && (
+        <section className="sheet-section background-section">
+          <h3>Background: {character.background}</h3>
+          
+          {backgroundsData.backgrounds[character.background] && (
+            <>
+              <div className="background-info">
+                <p className="background-description">{backgroundsData.backgrounds[character.background].shortDescription}</p>
+                {backgroundsData.backgrounds[character.background].startingPerk && (
+                  <div className="background-perk">
+                    <h4>Starting Perk: {backgroundsData.backgrounds[character.background].startingPerk.name}</h4>
+                    <p>{backgroundsData.backgrounds[character.background].startingPerk.effect}</p>
+                  </div>
+                )}
+              </div>
+
+              {getAvailableBackgroundAbilities().length > 0 && (
+                <div className="background-abilities">
+                  <h4>Available Abilities (Level {character.level})</h4>
+                  {getAvailableBackgroundAbilities().map((ability, idx) => (
+                    <div key={idx} className="background-ability unlocked">
+                      <div className="ability-header">
+                        <span className="ability-name">
+                          {ability.name || ability.description || `Level ${ability.level} Progression`}
+                        </span>
+                        <span className="ability-type">{ability.type}</span>
+                        <span className="ability-level">Level {ability.level}</span>
+                      </div>
+                      <p className="ability-effect">
+                        {ability.effect || ability.description}
+                        {ability.choices && ` (Choices: ${ability.choices.join(', ')})`}
+                        {ability.talent && ` - Gain ${ability.talent.talent}: ${ability.talent.subTalent} (Rank ${ability.talent.rank})`}
+                      </p>
+                    </div>
+                  ))}
+                </div>
+              )}
+
+              {backgroundsData.backgrounds[character.background].progression &&
+                backgroundsData.backgrounds[character.background].progression
+                  .filter(ability => ability.level > character.level)
+                  .length > 0 && (
+                <div className="background-future">
+                  <h4>Future Abilities</h4>
+                  {backgroundsData.backgrounds[character.background].progression
+                    .filter(ability => ability.level > character.level)
+                    .map((ability, idx) => (
+                      <div key={idx} className="background-ability locked">
+                        <div className="ability-header">
+                          <span className="ability-name">
+                            {ability.name || ability.description || `Level ${ability.level} Progression`}
+                          </span>
+                          <span className="ability-type">{ability.type}</span>
+                          <span className="ability-level">Level {ability.level}</span>
+                        </div>
+                        <p className="ability-effect">
+                          {ability.effect || ability.description}
+                          {ability.choices && ` (Choices: ${ability.choices.join(', ')})`}
+                          {ability.talent && ` - Gain ${ability.talent.talent}: ${ability.talent.subTalent} (Rank ${ability.talent.rank})`}
+                        </p>
+                      </div>
+                    ))
+                  }
+                </div>
+              )}
+            </>
+          )}
+        </section>
+      )}
+
+      {character.class && (
+        <section className="sheet-section class-section">
+          <h3>Class: {character.class}</h3>
+          
+          {classesData.classes[character.class] && (
+            <>
+              <div className="class-info">
+                <p><strong>Wound Die:</strong> {classesData.classes[character.class].woundDie}</p>
+                <p><strong>Combat Role:</strong> {classesData.classes[character.class].combatRole}</p>
+                {classesData.classes[character.class].supernaturalRole && (
+                  <p><strong>Supernatural Role:</strong> {classesData.classes[character.class].supernaturalRole}</p>
+                )}
+              </div>
+
+              <div className="class-abilities">
+                <h4>Available Abilities (Level {character.level})</h4>
+                {getAvailableClassAbilities().map((ability, idx) => (
+                  <div key={idx} className="class-ability unlocked">
+                    <div className="ability-header">
+                      <span className="ability-name">{ability.name}</span>
+                      <span className="ability-type">{ability.type}</span>
+                      <span className="ability-level">Level {ability.level}</span>
+                    </div>
+                    <p className="ability-effect">{ability.effect}</p>
+                  </div>
+                ))}
+              </div>
+
+              {classesData.classes[character.class].progression
+                .filter(ability => ability.level > character.level)
+                .length > 0 && (
+                <div className="class-future">
+                  <h4>Future Abilities</h4>
+                  {classesData.classes[character.class].progression
+                    .filter(ability => ability.level > character.level)
+                    .map((ability, idx) => (
+                      <div key={idx} className="class-ability locked">
+                        <div className="ability-header">
+                          <span className="ability-name">{ability.name}</span>
+                          <span className="ability-type">{ability.type}</span>
+                          <span className="ability-level">Level {ability.level}</span>
+                        </div>
+                        <p className="ability-effect">{ability.effect}</p>
+                      </div>
+                    ))
+                  }
+                </div>
+              )}
+            </>
           )}
         </section>
       )}
@@ -897,6 +1281,192 @@ function CharacterSheet() {
             >
               Confirm Selection
             </button>
+          </div>
+        </div>
+      )}
+
+      {/* Class Selection Modal */}
+      {showClassModal && (
+        <div className="modal-overlay" onClick={() => setShowClassModal(false)}>
+          <div className="modal-content class-modal" onClick={(e) => e.stopPropagation()}>
+            <button className="modal-close" onClick={() => setShowClassModal(false)}>×</button>
+            <h3>Select Class</h3>
+            
+            <div className="equipment-modal-selector">
+              <label>Class:</label>
+              <select 
+                value={tempClassSelection} 
+                onChange={(e) => setTempClassSelection(e.target.value)}
+                className="class-select"
+              >
+                <option value="">Select class...</option>
+                {Object.keys(classesData.classes).map((className, idx) => (
+                  <option key={idx} value={className}>{className}</option>
+                ))}
+              </select>
+            </div>
+
+            {tempClassSelection && classesData.classes[tempClassSelection] && (
+              <div className="class-modal-details">
+                <div className="class-description">
+                  <h4>Description</h4>
+                  <p>{classesData.classes[tempClassSelection].description}</p>
+                  
+                  <div className="class-stats">
+                    <p><strong>Wound Die:</strong> {classesData.classes[tempClassSelection].woundDie}</p>
+                    <p><strong>Combat Role:</strong> {classesData.classes[tempClassSelection].combatRole}</p>
+                    {classesData.classes[tempClassSelection].supernaturalRole && (
+                      <p><strong>Supernatural Role:</strong> {classesData.classes[tempClassSelection].supernaturalRole}</p>
+                    )}
+                    <p><strong>Primary Attributes:</strong> {classesData.classes[tempClassSelection].primaryAttributes.join(', ')}</p>
+                    <p><strong>Secondary Attributes:</strong> {classesData.classes[tempClassSelection].secondaryAttributes.join(', ')}</p>
+                    <p><strong>Signature Weapons:</strong> {classesData.classes[tempClassSelection].signatureWeapons.join(', ')}</p>
+                  </div>
+                </div>
+
+                <div className="class-progression-preview">
+                  <h4>Class Progression</h4>
+                  {classesData.classes[tempClassSelection].progression.map((ability, idx) => (
+                    <div key={idx} className="progression-ability-preview">
+                      <strong>Level {ability.level}: {ability.name}</strong> ({ability.type})
+                      <p>{ability.effect}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            <button 
+              onClick={confirmClassSelection} 
+              className="btn-primary"
+              disabled={!tempClassSelection}
+              style={{ marginTop: '1rem', opacity: tempClassSelection ? 1 : 0.5 }}
+            >
+              Confirm Selection
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* Background Selection Modal */}
+      {showBackgroundModal && (
+        <div className="modal-overlay" onClick={() => setShowBackgroundModal(false)}>
+          <div className="modal-content background-modal" onClick={(e) => e.stopPropagation()}>
+            <button className="modal-close" onClick={() => setShowBackgroundModal(false)}>×</button>
+            <h3>Select Background</h3>
+            
+            <div className="equipment-modal-selector">
+              <label>Background:</label>
+              <select 
+                value={tempBackgroundSelection} 
+                onChange={(e) => setTempBackgroundSelection(e.target.value)}
+                className="background-select"
+              >
+                <option value="">Select background...</option>
+                {Object.keys(backgroundsData.backgrounds).map((bgName, idx) => (
+                  <option key={idx} value={bgName}>{bgName}</option>
+                ))}
+              </select>
+            </div>
+
+            {tempBackgroundSelection && backgroundsData.backgrounds[tempBackgroundSelection] && (
+              <div className="background-modal-details">
+                <div className="background-description">
+                  <h4>Description</h4>
+                  <p>{backgroundsData.backgrounds[tempBackgroundSelection].shortDescription}</p>
+                  
+                  <div className="background-stats">
+                    <p><strong>Starting Competencies:</strong> {backgroundsData.backgrounds[tempBackgroundSelection].startingCompetencies.join(', ')}</p>
+                    
+                    {backgroundsData.backgrounds[tempBackgroundSelection].startingTalents && (
+                      <div className="starting-talents">
+                        <p><strong>Starting Talents:</strong></p>
+                        {backgroundsData.backgrounds[tempBackgroundSelection].startingTalents.map((talent, idx) => (
+                          <p key={idx}>• {talent.talent}: {talent.subTalent} (Rank {talent.rank})</p>
+                        ))}
+                      </div>
+                    )}
+
+                    {backgroundsData.backgrounds[tempBackgroundSelection].startingPerk && (
+                      <div className="starting-perk">
+                        <p><strong>{backgroundsData.backgrounds[tempBackgroundSelection].startingPerk.name}:</strong></p>
+                        <p>{backgroundsData.backgrounds[tempBackgroundSelection].startingPerk.effect}</p>
+                      </div>
+                    )}
+                  </div>
+                </div>
+
+                {backgroundsData.backgrounds[tempBackgroundSelection].progression && (
+                  <div className="background-progression-preview">
+                    <h4>Background Progression</h4>
+                    {backgroundsData.backgrounds[tempBackgroundSelection].progression.map((ability, idx) => (
+                      <div key={idx} className="progression-ability-preview">
+                        <strong>Level {ability.level}: {ability.name || ability.description}</strong> ({ability.type})
+                        <p>
+                          {ability.effect || ability.description}
+                          {ability.choices && ` (Choices: ${ability.choices.join(', ')})`}
+                          {ability.talent && ` - ${ability.talent.talent}: ${ability.talent.subTalent} (Rank ${ability.talent.rank})`}
+                        </p>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            )}
+
+            <button 
+              onClick={confirmBackgroundSelection} 
+              className="btn-primary"
+              disabled={!tempBackgroundSelection}
+              style={{ marginTop: '1rem', opacity: tempBackgroundSelection ? 1 : 0.5 }}
+            >
+              Confirm Selection
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* Load Character Modal */}
+      {showLoadModal && (
+        <div className="modal-overlay" onClick={() => setShowLoadModal(false)}>
+          <div className="modal-content load-character-modal" onClick={(e) => e.stopPropagation()}>
+            <button className="modal-close" onClick={() => setShowLoadModal(false)}>×</button>
+            <h3>Load Character</h3>
+            
+            {savedCharacters.length === 0 ? (
+              <p className="no-characters">You don't have any saved characters yet.</p>
+            ) : (
+              <div className="saved-characters-list">
+                {savedCharacters.map((char) => (
+                  <div key={char._id} className="saved-character-item">
+                    <div className="character-info">
+                      <h4>{char.name}</h4>
+                      <p>
+                        Level {char.level} {char.class && `${char.class}`}
+                        {char.background && ` - ${char.background}`}
+                      </p>
+                      <p className="character-date">
+                        Last updated: {new Date(char.updatedAt).toLocaleDateString()}
+                      </p>
+                    </div>
+                    <div className="character-actions">
+                      <button 
+                        onClick={() => loadCharacterFromDatabase(char._id)}
+                        className="btn-primary btn-small"
+                      >
+                        Load
+                      </button>
+                      <button 
+                        onClick={() => deleteCharacter(char._id)}
+                        className="btn-danger btn-small"
+                      >
+                        Delete
+                      </button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
         </div>
       )}

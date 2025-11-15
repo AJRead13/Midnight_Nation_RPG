@@ -1,4 +1,4 @@
-import infoData from '../../../../info.json';
+import infoData from '../../../../data/info.json';
 
 function About() {
   return (
