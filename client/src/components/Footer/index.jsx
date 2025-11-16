@@ -10,10 +10,18 @@ function Footer() {
       name: "fab fa-linkedin",
       link: "https://www.linkedin.com/in/andrewjread"
     },
-    // {
-    //   name: "fab fa-stack-overflow",
-    //   link: "https://stackoverflow.com/"
-    // }
+    {
+      name: "fab fa-instagram",
+      link: "https://www.instagram.com/"
+    },
+    {
+      name: "fab fa-x-twitter",
+      link: "https://twitter.com/"
+    },
+    {
+      name: "fab fa-patreon",
+      link: "https://www.patreon.com/"
+    }
   ]
 
   return (

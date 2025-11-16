@@ -1,4 +1,4 @@
-import coverImage from '../../assets/cover/tech-cover2.jpg';
+import coverImage from '../../assets/cover/midnight_nation_cover.png';
 
 function Header(props) {
 
