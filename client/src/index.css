@@ -2014,6 +2014,46 @@ textarea {
   }
 }
 
+/* Floating Dice Button */
+.floating-dice-btn {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border: none;
+  color: white;
+  font-size: 2rem;
+  cursor: pointer;
+  box-shadow: 0 8px 24px rgba(102, 126, 234, 0.5);
+  transition: all 0.3s ease;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.floating-dice-btn:hover {
+  transform: translateY(-4px) rotate(15deg);
+  box-shadow: 0 12px 32px rgba(102, 126, 234, 0.6);
+}
+
+.floating-dice-btn:active {
+  transform: translateY(-2px) rotate(15deg);
+}
+
+@media (max-width: 768px) {
+  .floating-dice-btn {
+    bottom: 1rem;
+    right: 1rem;
+    width: 56px;
+    height: 56px;
+    font-size: 1.75rem;
+  }
+}
+
 .btn-primary, .btn-secondary, .btn-add {
   padding: 0.75rem 1.5rem;
   border: none;

@@ -53,6 +53,8 @@ const router = createBrowserRouter([
         path: 'campaign/:id',
         element: <CampaignDetail />,
       },
+      {
+        path: 'items',
         element: <Items />,
       },
       {
@@ -66,10 +68,6 @@ const router = createBrowserRouter([
       {
         path: 'resume',
         element: <Resume />,
-      },
-      {
-        path: 'campaign/:id',
-        element: <CampaignDetail />,
       },
     ],
   },
