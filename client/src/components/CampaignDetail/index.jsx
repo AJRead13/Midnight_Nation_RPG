@@ -461,30 +461,60 @@ function CampaignDetail() {
           {/* Sessions Section */}
           <div className="sessions-section">
             <div className="section-title">
-              <h3>Sessions ({campaign.sessions?.length || 0})</h3>
+              <h3>Campaign Journal ({campaign.sessions?.length || 0} Sessions)</h3>
+              {isGM && (
+                <button 
+                  className="btn-add-small"
+                  onClick={() => {
+                    setSelectedSession(null);
+                    setSessionForm({
+                      title: '',
+                      date: new Date().toISOString().split('T')[0],
+                      duration: 180,
+                      summary: '',
+                      notes: '',
+                      highlights: []
+                    });
+                    setShowAddSessionModal(true);
+                  }}
+                  title="Add new session"
+                >
+                  + New Session
+                </button>
+              )}
             </div>
             
             {campaign.sessions?.length === 0 ? (
-              <p className="no-content">No sessions scheduled yet.</p>
+              <p className="no-content">No sessions recorded yet. {isGM && 'Add your first session to start the campaign journal!'}</p>
             ) : (
               <div className="sessions-list">
-                {[...campaign.sessions].reverse().map((session, index) => (
-                  <div key={index} className="session-card-detail">
+                {[...campaign.sessions].reverse().map((session) => (
+                  <div 
+                    key={session._id} 
+                    className="session-card-detail"
+                    onClick={() => handleViewSession(session)}
+                  >
                     <div className="session-header">
+                      <div className="session-title-row">
+                        <span className="session-number">#{session.sessionNumber || '?'}</span>
+                        <span className="session-title">{session.title || `Session ${session.sessionNumber}`}</span>
+                      </div>
                       <span className="session-date">
                         {formatDate(session.date)}
                       </span>
-                      {session.duration && (
-                        <span className="session-duration">
-                          {session.duration} min
-                        </span>
-                      )}
                     </div>
-                    {session.summary && (
-                      <p className="session-summary">{session.summary}</p>
+                    {session.duration && (
+                      <span className="session-duration">
+                        ⏱️ {session.duration} minutes
+                      </span>
                     )}
-                    {session.notes && (
-                      <p className="session-notes">{session.notes}</p>
+                    {session.summary && (
+                      <p className="session-summary">{session.summary.substring(0, 100)}{session.summary.length > 100 ? '...' : ''}</p>
+                    )}
+                    {session.highlights && session.highlights.length > 0 && (
+                      <div className="session-highlights-preview">
+                        <span className="highlights-label">✨ {session.highlights.length} highlight{session.highlights.length > 1 ? 's' : ''}</span>
+                      </div>
                     )}
                   </div>
                 ))}
@@ -560,58 +590,211 @@ function CampaignDetail() {
         </div>
       )}
 
-      {/* Add Session Modal */}
+      {/* Add/Edit Session Modal */}
       {showAddSessionModal && (
-        <div className="modal-overlay" onClick={() => setShowAddSessionModal(false)}>
-          <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-            <h3>Add Session</h3>
-            <form onSubmit={handleAddSession}>
+        <div className="modal-overlay" onClick={() => {
+          setShowAddSessionModal(false);
+          setSelectedSession(null);
+        }}>
+          <div className="modal-content session-modal" onClick={(e) => e.stopPropagation()}>
+            <h3>{selectedSession ? 'Edit Session' : 'Add New Session'}</h3>
+            <form onSubmit={selectedSession ? handleUpdateSession : handleAddSession}>
               <div className="form-group">
-                <label>Session Date & Time</label>
+                <label>Session Title</label>
                 <input
-                  type="datetime-local"
-                  value={sessionForm.date}
-                  onChange={(e) => setSessionForm({ ...sessionForm, date: e.target.value })}
+                  type="text"
+                  value={sessionForm.title}
+                  onChange={(e) => setSessionForm({ ...sessionForm, title: e.target.value })}
+                  placeholder="e.g., The Beginning, The Final Battle"
                   required
                 />
               </div>
-              <div className="form-group">
-                <label>Duration (minutes)</label>
-                <input
-                  type="number"
-                  value={sessionForm.duration}
-                  onChange={(e) => setSessionForm({ ...sessionForm, duration: parseInt(e.target.value) })}
-                  min="30"
-                  step="30"
-                />
+              <div className="form-row">
+                <div className="form-group">
+                  <label>Session Date</label>
+                  <input
+                    type="date"
+                    value={sessionForm.date}
+                    onChange={(e) => setSessionForm({ ...sessionForm, date: e.target.value })}
+                    required
+                  />
+                </div>
+                <div className="form-group">
+                  <label>Duration (minutes)</label>
+                  <input
+                    type="number"
+                    value={sessionForm.duration}
+                    onChange={(e) => setSessionForm({ ...sessionForm, duration: parseInt(e.target.value) || 0 })}
+                    min="0"
+                    step="30"
+                    placeholder="180"
+                  />
+                </div>
               </div>
               <div className="form-group">
                 <label>Summary</label>
-                <input
-                  type="text"
+                <textarea
                   value={sessionForm.summary}
                   onChange={(e) => setSessionForm({ ...sessionForm, summary: e.target.value })}
-                  placeholder="What's planned for this session?"
+                  rows="3"
+                  maxLength="2000"
+                  placeholder="Brief overview of what happened..."
                 />
+                <span className="char-count">{sessionForm.summary.length}/2000</span>
               </div>
               <div className="form-group">
-                <label>Notes</label>
+                <label>Detailed Notes</label>
                 <textarea
                   value={sessionForm.notes}
                   onChange={(e) => setSessionForm({ ...sessionForm, notes: e.target.value })}
-                  rows="3"
-                  placeholder="Additional notes..."
+                  rows="6"
+                  maxLength="5000"
+                  placeholder="Detailed session notes, NPC interactions, plot developments..."
                 />
+                <span className="char-count">{sessionForm.notes.length}/5000</span>
+              </div>
+              <div className="form-group">
+                <div className="highlights-header">
+                  <label>Session Highlights</label>
+                  <button 
+                    type="button" 
+                    className="btn-add-highlight"
+                    onClick={addHighlight}
+                  >
+                    + Add Highlight
+                  </button>
+                </div>
+                {sessionForm.highlights.length === 0 ? (
+                  <p className="no-highlights">No highlights added yet.</p>
+                ) : (
+                  <div className="highlights-list">
+                    {sessionForm.highlights.map((highlight, index) => (
+                      <div key={index} className="highlight-item">
+                        <input
+                          type="text"
+                          value={highlight}
+                          onChange={(e) => updateHighlight(index, e.target.value)}
+                          placeholder="Key moment or achievement..."
+                        />
+                        <button
+                          type="button"
+                          className="btn-remove-highlight"
+                          onClick={() => removeHighlight(index)}
+                          title="Remove highlight"
+                        >
+                          ×
+                        </button>
+                      </div>
+                    ))}
+                  </div>
+                )}
               </div>
               <div className="modal-actions">
-                <button type="button" className="btn-cancel" onClick={() => setShowAddSessionModal(false)} disabled={isAddingSession}>
+                <button 
+                  type="button" 
+                  className="btn-cancel" 
+                  onClick={() => {
+                    setShowAddSessionModal(false);
+                    setSelectedSession(null);
+                  }} 
+                  disabled={isAddingSession}
+                >
                   Cancel
                 </button>
                 <button type="submit" className="btn-confirm" disabled={isAddingSession}>
-                  {isAddingSession ? 'Adding...' : 'Add Session'}
+                  {isAddingSession ? 'Saving...' : (selectedSession ? 'Update Session' : 'Add Session')}
                 </button>
               </div>
             </form>
+          </div>
+        </div>
+      )}
+
+      {/* Session Detail Modal */}
+      {showSessionDetailModal && selectedSession && (
+        <div className="modal-overlay" onClick={() => {
+          setShowSessionDetailModal(false);
+          setSelectedSession(null);
+        }}>
+          <div className="modal-content session-detail-modal" onClick={(e) => e.stopPropagation()}>
+            <div className="session-detail-header">
+              <div>
+                <span className="session-number-large">Session #{selectedSession.sessionNumber || '?'}</span>
+                <h3>{selectedSession.title || `Session ${selectedSession.sessionNumber}`}</h3>
+              </div>
+              {isGM && (
+                <div className="session-actions">
+                  <button 
+                    className="btn-edit-session"
+                    onClick={handleEditSession}
+                    title="Edit session"
+                  >
+                    ✏️ Edit
+                  </button>
+                  <button 
+                    className="btn-delete-session"
+                    onClick={() => handleDeleteSession(selectedSession._id)}
+                    disabled={isDeletingSession === selectedSession._id}
+                    title="Delete session"
+                  >
+                    {isDeletingSession === selectedSession._id ? '...' : '🗑️ Delete'}
+                  </button>
+                </div>
+              )}
+            </div>
+            
+            <div className="session-detail-meta">
+              <span className="meta-item">
+                📅 {formatDate(selectedSession.date)}
+              </span>
+              {selectedSession.duration && (
+                <span className="meta-item">
+                  ⏱️ {selectedSession.duration} minutes
+                </span>
+              )}
+              {selectedSession.createdAt && (
+                <span className="meta-item meta-secondary">
+                  Added {new Date(selectedSession.createdAt).toLocaleDateString()}
+                </span>
+              )}
+            </div>
+
+            {selectedSession.summary && (
+              <div className="session-detail-section">
+                <h4>Summary</h4>
+                <p className="session-detail-text">{selectedSession.summary}</p>
+              </div>
+            )}
+
+            {selectedSession.highlights && selectedSession.highlights.length > 0 && (
+              <div className="session-detail-section">
+                <h4>Session Highlights</h4>
+                <ul className="highlights-display">
+                  {selectedSession.highlights.map((highlight, index) => (
+                    <li key={index}>✨ {highlight}</li>
+                  ))}
+                </ul>
+              </div>
+            )}
+
+            {selectedSession.notes && (
+              <div className="session-detail-section">
+                <h4>Detailed Notes</h4>
+                <p className="session-detail-text notes-text">{selectedSession.notes}</p>
+              </div>
+            )}
+
+            <div className="modal-actions">
+              <button 
+                className="btn-confirm" 
+                onClick={() => {
+                  setShowSessionDetailModal(false);
+                  setSelectedSession(null);
+                }}
+              >
+                Close
+              </button>
+            </div>
           </div>
         </div>
       )}

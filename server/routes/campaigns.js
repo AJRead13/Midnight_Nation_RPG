@@ -523,7 +523,7 @@ router.post('/:id/regenerate-code', authMiddleware, async (req, res) => {
 // Add a session to a campaign
 router.post(
   '/:id/sessions',
-  auth,
+  authMiddleware,
   async (req, res) => {
     try {
       const campaign = await Campaign.findById(req.params.id);
@@ -567,7 +567,7 @@ router.post(
 // Update a session
 router.put(
   '/:id/sessions/:sessionId',
-  auth,
+  authMiddleware,
   async (req, res) => {
     try {
       const campaign = await Campaign.findById(req.params.id);
@@ -612,7 +612,7 @@ router.put(
 // Delete a session
 router.delete(
   '/:id/sessions/:sessionId',
-  auth,
+  authMiddleware,
   async (req, res) => {
     try {
       const campaign = await Campaign.findById(req.params.id);
