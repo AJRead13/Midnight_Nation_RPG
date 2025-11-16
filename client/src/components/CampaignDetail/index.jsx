@@ -1,6 +1,15 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { fetchCampaignById, updateCampaign, leaveCampaign, addSession, removePlayer } from '../../utils/campaignService';
+import { 
+  fetchCampaignById, 
+  updateCampaign, 
+  leaveCampaign, 
+  addSession, 
+  removePlayer,
+  addCampaignSession,
+  updateCampaignSession,
+  deleteCampaignSession
+} from '../../utils/campaignService';
 import { fetchCharacters } from '../../utils/characterService';
 import DiceFeed from '../DiceFeed';
 import InitiativeTracker from '../InitiativeTracker';
@@ -16,12 +25,15 @@ function CampaignDetail() {
   const [userCharacters, setUserCharacters] = useState([]);
   const [showEditModal, setShowEditModal] = useState(false);
   const [showAddSessionModal, setShowAddSessionModal] = useState(false);
+  const [showSessionDetailModal, setShowSessionDetailModal] = useState(false);
+  const [selectedSession, setSelectedSession] = useState(null);
   const [showInviteModal, setShowInviteModal] = useState(false);
   const [copiedCode, setCopiedCode] = useState(false);
   const [isUpdating, setIsUpdating] = useState(false);
   const [isAddingSession, setIsAddingSession] = useState(false);
   const [isLeaving, setIsLeaving] = useState(false);
   const [removingPlayerId, setRemovingPlayerId] = useState(null);
+  const [isDeletingSession, setIsDeletingSession] = useState(null);
   const [editForm, setEditForm] = useState({
     name: '',
     description: '',
@@ -30,10 +42,12 @@ function CampaignDetail() {
     rules: ''
   });
   const [sessionForm, setSessionForm] = useState({
-    date: '',
+    title: '',
+    date: new Date().toISOString().split('T')[0],
     duration: 180,
     summary: '',
-    notes: ''
+    notes: '',
+    highlights: []
   });
 
   useEffect(() => {
@@ -87,16 +101,106 @@ function CampaignDetail() {
     e.preventDefault();
     setIsAddingSession(true);
     try {
-      const updated = await addSession(id, sessionForm);
-      setCampaign(updated);
+      const result = await addCampaignSession(id, sessionForm);
+      // Reload campaign to get updated sessions
+      await loadCampaignDetails();
       setShowAddSessionModal(false);
-      setSessionForm({ date: '', duration: 180, summary: '', notes: '' });
+      setSessionForm({ 
+        title: '',
+        date: new Date().toISOString().split('T')[0],
+        duration: 180,
+        summary: '',
+        notes: '',
+        highlights: []
+      });
       alert('Session added successfully!');
     } catch (err) {
       alert(`Failed to add session: ${err.message}`);
     } finally {
       setIsAddingSession(false);
     }
+  };
+
+  const handleViewSession = (session) => {
+    setSelectedSession(session);
+    setShowSessionDetailModal(true);
+  };
+
+  const handleEditSession = () => {
+    setSessionForm({
+      title: selectedSession.title || '',
+      date: selectedSession.date ? new Date(selectedSession.date).toISOString().split('T')[0] : '',
+      duration: selectedSession.duration || 180,
+      summary: selectedSession.summary || '',
+      notes: selectedSession.notes || '',
+      highlights: selectedSession.highlights || []
+    });
+    setShowSessionDetailModal(false);
+    setShowAddSessionModal(true);
+  };
+
+  const handleUpdateSession = async (e) => {
+    e.preventDefault();
+    setIsAddingSession(true);
+    try {
+      await updateCampaignSession(id, selectedSession._id, sessionForm);
+      await loadCampaignDetails();
+      setShowAddSessionModal(false);
+      setSelectedSession(null);
+      setSessionForm({ 
+        title: '',
+        date: new Date().toISOString().split('T')[0],
+        duration: 180,
+        summary: '',
+        notes: '',
+        highlights: []
+      });
+      alert('Session updated successfully!');
+    } catch (err) {
+      alert(`Failed to update session: ${err.message}`);
+    } finally {
+      setIsAddingSession(false);
+    }
+  };
+
+  const handleDeleteSession = async (sessionId) => {
+    if (!confirm('Are you sure you want to delete this session?')) return;
+    
+    setIsDeletingSession(sessionId);
+    try {
+      await deleteCampaignSession(id, sessionId);
+      await loadCampaignDetails();
+      setShowSessionDetailModal(false);
+      setSelectedSession(null);
+      alert('Session deleted successfully!');
+    } catch (err) {
+      alert(`Failed to delete session: ${err.message}`);
+    } finally {
+      setIsDeletingSession(null);
+    }
+  };
+
+  const addHighlight = () => {
+    setSessionForm({
+      ...sessionForm,
+      highlights: [...sessionForm.highlights, '']
+    });
+  };
+
+  const updateHighlight = (index, value) => {
+    const newHighlights = [...sessionForm.highlights];
+    newHighlights[index] = value;
+    setSessionForm({
+      ...sessionForm,
+      highlights: newHighlights
+    });
+  };
+
+  const removeHighlight = (index) => {
+    setSessionForm({
+      ...sessionForm,
+      highlights: sessionForm.highlights.filter((_, i) => i !== index)
+    });
   };
 
   const handleLeaveCampaign = async () => {

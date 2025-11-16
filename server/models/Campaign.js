@@ -57,10 +57,27 @@ const campaignSchema = new mongoose.Schema({
     default: 'planning'
   },
   sessions: [{
+    sessionNumber: Number,
+    title: String,
     date: Date,
     duration: Number, // in minutes
-    summary: String,
-    notes: String
+    summary: {
+      type: String,
+      maxlength: [2000, 'Session summary cannot exceed 2000 characters']
+    },
+    notes: {
+      type: String,
+      maxlength: [5000, 'Session notes cannot exceed 5000 characters']
+    },
+    highlights: [String], // Key moments or achievements
+    presentPlayers: [{
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User'
+    }],
+    createdAt: {
+      type: Date,
+      default: Date.now
+    }
   }],
   worldInfo: {
     type: String,

@@ -278,6 +278,77 @@ export const removePlayer = async (campaignId, userId) => {
   }
 };
 
+/**
+ * Add a new session to a campaign
+ */
+export const addCampaignSession = async (campaignId, sessionData) => {
+  try {
+    const response = await fetch(`${API_URL}/campaigns/${campaignId}/sessions`, {
+      method: 'POST',
+      headers: getAuthHeaders(),
+      body: JSON.stringify(sessionData)
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.message || 'Failed to add session');
+    }
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error('Error adding session:', error);
+    throw error;
+  }
+};
+
+/**
+ * Update an existing session
+ */
+export const updateCampaignSession = async (campaignId, sessionId, sessionData) => {
+  try {
+    const response = await fetch(`${API_URL}/campaigns/${campaignId}/sessions/${sessionId}`, {
+      method: 'PUT',
+      headers: getAuthHeaders(),
+      body: JSON.stringify(sessionData)
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.message || 'Failed to update session');
+    }
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error('Error updating session:', error);
+    throw error;
+  }
+};
+
+/**
+ * Delete a session from a campaign
+ */
+export const deleteCampaignSession = async (campaignId, sessionId) => {
+  try {
+    const response = await fetch(`${API_URL}/campaigns/${campaignId}/sessions/${sessionId}`, {
+      method: 'DELETE',
+      headers: getAuthHeaders()
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.message || 'Failed to delete session');
+    }
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error('Error deleting session:', error);
+    throw error;
+  }
+};
+
 export default {
   fetchCampaigns,
   fetchPublicCampaigns,
@@ -288,5 +359,8 @@ export default {
   joinCampaign,
   leaveCampaign,
   addSession,
-  removePlayer
+  removePlayer,
+  addCampaignSession,
+  updateCampaignSession,
+  deleteCampaignSession
 };

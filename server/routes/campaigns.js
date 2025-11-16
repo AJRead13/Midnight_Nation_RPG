@@ -520,4 +520,122 @@ router.post('/:id/regenerate-code', authMiddleware, async (req, res) => {
   }
 });
 
+// Add a session to a campaign
+router.post(
+  '/:id/sessions',
+  auth,
+  async (req, res) => {
+    try {
+      const campaign = await Campaign.findById(req.params.id);
+
+      if (!campaign) {
+        return res.status(404).json({ message: 'Campaign not found' });
+      }
+
+      // Check if user is the game master
+      if (campaign.gameMaster.toString() !== req.user._id.toString()) {
+        return res.status(403).json({ message: 'Only the game master can add sessions' });
+      }
+
+      const session = {
+        sessionNumber: campaign.sessions.length + 1,
+        title: req.body.title || `Session ${campaign.sessions.length + 1}`,
+        date: req.body.date ? new Date(req.body.date) : new Date(),
+        duration: req.body.duration || 0,
+        summary: req.body.summary || '',
+        notes: req.body.notes || '',
+        highlights: req.body.highlights || [],
+        presentPlayers: req.body.presentPlayers || [],
+        createdAt: new Date()
+      };
+
+      campaign.sessions.push(session);
+      campaign.updatedAt = new Date();
+      await campaign.save();
+
+      res.json({
+        message: 'Session added successfully',
+        session: campaign.sessions[campaign.sessions.length - 1]
+      });
+    } catch (error) {
+      console.error('Add session error:', error);
+      res.status(500).json({ message: 'Server error' });
+    }
+  }
+);
+
+// Update a session
+router.put(
+  '/:id/sessions/:sessionId',
+  auth,
+  async (req, res) => {
+    try {
+      const campaign = await Campaign.findById(req.params.id);
+
+      if (!campaign) {
+        return res.status(404).json({ message: 'Campaign not found' });
+      }
+
+      // Check if user is the game master
+      if (campaign.gameMaster.toString() !== req.user._id.toString()) {
+        return res.status(403).json({ message: 'Only the game master can update sessions' });
+      }
+
+      const session = campaign.sessions.id(req.params.sessionId);
+      if (!session) {
+        return res.status(404).json({ message: 'Session not found' });
+      }
+
+      // Update session fields
+      if (req.body.title !== undefined) session.title = req.body.title;
+      if (req.body.date !== undefined) session.date = new Date(req.body.date);
+      if (req.body.duration !== undefined) session.duration = req.body.duration;
+      if (req.body.summary !== undefined) session.summary = req.body.summary;
+      if (req.body.notes !== undefined) session.notes = req.body.notes;
+      if (req.body.highlights !== undefined) session.highlights = req.body.highlights;
+      if (req.body.presentPlayers !== undefined) session.presentPlayers = req.body.presentPlayers;
+
+      campaign.updatedAt = new Date();
+      await campaign.save();
+
+      res.json({
+        message: 'Session updated successfully',
+        session
+      });
+    } catch (error) {
+      console.error('Update session error:', error);
+      res.status(500).json({ message: 'Server error' });
+    }
+  }
+);
+
+// Delete a session
+router.delete(
+  '/:id/sessions/:sessionId',
+  auth,
+  async (req, res) => {
+    try {
+      const campaign = await Campaign.findById(req.params.id);
+
+      if (!campaign) {
+        return res.status(404).json({ message: 'Campaign not found' });
+      }
+
+      // Check if user is the game master
+      if (campaign.gameMaster.toString() !== req.user._id.toString()) {
+        return res.status(403).json({ message: 'Only the game master can delete sessions' });
+      }
+
+      campaign.sessions.pull(req.params.sessionId);
+      campaign.updatedAt = new Date();
+      await campaign.save();
+
+      res.json({ message: 'Session deleted successfully' });
+    } catch (error) {
+      console.error('Delete session error:', error);
+      res.status(500).json({ message: 'Server error' });
+    }
+  }
+);
+
 module.exports = router;
