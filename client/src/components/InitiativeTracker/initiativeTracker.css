@@ -149,6 +149,15 @@
   background: #4b5563;
 }
 
+.btn-import {
+  background: #8b5cf6;
+  color: white;
+}
+
+.btn-import:hover {
+  background: #7c3aed;
+}
+
 .initiative-controls button:disabled {
   opacity: 0.5;
   cursor: not-allowed;
@@ -479,3 +488,140 @@
     padding: 1.5rem;
   }
 }
+
+/* Import Character Modal */
+.import-modal {
+  max-width: 600px;
+}
+
+.modal-description {
+  color: rgba(255, 255, 255, 0.7);
+  margin: 0 0 1.5rem 0;
+  font-size: 0.95rem;
+}
+
+.character-list {
+  max-height: 400px;
+  overflow-y: auto;
+  margin-bottom: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.character-list::-webkit-scrollbar {
+  width: 8px;
+}
+
+.character-list::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+}
+
+.character-list::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 4px;
+}
+
+.character-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  transition: all 0.2s;
+}
+
+.character-item:hover:not(.already-added) {
+  background: rgba(0, 0, 0, 0.4);
+  border-color: var(--primary-color);
+}
+
+.character-item.already-added {
+  opacity: 0.6;
+  background: rgba(0, 0, 0, 0.2);
+}
+
+.character-info h4 {
+  margin: 0 0 0.5rem 0;
+  color: white;
+  font-size: 1.1rem;
+}
+
+.character-stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  font-size: 0.9rem;
+}
+
+.char-class,
+.char-level {
+  padding: 0.25rem 0.5rem;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.char-attributes {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.char-attributes span {
+  padding: 0.25rem 0.5rem;
+  background: rgba(255, 215, 0, 0.15);
+  border: 1px solid rgba(255, 215, 0, 0.3);
+  border-radius: 4px;
+  color: var(--primary-color);
+  font-weight: 600;
+}
+
+.btn-import-char {
+  padding: 0.5rem 1rem;
+  background: var(--primary-color);
+  color: black;
+  border: none;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+
+.btn-import-char:hover:not(:disabled) {
+  background: var(--primary-hover);
+  transform: translateY(-2px);
+}
+
+.btn-import-char:disabled {
+  background: rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.5);
+  cursor: not-allowed;
+}
+
+.no-characters {
+  text-align: center;
+  padding: 2rem;
+  color: rgba(255, 255, 255, 0.5);
+  font-style: italic;
+}
+
+/* Midnight Nation Attributes Display */
+.midnight-attributes {
+  display: flex;
+  gap: 1rem;
+}
+
+.midnight-attributes .stat-group {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.midnight-attributes .stat-group label {
+  font-size: 1.1rem;
+}
+

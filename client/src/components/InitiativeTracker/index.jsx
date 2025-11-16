@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useSocket } from '../../contexts/SocketContext';
+import { fetchCharacters } from '../../utils/characterService';
 import './initiativeTracker.css';
 
 const InitiativeTracker = ({ campaignId, isGM }) => {
@@ -8,6 +9,9 @@ const InitiativeTracker = ({ campaignId, isGM }) => {
   const [isActive, setIsActive] = useState(false);
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [showAddModal, setShowAddModal] = useState(false);
+  const [showImportModal, setShowImportModal] = useState(false);
+  const [availableCharacters, setAvailableCharacters] = useState([]);
+  const [loadingCharacters, setLoadingCharacters] = useState(false);
   const { socket, connected } = useSocket();
   
   const [newCombatant, setNewCombatant] = useState({
@@ -76,6 +80,47 @@ const InitiativeTracker = ({ campaignId, isGM }) => {
       type: 'pc'
     });
     setShowAddModal(false);
+  };
+
+  const loadCharacters = async () => {
+    setLoadingCharacters(true);
+    try {
+      const chars = await fetchCharacters();
+      setAvailableCharacters(chars);
+      setShowImportModal(true);
+    } catch (err) {
+      alert('Failed to load characters: ' + err.message);
+    } finally {
+      setLoadingCharacters(false);
+    }
+  };
+
+  const importCharacter = (character) => {
+    // Check if character is already in initiative
+    if (combatants.some(c => c.characterId === character._id)) {
+      alert(`${character.name} is already in initiative`);
+      return;
+    }
+
+    const combatant = {
+      id: Date.now(),
+      characterId: character._id,
+      name: character.name,
+      initiative: rollInitiative(),
+      // Use Body attribute as a proxy for HP (Midnight Nation doesn't use traditional HP)
+      hp: character.attributes?.Body || null,
+      maxHp: character.attributes?.Body || null,
+      // Store all attributes for display
+      attributes: character.attributes,
+      ac: null, // Midnight Nation doesn't use AC
+      type: 'pc',
+      conditions: []
+    };
+
+    const updated = [...combatants, combatant].sort((a, b) => b.initiative - a.initiative);
+    updateInitiative(updated, currentTurn, isActive);
+    
+    setShowImportModal(false);
   };
 
   const removeCombatant = (id) => {
@@ -209,6 +254,13 @@ const InitiativeTracker = ({ campaignId, isGM }) => {
                 + Add Combatant
               </button>
               <button 
+                className="btn-import"
+                onClick={loadCharacters}
+                disabled={loadingCharacters}
+              >
+                {loadingCharacters ? 'Loading...' : '📋 Import Character'}
+              </button>
+              <button 
                 className="btn-roll"
                 onClick={rollAllInitiative}
                 disabled={combatants.length === 0}
@@ -273,27 +325,59 @@ const InitiativeTracker = ({ campaignId, isGM }) => {
                   </div>
 
                   <div className="combatant-stats">
-                    {combatant.hp !== null && (
-                      <div className="stat-group">
-                        <label>HP:</label>
-                        {isGM ? (
-                          <input 
-                            type="number"
-                            value={combatant.hp}
-                            onChange={(e) => updateHP(combatant.id, e.target.value)}
-                            className="hp-input"
-                          />
-                        ) : (
-                          <span>{combatant.hp}</span>
+                    {combatant.attributes ? (
+                      // Midnight Nation RPG attributes
+                      <div className="midnight-attributes">
+                        <div className="stat-group">
+                          <label title="Mind">🧠:</label>
+                          <span>{combatant.attributes.Mind}</span>
+                        </div>
+                        <div className="stat-group">
+                          <label title="Body">💪:</label>
+                          {isGM ? (
+                            <input 
+                              type="number"
+                              value={combatant.hp || combatant.attributes.Body}
+                              onChange={(e) => updateHP(combatant.id, e.target.value)}
+                              className="hp-input"
+                              title="Body attribute (used as HP)"
+                            />
+                          ) : (
+                            <span>{combatant.hp || combatant.attributes.Body}</span>
+                          )}
+                          {combatant.maxHp && <span>/ {combatant.maxHp}</span>}
+                        </div>
+                        <div className="stat-group">
+                          <label title="Soul">✨:</label>
+                          <span>{combatant.attributes.Soul}</span>
+                        </div>
+                      </div>
+                    ) : (
+                      // Standard HP/AC display
+                      <>
+                        {combatant.hp !== null && (
+                          <div className="stat-group">
+                            <label>HP:</label>
+                            {isGM ? (
+                              <input 
+                                type="number"
+                                value={combatant.hp}
+                                onChange={(e) => updateHP(combatant.id, e.target.value)}
+                                className="hp-input"
+                              />
+                            ) : (
+                              <span>{combatant.hp}</span>
+                            )}
+                            {combatant.maxHp && <span>/ {combatant.maxHp}</span>}
+                          </div>
                         )}
-                        {combatant.maxHp && <span>/ {combatant.maxHp}</span>}
-                      </div>
-                    )}
-                    {combatant.ac !== null && (
-                      <div className="stat-group">
-                        <label>AC:</label>
-                        <span>{combatant.ac}</span>
-                      </div>
+                        {combatant.ac !== null && (
+                          <div className="stat-group">
+                            <label>AC:</label>
+                            <span>{combatant.ac}</span>
+                          </div>
+                        )}
+                      </>
                     )}
                   </div>
 
@@ -400,6 +484,59 @@ const InitiativeTracker = ({ campaignId, isGM }) => {
               </button>
               <button className="btn-confirm" onClick={addCombatant}>
                 Add
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Import Character Modal */}
+      {showImportModal && isGM && (
+        <div className="modal-overlay" onClick={() => setShowImportModal(false)}>
+          <div className="modal-content import-modal" onClick={(e) => e.stopPropagation()}>
+            <h3>Import Character</h3>
+            <p className="modal-description">Select a character to add to initiative. Their stats will be automatically imported.</p>
+            
+            {availableCharacters.length === 0 ? (
+              <div className="no-characters">
+                <p>No characters found. Create a character first.</p>
+              </div>
+            ) : (
+              <div className="character-list">
+                {availableCharacters.map((character) => (
+                  <div 
+                    key={character._id} 
+                    className={`character-item ${combatants.some(c => c.characterId === character._id) ? 'already-added' : ''}`}
+                  >
+                    <div className="character-info">
+                      <h4>{character.name}</h4>
+                      <div className="character-stats">
+                        {character.class && <span className="char-class">🎭 {character.class}</span>}
+                        {character.level && <span className="char-level">Lvl {character.level}</span>}
+                        {character.attributes && (
+                          <div className="char-attributes">
+                            <span title="Mind">🧠 {character.attributes.Mind}</span>
+                            <span title="Body">💪 {character.attributes.Body}</span>
+                            <span title="Soul">✨ {character.attributes.Soul}</span>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                    <button 
+                      className="btn-import-char"
+                      onClick={() => importCharacter(character)}
+                      disabled={combatants.some(c => c.characterId === character._id)}
+                    >
+                      {combatants.some(c => c.characterId === character._id) ? 'Already Added' : 'Import'}
+                    </button>
+                  </div>
+                ))}
+              </div>
+            )}
+            
+            <div className="modal-actions">
+              <button className="btn-cancel" onClick={() => setShowImportModal(false)}>
+                Close
               </button>
             </div>
           </div>
