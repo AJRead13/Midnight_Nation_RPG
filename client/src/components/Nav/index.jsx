@@ -4,7 +4,7 @@ import { capitalizeFirstLetter } from '../../utils/helpers';
 import referenceDataService from '../../utils/referenceDataService';
 
 function Nav({ currentPage }) {
-  const pages = ['lore', 'rules', 'character-sheet', 'items'];
+  const pages = ['lore', 'rules', 'characters', 'character-sheet', 'items'];
   const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState('');
   const [searchResults, setSearchResults] = useState([]);
@@ -46,6 +46,7 @@ function Nav({ currentPage }) {
 
   const formatPageName = (page) => {
     if (page === 'character-sheet') return 'Character Sheet';
+    if (page === 'characters') return 'My Characters';
     return capitalizeFirstLetter(page);
   };
 

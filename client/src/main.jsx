@@ -6,6 +6,7 @@ import About from './components/About';
 import Lore from './components/Lore';
 import Rules from './components/Rules';
 import CharacterSheet from './components/CharacterSheet';
+import CharacterList from './components/CharacterList';
 import Items from './components/Items';
 import Portfolio from './components/Portfolio';
 import Contact from './components/Contact';
@@ -34,6 +35,14 @@ const router = createBrowserRouter([
       {
         path: 'character-sheet',
         element: <CharacterSheet />,
+      },
+      {
+        path: 'character-sheet/:id',
+        element: <CharacterSheet />,
+      },
+      {
+        path: 'characters',
+        element: <CharacterList />,
       },
       {
         path: 'items',

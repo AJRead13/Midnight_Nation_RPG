@@ -1,4 +1,6 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
+import { fetchCharacters, fetchCharacterById, createCharacter, updateCharacter, deleteCharacter as deleteCharacterAPI } from '../../utils/characterService';
 import infoData from '../../../../data/info.json';
 import boonsData from '../../../../data/boons.json';
 import talentsData from '../../../../data/talents.json';
@@ -9,6 +11,8 @@ import classesData from '../../../../data/classes.json';
 import backgroundsData from '../../../../data/backgrounds.json';
 
 function CharacterSheet() {
+  const { id: characterId } = useParams();
+  const navigate = useNavigate();
   const [character, setCharacter] = useState({
     name: '',
     background: '',
@@ -287,6 +291,10 @@ function CharacterSheet() {
   const [showLoadModal, setShowLoadModal] = useState(false);
   const [currentCharacterId, setCurrentCharacterId] = useState(null);
   const [saveMessage, setSaveMessage] = useState('');
+  const [saveStatus, setSaveStatus] = useState(''); // 'saving', 'saved', 'error'
+  const [autoSaveEnabled, setAutoSaveEnabled] = useState(false);
+  const autoSaveTimeoutRef = useRef(null);
+  const lastSavedCharacterRef = useRef(null);
 
   const getAllTalents = () => {
     const allTalents = [];
@@ -417,25 +425,9 @@ function CharacterSheet() {
 
   // Fetch user's saved characters
   const fetchUserCharacters = async () => {
-    const token = localStorage.getItem('token');
-    if (!token) {
-      setSavedCharacters([]);
-      return;
-    }
-
     try {
-      const response = await fetch('http://localhost:3001/api/characters', {
-        headers: {
-          'Authorization': `Bearer ${token}`
-        }
-      });
-
-      if (response.ok) {
-        const data = await response.json();
-        setSavedCharacters(Array.isArray(data.characters) ? data.characters : []);
-      } else {
-        setSavedCharacters([]);
-      }
+      const characters = await fetchCharacters();
+      setSavedCharacters(Array.isArray(characters) ? characters : []);
     } catch (error) {
       console.error('Error fetching characters:', error);
       setSavedCharacters([]);
@@ -444,17 +436,61 @@ function CharacterSheet() {
 
   useEffect(() => {
     fetchUserCharacters();
-  }, []);
-
-  const saveCharacter = async () => {
-    const token = localStorage.getItem('token');
     
-    if (!token) {
-      setSaveMessage('Please sign in to save characters');
-      setTimeout(() => setSaveMessage(''), 3000);
+    // Load character if editing existing one
+    if (characterId) {
+      loadCharacterFromDatabase(characterId);
+    }
+  }, [characterId]);
+
+  // Auto-save functionality
+  useEffect(() => {
+    // Don't auto-save if:
+    // 1. Auto-save is not enabled
+    // 2. No character ID (new character not yet created)
+    // 3. Character has no name
+    // 4. Character hasn't changed since last save
+    if (!autoSaveEnabled || !currentCharacterId || !character.name) {
       return;
     }
 
+    // Check if character has actually changed
+    const currentCharacterString = JSON.stringify(character);
+    if (lastSavedCharacterRef.current === currentCharacterString) {
+      return;
+    }
+
+    // Clear existing timeout
+    if (autoSaveTimeoutRef.current) {
+      clearTimeout(autoSaveTimeoutRef.current);
+    }
+
+    // Set new timeout for auto-save (2 seconds after last change)
+    autoSaveTimeoutRef.current = setTimeout(async () => {
+      try {
+        setSaveStatus('saving');
+        await updateCharacter(currentCharacterId, character);
+        lastSavedCharacterRef.current = JSON.stringify(character);
+        setSaveStatus('saved');
+        
+        // Clear "saved" status after 2 seconds
+        setTimeout(() => setSaveStatus(''), 2000);
+      } catch (error) {
+        console.error('Auto-save error:', error);
+        setSaveStatus('error');
+        setTimeout(() => setSaveStatus(''), 3000);
+      }
+    }, 2000);
+
+    // Cleanup timeout on unmount
+    return () => {
+      if (autoSaveTimeoutRef.current) {
+        clearTimeout(autoSaveTimeoutRef.current);
+      }
+    };
+  }, [character, currentCharacterId, autoSaveEnabled]);
+
+  const saveCharacter = async () => {
     if (!character.name) {
       setSaveMessage('Please enter a character name');
       setTimeout(() => setSaveMessage(''), 3000);
@@ -462,32 +498,30 @@ function CharacterSheet() {
     }
 
     try {
-      const method = currentCharacterId ? 'PUT' : 'POST';
-      const url = currentCharacterId 
-        ? `http://localhost:3001/api/characters/${currentCharacterId}`
-        : 'http://localhost:3001/api/characters';
-
-      const response = await fetch(url, {
-        method,
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
-        },
-        body: JSON.stringify(character)
-      });
-
-      if (response.ok) {
-        const data = await response.json();
-        const savedChar = data.character || data;
-        setCurrentCharacterId(savedChar._id);
-        setSaveMessage('Character saved successfully!');
-        fetchUserCharacters();
+      let savedChar;
+      
+      if (currentCharacterId) {
+        savedChar = await updateCharacter(currentCharacterId, character);
+        setSaveMessage('Character updated successfully!');
       } else {
-        const error = await response.json();
+        savedChar = await createCharacter(character);
+        setSaveMessage('Character created successfully!');
+        setCurrentCharacterId(savedChar._id);
+        // Navigate to edit mode after creating
+        navigate(`/character-sheet/${savedChar._id}`, { replace: true });
+      }
+      
+      // Update last saved reference and enable auto-save
+      lastSavedCharacterRef.current = JSON.stringify(character);
+      setAutoSaveEnabled(true);
+      
+      fetchUserCharacters();
+    } catch (error) {
+      if (error.message === 'Not authenticated') {
+        setSaveMessage('Please sign in to save characters');
+      } else {
         setSaveMessage(error.message || 'Failed to save character');
       }
-    } catch (error) {
-      setSaveMessage('Error saving character');
       console.error('Save error:', error);
     }
 
@@ -522,72 +556,65 @@ function CharacterSheet() {
     }
   };
 
-  const loadCharacterFromDatabase = async (characterId) => {
-    const token = localStorage.getItem('token');
-    if (!token) return;
-
+  const loadCharacterFromDatabase = async (charId) => {
     try {
-      const response = await fetch(`http://localhost:3001/api/characters/${characterId}`, {
-        headers: {
-          'Authorization': `Bearer ${token}`
-        }
-      });
-
-      if (response.ok) {
-        const data = await response.json();
-        const loadedChar = data.character || data;
-        setCharacter(loadedChar);
-        setCurrentCharacterId(loadedChar._id);
-        setShowLoadModal(false);
-      }
+      const loadedChar = await fetchCharacterById(charId);
+      setCharacter(loadedChar);
+      setCurrentCharacterId(loadedChar._id);
+      setShowLoadModal(false);
+      
+      // Enable auto-save and set reference for loaded character
+      lastSavedCharacterRef.current = JSON.stringify(loadedChar);
+      setAutoSaveEnabled(true);
     } catch (error) {
       console.error('Error loading character:', error);
+      setSaveMessage('Failed to load character');
+      setTimeout(() => setSaveMessage(''), 3000);
     }
   };
 
-  const deleteCharacter = async (characterId) => {
-    const token = localStorage.getItem('token');
-    if (!token || !confirm('Are you sure you want to delete this character?')) return;
+  const handleDeleteCharacter = async (charId) => {
+    if (!confirm('Are you sure you want to delete this character?')) return;
 
     try {
-      const response = await fetch(`http://localhost:3001/api/characters/${characterId}`, {
-        method: 'DELETE',
-        headers: {
-          'Authorization': `Bearer ${token}`
-        }
-      });
-
-      if (response.ok) {
-        fetchUserCharacters();
-        if (currentCharacterId === characterId) {
-          setCharacter({
-            name: '',
-            background: '',
-            bloodline: '',
-            bloodlineBranch: '',
-            class: '',
-            level: 1,
-            attributes: { Mind: 40, Body: 40, Soul: 40 },
-            fatePool: 1,
-            wounds: {
-              head: { direct: false, devastating: false, critical: false },
-              torso: { direct: false, devastating: false, critical: false },
-              leftArm: { direct: false, devastating: false, critical: false },
-              rightArm: { direct: false, devastating: false, critical: false },
-              leftLeg: { direct: false, devastating: false, critical: false },
-              rightLeg: { direct: false, devastating: false, critical: false }
-            },
-            competencies: [],
-            talents: [],
-            boons: [],
-            equipment: [],
-            notes: ''
-          });
-          setCurrentCharacterId(null);
-        }
+      await deleteCharacterAPI(charId);
+      fetchUserCharacters();
+      
+      if (currentCharacterId === charId) {
+        // If we're deleting the current character, reset to blank
+        setCharacter({
+          name: '',
+          background: '',
+          bloodline: '',
+          bloodlineBranch: '',
+          class: '',
+          level: 1,
+          attributes: { Mind: 40, Body: 40, Soul: 40 },
+          fatePool: 1,
+          wounds: {
+            head: { direct: false, devastating: false, critical: false },
+            torso: { direct: false, devastating: false, critical: false },
+            leftArm: { direct: false, devastating: false, critical: false },
+            rightArm: { direct: false, devastating: false, critical: false },
+            leftLeg: { direct: false, devastating: false, critical: false },
+            rightLeg: { direct: false, devastating: false, critical: false }
+          },
+          competencies: [],
+          talents: [],
+          boons: [],
+          equipment: [],
+          notes: ''
+        });
+        setCurrentCharacterId(null);
+        navigate('/character-sheet', { replace: true });
       }
+      
+      setSaveMessage('Character deleted successfully');
+      setTimeout(() => setSaveMessage(''), 3000);
     } catch (error) {
       console.error('Error deleting character:', error);
+      setSaveMessage('Failed to delete character');
+      setTimeout(() => setSaveMessage(''), 3000);
     }
   };
 
@@ -637,6 +664,33 @@ function CharacterSheet() {
           Import from File
           <input type="file" accept=".json" onChange={loadCharacterFromFile} style={{ display: 'none' }} />
         </label>
+        
+        {/* Auto-save status indicator */}
+        {autoSaveEnabled && (
+          <div className="auto-save-status">
+            {saveStatus === 'saving' && (
+              <span className="status-saving">
+                <span className="spinner"></span> Saving...
+              </span>
+            )}
+            {saveStatus === 'saved' && (
+              <span className="status-saved">
+                ✓ Saved
+              </span>
+            )}
+            {saveStatus === 'error' && (
+              <span className="status-error">
+                ⚠ Save failed
+              </span>
+            )}
+            {!saveStatus && currentCharacterId && (
+              <span className="status-auto">
+                Auto-save enabled
+              </span>
+            )}
+          </div>
+        )}
+        
         {saveMessage && <span className="save-message">{saveMessage}</span>}
       </div>
 
