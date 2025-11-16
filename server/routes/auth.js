@@ -30,7 +30,7 @@ router.post(
         return res.status(400).json({ errors: errors.array() });
       }
 
-      const { username, email, password } = req.body;
+      const { username, email, password, displayName, isGM } = req.body;
 
       // Check if user already exists
       const existingUser = await User.findOne({
@@ -49,7 +49,9 @@ router.post(
       const user = new User({
         username,
         email,
-        password
+        password,
+        displayName: displayName || username,
+        isGM: isGM || false
       });
 
       await user.save();
@@ -63,7 +65,11 @@ router.post(
         user: {
           id: user._id,
           username: user.username,
-          email: user.email
+          email: user.email,
+          displayName: user.displayName,
+          avatar: user.avatar,
+          bio: user.bio,
+          isGM: user.isGM
         }
       });
     } catch (error) {
@@ -120,7 +126,11 @@ router.post(
         user: {
           id: user._id,
           username: user.username,
-          email: user.email
+          email: user.email,
+          displayName: user.displayName,
+          avatar: user.avatar,
+          bio: user.bio,
+          isGM: user.isGM
         }
       });
     } catch (error) {
@@ -140,8 +150,13 @@ router.get('/me', require('../middleware/auth'), async (req, res) => {
         id: req.user._id,
         username: req.user.username,
         email: req.user.email,
+        displayName: req.user.displayName,
+        avatar: req.user.avatar,
+        bio: req.user.bio,
+        isGM: req.user.isGM,
         characters: req.user.characters,
-        campaigns: req.user.campaigns
+        campaigns: req.user.campaigns,
+        createdAt: req.user.createdAt
       }
     });
   } catch (error) {
@@ -149,5 +164,107 @@ router.get('/me', require('../middleware/auth'), async (req, res) => {
     res.status(500).json({ message: 'Server error' });
   }
 });
+
+// @route   PUT /api/auth/profile
+// @desc    Update user profile
+// @access  Private
+router.put(
+  '/profile',
+  [
+    require('../middleware/auth'),
+    body('displayName')
+      .optional()
+      .trim()
+      .isLength({ max: 50 })
+      .withMessage('Display name cannot exceed 50 characters'),
+    body('bio')
+      .optional()
+      .trim()
+      .isLength({ max: 500 })
+      .withMessage('Bio cannot exceed 500 characters'),
+    body('avatar')
+      .optional()
+      .trim()
+  ],
+  async (req, res) => {
+    try {
+      const errors = validationResult(req);
+      if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() });
+      }
+
+      const { displayName, bio, avatar } = req.body;
+      const updateFields = {};
+
+      if (displayName !== undefined) updateFields.displayName = displayName;
+      if (bio !== undefined) updateFields.bio = bio;
+      if (avatar !== undefined) updateFields.avatar = avatar;
+
+      const user = await User.findByIdAndUpdate(
+        req.user._id,
+        { $set: updateFields },
+        { new: true, runValidators: true }
+      );
+
+      res.json({
+        message: 'Profile updated successfully',
+        user: {
+          id: user._id,
+          username: user.username,
+          email: user.email,
+          displayName: user.displayName,
+          avatar: user.avatar,
+          bio: user.bio,
+          isGM: user.isGM
+        }
+      });
+    } catch (error) {
+      console.error('Update profile error:', error);
+      res.status(500).json({ message: 'Server error updating profile' });
+    }
+  }
+);
+
+// @route   PUT /api/auth/password
+// @desc    Change user password
+// @access  Private
+router.put(
+  '/password',
+  [
+    require('../middleware/auth'),
+    body('currentPassword')
+      .notEmpty()
+      .withMessage('Current password is required'),
+    body('newPassword')
+      .isLength({ min: 6 })
+      .withMessage('New password must be at least 6 characters')
+  ],
+  async (req, res) => {
+    try {
+      const errors = validationResult(req);
+      if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() });
+      }
+
+      const { currentPassword, newPassword } = req.body;
+      const user = await User.findById(req.user._id);
+
+      // Verify current password
+      const isMatch = await user.comparePassword(currentPassword);
+      if (!isMatch) {
+        return res.status(401).json({ message: 'Current password is incorrect' });
+      }
+
+      // Update password
+      user.password = newPassword;
+      await user.save();
+
+      res.json({ message: 'Password updated successfully' });
+    } catch (error) {
+      console.error('Change password error:', error);
+      res.status(500).json({ message: 'Server error changing password' });
+    }
+  }
+);
 
 module.exports = router;

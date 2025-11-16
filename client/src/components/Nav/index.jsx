@@ -2,24 +2,15 @@ import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { capitalizeFirstLetter } from '../../utils/helpers';
 import referenceDataService from '../../utils/referenceDataService';
+import { useAuth } from '../../contexts/AuthContext';
 
 function Nav({ currentPage }) {
   const pages = ['lore', 'rules', 'characters', 'campaigns', 'character-sheet', 'items'];
   const navigate = useNavigate();
+  const { user, logout } = useAuth();
   const [searchQuery, setSearchQuery] = useState('');
   const [searchResults, setSearchResults] = useState([]);
   const [showResults, setShowResults] = useState(false);
-  const [showAuthModal, setShowAuthModal] = useState(false);
-  const [isSignUp, setIsSignUp] = useState(true);
-  const [showPassword, setShowPassword] = useState(false);
-  const [authForm, setAuthForm] = useState({
-    username: '',
-    email: '',
-    password: ''
-  });
-  const [authError, setAuthError] = useState('');
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [currentUser, setCurrentUser] = useState(null);
   const [showCreateCampaign, setShowCreateCampaign] = useState(false);
   const [showJoinCampaign, setShowJoinCampaign] = useState(false);
   const [campaignForm, setCampaignForm] = useState({
@@ -33,16 +24,6 @@ function Nav({ currentPage }) {
   const [inviteCode, setInviteCode] = useState('');
   const [showCampaigns, setShowCampaigns] = useState(false);
   const [campaigns, setCampaigns] = useState([]);
-
-  useEffect(() => {
-    // Check if user is already logged in
-    const token = localStorage.getItem('token');
-    const user = localStorage.getItem('user');
-    if (token && user) {
-      setIsLoggedIn(true);
-      setCurrentUser(JSON.parse(user));
-    }
-  }, []);
 
   const formatPageName = (page) => {
     if (page === 'character-sheet') return 'Character Sheet';
@@ -65,56 +46,9 @@ function Nav({ currentPage }) {
     }
   };
 
-  const handleAuthFormChange = (e) => {
-    setAuthForm({
-      ...authForm,
-      [e.target.name]: e.target.value
-    });
-    setAuthError('');
-  };
-
-  const handleAuthSubmit = async (e) => {
-    e.preventDefault();
-    setAuthError('');
-
-    try {
-      const endpoint = isSignUp ? '/api/auth/register' : '/api/auth/login';
-      const payload = isSignUp 
-        ? { username: authForm.username, email: authForm.email, password: authForm.password }
-        : { email: authForm.email, password: authForm.password };
-
-      const response = await fetch(`http://localhost:3001${endpoint}`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(payload),
-      });
-
-      const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(data.message || 'Authentication failed');
-      }
-
-      // Store token and user data
-      localStorage.setItem('token', data.token);
-      localStorage.setItem('user', JSON.stringify(data.user));
-      setIsLoggedIn(true);
-      setCurrentUser(data.user);
-      setShowAuthModal(false);
-      setAuthForm({ username: '', email: '', password: '' });
-      setShowPassword(false);
-    } catch (error) {
-      setAuthError(error.message);
-    }
-  };
-
   const handleLogout = () => {
-    localStorage.removeItem('token');
-    localStorage.removeItem('user');
-    setIsLoggedIn(false);
-    setCurrentUser(null);
+    logout();
+    navigate('/');
   };
 
   const handleCreateCampaign = async (e) => {
@@ -207,14 +141,6 @@ function Nav({ currentPage }) {
     setShowCampaigns(true);
   };
 
-  const openAuthModal = (signUp) => {
-    setIsSignUp(signUp);
-    setShowAuthModal(true);
-    setAuthError('');
-    setAuthForm({ username: '', email: '', password: '' });
-    setShowPassword(false);
-  };
-
   useEffect(() => {
     const debounceTimer = setTimeout(() => {
       searchContent(searchQuery);
@@ -300,9 +226,10 @@ function Nav({ currentPage }) {
           )}
         </li>
         <li className="auth-container">
-          {isLoggedIn ? (
+          {user ? (
             <div className="user-menu">
-              <span className="username">{currentUser?.username}</span>
+              <span className="username">{user.displayName || user.username}</span>
+              <Link to="/profile" className="btn-auth">Profile</Link>
               <button onClick={handleViewCampaigns} className="btn-auth btn-campaign">Campaigns</button>
               <button onClick={() => setShowCreateCampaign(true)} className="btn-auth btn-campaign">Create Campaign</button>
               <button onClick={() => setShowJoinCampaign(true)} className="btn-auth btn-campaign">Join Campaign</button>
@@ -310,103 +237,12 @@ function Nav({ currentPage }) {
             </div>
           ) : (
             <div className="auth-buttons">
-              <button onClick={() => openAuthModal(false)} className="btn-auth">Sign In</button>
-              <button onClick={() => openAuthModal(true)} className="btn-auth btn-signup">Sign Up</button>
+              <Link to="/login" className="btn-auth">Sign In</Link>
+              <Link to="/register" className="btn-auth btn-signup">Sign Up</Link>
             </div>
           )}
         </li>
       </ul>
-
-      {/* Authentication Modal */}
-      {showAuthModal && (
-        <div className="modal-overlay" onClick={() => setShowAuthModal(false)}>
-          <div className="modal-content auth-modal" onClick={(e) => e.stopPropagation()}>
-            <button className="modal-close" onClick={() => setShowAuthModal(false)}>×</button>
-            <h3>{isSignUp ? 'Sign Up' : 'Sign In'}</h3>
-            
-            <form onSubmit={handleAuthSubmit} className="auth-form">
-              {isSignUp && (
-                <div className="form-group">
-                  <label htmlFor="username">Username</label>
-                  <input
-                    type="text"
-                    id="username"
-                    name="username"
-                    value={authForm.username}
-                    onChange={handleAuthFormChange}
-                    required={isSignUp}
-                    autoComplete="username"
-                  />
-                </div>
-              )}
-              
-              <div className="form-group">
-                <label htmlFor="email">Email Address</label>
-                <input
-                  type="email"
-                  id="email"
-                  name="email"
-                  value={authForm.email}
-                  onChange={handleAuthFormChange}
-                  required
-                  autoComplete="email"
-                />
-              </div>
-              
-              <div className="form-group">
-                <label htmlFor="password">Password</label>
-                <div className="password-input-wrapper">
-                  <input
-                    type={showPassword ? 'text' : 'password'}
-                    id="password"
-                    name="password"
-                    value={authForm.password}
-                    onChange={handleAuthFormChange}
-                    required
-                    autoComplete={isSignUp ? 'new-password' : 'current-password'}
-                  />
-                  <button
-                    type="button"
-                    className="toggle-password"
-                    onClick={() => setShowPassword(!showPassword)}
-                    aria-label={showPassword ? 'Hide password' : 'Show password'}
-                  >
-                    {showPassword ? '👁️' : '👁️‍🗨️'}
-                  </button>
-                </div>
-              </div>
-
-              {authError && (
-                <div className="auth-error">
-                  {authError}
-                </div>
-              )}
-
-              <button type="submit" className="btn-primary auth-submit">
-                {isSignUp ? 'Create Account' : 'Sign In'}
-              </button>
-
-              <div className="auth-toggle">
-                <p>
-                  {isSignUp ? 'Already have an account? ' : "Don't have an account? "}
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setIsSignUp(!isSignUp);
-                      setAuthError('');
-                      setAuthForm({ username: '', email: '', password: '' });
-                    }}
-                    className="btn-link"
-                  >
-                    {isSignUp ? 'Sign In' : 'Sign Up'}
-                  </button>
-                </p>
-              </div>
-            </form>
-          </div>
-        </div>
-      )}
-
       {/* Create Campaign Modal */}
       {showCreateCampaign && (
         <div className="modal-overlay" onClick={() => { setShowCreateCampaign(false); setInviteCode(''); setCampaignError(''); }}>

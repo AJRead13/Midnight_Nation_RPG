@@ -23,6 +23,23 @@ const userSchema = new mongoose.Schema({
     required: [true, 'Password is required'],
     minlength: [6, 'Password must be at least 6 characters']
   },
+  displayName: {
+    type: String,
+    trim: true,
+    maxlength: [50, 'Display name cannot exceed 50 characters']
+  },
+  avatar: {
+    type: String,
+    default: null
+  },
+  bio: {
+    type: String,
+    maxlength: [500, 'Bio cannot exceed 500 characters']
+  },
+  isGM: {
+    type: Boolean,
+    default: false
+  },
   characters: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Character'
@@ -34,7 +51,17 @@ const userSchema = new mongoose.Schema({
   createdAt: {
     type: Date,
     default: Date.now
+  },
+  updatedAt: {
+    type: Date,
+    default: Date.now
   }
+});
+
+// Update the updatedAt timestamp before saving
+userSchema.pre('save', function(next) {
+  this.updatedAt = Date.now();
+  next();
 });
 
 // Hash password before saving

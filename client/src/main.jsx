@@ -5,6 +5,8 @@ import Error from './components/ErrorPage';
 import ErrorBoundary from './components/ErrorBoundary';
 import { ToastProvider } from './components/Toast';
 import { SocketProvider } from './contexts/SocketContext';
+import { AuthProvider } from './contexts/AuthContext';
+import ProtectedRoute from './components/ProtectedRoute';
 import About from './components/About';
 import Lore from './components/Lore';
 import Rules from './components/Rules';
@@ -16,6 +18,9 @@ import Portfolio from './components/Portfolio';
 import Contact from './components/Contact';
 import Resume from './components/Resume';
 import CampaignDetail from './components/CampaignDetail';
+import Login from './components/Login';
+import Register from './components/Register';
+import Profile from './components/Profile';
 import './index.css';
 
 const router = createBrowserRouter([
@@ -37,24 +42,60 @@ const router = createBrowserRouter([
         element: <Rules />,
       },
       {
+        path: 'login',
+        element: <Login />,
+      },
+      {
+        path: 'register',
+        element: <Register />,
+      },
+      {
+        path: 'profile',
+        element: (
+          <ProtectedRoute>
+            <Profile />
+          </ProtectedRoute>
+        ),
+      },
+      {
         path: 'character-sheet',
-        element: <CharacterSheet />,
+        element: (
+          <ProtectedRoute>
+            <CharacterSheet />
+          </ProtectedRoute>
+        ),
       },
       {
         path: 'character-sheet/:id',
-        element: <CharacterSheet />,
+        element: (
+          <ProtectedRoute>
+            <CharacterSheet />
+          </ProtectedRoute>
+        ),
       },
       {
         path: 'characters',
-        element: <CharacterList />,
+        element: (
+          <ProtectedRoute>
+            <CharacterList />
+          </ProtectedRoute>
+        ),
       },
       {
         path: 'campaigns',
-        element: <Campaigns />,
+        element: (
+          <ProtectedRoute>
+            <Campaigns />
+          </ProtectedRoute>
+        ),
       },
       {
         path: 'campaign/:id',
-        element: <CampaignDetail />,
+        element: (
+          <ProtectedRoute>
+            <CampaignDetail />
+          </ProtectedRoute>
+        ),
       },
       {
         path: 'items',
@@ -79,9 +120,11 @@ const router = createBrowserRouter([
 ReactDOM.createRoot(document.getElementById('root')).render(
   <ErrorBoundary>
     <ToastProvider>
-      <SocketProvider>
-        <RouterProvider router={router} />
-      </SocketProvider>
+      <AuthProvider>
+        <SocketProvider>
+          <RouterProvider router={router} />
+        </SocketProvider>
+      </AuthProvider>
     </ToastProvider>
   </ErrorBoundary>
 );
