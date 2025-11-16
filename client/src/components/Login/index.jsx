@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useNavigate, Link, useLocation } from 'react-router-dom';
 import { login as loginUser } from '../../utils/authService';
 import { useAuth } from '../../contexts/AuthContext';
-import { useToast } from '../../contexts/ToastContext';
+import { useToast } from '../Toast';
 import './login.css';
 
 const Login = () => {

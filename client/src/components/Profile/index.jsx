@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useAuth } from '../../contexts/AuthContext';
-import { useToast } from '../../contexts/ToastContext';
+import { useToast } from '../Toast';
 import { updateProfile, changePassword } from '../../utils/authService';
 import './profile.css';
 
