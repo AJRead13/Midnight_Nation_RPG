@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { fetchCampaignById, updateCampaign, leaveCampaign, addSession, removePlayer } from '../../utils/campaignService';
 import { fetchCharacters } from '../../utils/characterService';
+import DiceFeed from '../DiceFeed';
 import './campaignDetail.css';
 
 function CampaignDetail() {
@@ -123,11 +124,6 @@ function CampaignDetail() {
       alert(`Failed to remove player: ${err.message}`);
     } finally {
       setRemovingPlayerId(null);
-    }
-  };
-      alert('Player removed successfully!');
-    } catch (err) {
-      alert(`Failed to remove player: ${err.message}`);
     }
   };
 
@@ -541,6 +537,9 @@ function CampaignDetail() {
           </div>
         </div>
       )}
+
+      {/* Dice Feed - Shows real-time dice rolls */}
+      <DiceFeed campaignId={id} />
     </div>
   );
 }

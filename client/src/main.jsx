@@ -4,6 +4,7 @@ import App from './App.jsx';
 import Error from './components/ErrorPage';
 import ErrorBoundary from './components/ErrorBoundary';
 import { ToastProvider } from './components/Toast';
+import { SocketProvider } from './contexts/SocketContext';
 import About from './components/About';
 import Lore from './components/Lore';
 import Rules from './components/Rules';
@@ -78,7 +79,9 @@ const router = createBrowserRouter([
 ReactDOM.createRoot(document.getElementById('root')).render(
   <ErrorBoundary>
     <ToastProvider>
-      <RouterProvider router={router} />
+      <SocketProvider>
+        <RouterProvider router={router} />
+      </SocketProvider>
     </ToastProvider>
   </ErrorBoundary>
 );

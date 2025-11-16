@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { useSocket } from '../../contexts/SocketContext';
+import { useLocation } from 'react-router-dom';
 import './diceRoller.css';
 
 const DiceRoller = ({ isOpen, onClose }) => {
@@ -6,6 +8,15 @@ const DiceRoller = ({ isOpen, onClose }) => {
   const [customFormula, setCustomFormula] = useState('');
   const [isRolling, setIsRolling] = useState(false);
   const [advantageMode, setAdvantageMode] = useState(0); // -1: disadvantage, 0: normal, 1: advantage
+  
+  const { emitDiceRoll, connected } = useSocket();
+  const location = useLocation();
+
+  // Extract campaign ID from URL if on campaign detail page
+  const getCampaignId = () => {
+    const match = location.pathname.match(/\/campaigns\/([a-f0-9]+)/);
+    return match ? match[1] : null;
+  };
 
   const diceTypes = [
     { sides: 4, color: '#ef4444' },
@@ -64,14 +75,27 @@ const DiceRoller = ({ isOpen, onClose }) => {
         id: Date.now(),
         formula: formulaText,
         results,
+        rolls: allRolls.map((result, index) => ({ 
+          result, 
+          dropped: useAdvantage && advantageMode !== 0 && droppedRolls.includes(result) && index < droppedRolls.length 
+        })),
         droppedRolls: useAdvantage && advantageMode !== 0 ? droppedRolls : [],
         modifier,
         total,
-        timestamp: new Date().toLocaleTimeString(),
+        timestamp: new Date().toISOString(),
         hasAdvantage: useAdvantage && advantageMode !== 0,
+        username: localStorage.getItem('username') || 'Anonymous',
+        characterName: localStorage.getItem('characterName') || null,
       };
       
       setRolls(prev => [newRoll, ...prev.slice(0, 9)]); // Keep last 10 rolls
+      
+      // Emit to Socket.io if in a campaign
+      const campaignId = getCampaignId();
+      if (campaignId && connected) {
+        emitDiceRoll(campaignId, newRoll);
+      }
+      
       setIsRolling(false);
     }, 300);
   };

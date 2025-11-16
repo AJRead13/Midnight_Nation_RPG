@@ -1,6 +1,8 @@
 require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
+const http = require('http');
+const { Server } = require('socket.io');
 const connectDB = require('./config/db');
 
 // Import routes
@@ -10,6 +12,24 @@ const campaignRoutes = require('./routes/campaigns');
 const referenceDataRoutes = require('./routes/referenceData');
 
 const app = express();
+const server = http.createServer(app);
+
+// Initialize Socket.io with CORS
+const io = new Server(server, {
+  cors: {
+    origin: function(origin, callback) {
+      if (!origin) return callback(null, true);
+      if (process.env.NODE_ENV === 'development' && origin.startsWith('http://localhost:')) {
+        return callback(null, true);
+      }
+      if (origin === process.env.CLIENT_URL) {
+        return callback(null, true);
+      }
+      callback(new Error('Not allowed by CORS'));
+    },
+    credentials: true
+  }
+});
 
 // Connect to MongoDB
 connectDB();
@@ -76,9 +96,40 @@ app.use((req, res) => {
   res.status(404).json({ message: 'Route not found' });
 });
 
+// Socket.io event handlers
+io.on('connection', (socket) => {
+  console.log('User connected:', socket.id);
+
+  // Join a campaign room
+  socket.on('join-campaign', (campaignId) => {
+    socket.join(`campaign-${campaignId}`);
+    console.log(`Socket ${socket.id} joined campaign-${campaignId}`);
+  });
+
+  // Leave a campaign room
+  socket.on('leave-campaign', (campaignId) => {
+    socket.leave(`campaign-${campaignId}`);
+    console.log(`Socket ${socket.id} left campaign-${campaignId}`);
+  });
+
+  // Handle dice roll events
+  socket.on('dice-roll', (data) => {
+    const { campaignId, roll } = data;
+    
+    // Broadcast to all users in the campaign room (except sender)
+    socket.to(`campaign-${campaignId}`).emit('dice-roll', roll);
+    
+    console.log(`Dice roll in campaign-${campaignId}:`, roll);
+  });
+
+  socket.on('disconnect', () => {
+    console.log('User disconnected:', socket.id);
+  });
+});
+
 const PORT = process.env.PORT || 5000;
 
-app.listen(PORT, () => {
+server.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
   console.log(`Environment: ${process.env.NODE_ENV || 'development'}`);
 });
