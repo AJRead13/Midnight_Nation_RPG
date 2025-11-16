@@ -97,6 +97,8 @@ app.use((req, res) => {
 });
 
 // Socket.io event handlers
+const initiativeStates = new Map(); // Store initiative state per campaign
+
 io.on('connection', (socket) => {
   console.log('User connected:', socket.id);
 
@@ -120,6 +122,29 @@ io.on('connection', (socket) => {
     socket.to(`campaign-${campaignId}`).emit('dice-roll', roll);
     
     console.log(`Dice roll in campaign-${campaignId}:`, roll);
+  });
+
+  // Request current initiative state
+  socket.on('request-initiative', (campaignId) => {
+    const state = initiativeStates.get(campaignId) || {
+      combatants: [],
+      currentTurn: 0,
+      isActive: false
+    };
+    socket.emit('initiative-update', state);
+  });
+
+  // Update initiative state (from GM)
+  socket.on('update-initiative', (data) => {
+    const { campaignId, combatants, currentTurn, isActive } = data;
+    
+    const state = { combatants, currentTurn, isActive };
+    initiativeStates.set(campaignId, state);
+    
+    // Broadcast to all users in the campaign room (including sender)
+    io.to(`campaign-${campaignId}`).emit('initiative-update', state);
+    
+    console.log(`Initiative updated in campaign-${campaignId}`);
   });
 
   socket.on('disconnect', () => {

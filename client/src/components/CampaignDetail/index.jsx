@@ -3,6 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { fetchCampaignById, updateCampaign, leaveCampaign, addSession, removePlayer } from '../../utils/campaignService';
 import { fetchCharacters } from '../../utils/characterService';
 import DiceFeed from '../DiceFeed';
+import InitiativeTracker from '../InitiativeTracker';
 import './campaignDetail.css';
 
 function CampaignDetail() {
@@ -537,6 +538,9 @@ function CampaignDetail() {
           </div>
         </div>
       )}
+
+      {/* Initiative Tracker - Combat turn order */}
+      <InitiativeTracker campaignId={id} isGM={isGM} />
 
       {/* Dice Feed - Shows real-time dice rolls */}
       <DiceFeed campaignId={id} />
