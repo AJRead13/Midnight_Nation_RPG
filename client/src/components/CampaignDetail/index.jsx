@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import { useAuth } from '../../contexts/AuthContext';
 import { 
   fetchCampaignById, 
   updateCampaign, 
@@ -18,6 +19,7 @@ import './campaignDetail.css';
 function CampaignDetail() {
   const { id } = useParams();
   const navigate = useNavigate();
+  const { user } = useAuth();
   const [campaign, setCampaign] = useState(null);
   const [isGM, setIsGM] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -253,8 +255,7 @@ function CampaignDetail() {
   };
 
   const getCurrentUserId = () => {
-    const user = localStorage.getItem('user');
-    return user ? JSON.parse(user)._id : null;
+    return user?._id || null;
   };
 
   const getUserCharacter = () => {

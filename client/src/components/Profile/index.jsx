@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useAuth } from '../../contexts/AuthContext';
 import { useToast } from '../Toast';
-import { updateProfile, changePassword } from '../../utils/authService';
+import { updateProfile, changePassword, updateNotificationPreferences } from '../../utils/authService';
 import './profile.css';
 
 const Profile = () => {
@@ -25,6 +25,14 @@ const Profile = () => {
     confirmPassword: ''
   });
 
+  // Notification preferences state
+  const [notificationPrefs, setNotificationPrefs] = useState({
+    emailNotifications: true,
+    sessionCreated: true,
+    sessionUpdated: true,
+    sessionReminder: true
+  });
+
   const [errors, setErrors] = useState({});
 
   useEffect(() => {
@@ -34,6 +42,10 @@ const Profile = () => {
         bio: user.bio || '',
         avatar: user.avatar || ''
       });
+      
+      if (user.notificationPreferences) {
+        setNotificationPrefs(user.notificationPreferences);
+      }
     }
   }, [user]);
 
@@ -140,6 +152,27 @@ const Profile = () => {
     }
   };
 
+  const handleNotificationChange = (e) => {
+    const { name, checked } = e.target;
+    setNotificationPrefs(prev => ({ ...prev, [name]: checked }));
+  };
+
+  const handleNotificationSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+
+    try {
+      const response = await updateNotificationPreferences(notificationPrefs);
+      updateUser({ notificationPreferences: response.notificationPreferences });
+      addToast('Notification preferences updated successfully!', 'success');
+    } catch (error) {
+      console.error('Update notification preferences failed:', error);
+      addToast(error.message || 'Failed to update notification preferences.', 'error');
+    } finally {
+      setLoading(false);
+    }
+  };
+
   if (!user) {
     return <div className="profile-page">Loading...</div>;
   }
@@ -176,6 +209,12 @@ const Profile = () => {
             onClick={() => setActiveTab('security')}
           >
             Security
+          </button>
+          <button
+            className={`tab ${activeTab === 'notifications' ? 'active' : ''}`}
+            onClick={() => setActiveTab('notifications')}
+          >
+            Notifications
           </button>
           <button
             className={`tab ${activeTab === 'stats' ? 'active' : ''}`}
@@ -293,6 +332,83 @@ const Profile = () => {
 
               <button type="submit" className="btn btn-primary" disabled={loading}>
                 {loading ? 'Changing...' : 'Change Password'}
+              </button>
+            </form>
+          )}
+
+          {activeTab === 'notifications' && (
+            <form className="notifications-form" onSubmit={handleNotificationSubmit}>
+              <h2>Email Notification Preferences</h2>
+              <p className="notifications-description">
+                Manage your email notification preferences for campaign events. You'll only receive notifications for campaigns you're a member of.
+              </p>
+
+              <div className="notification-option master-toggle">
+                <input
+                  type="checkbox"
+                  id="emailNotifications"
+                  name="emailNotifications"
+                  checked={notificationPrefs.emailNotifications}
+                  onChange={handleNotificationChange}
+                  disabled={loading}
+                />
+                <label htmlFor="emailNotifications">
+                  <strong>Enable Email Notifications</strong>
+                  <span className="option-description">Master toggle for all email notifications</span>
+                </label>
+              </div>
+
+              <div className="notification-options-group">
+                <h3>Session Notifications</h3>
+                
+                <div className="notification-option">
+                  <input
+                    type="checkbox"
+                    id="sessionCreated"
+                    name="sessionCreated"
+                    checked={notificationPrefs.sessionCreated}
+                    onChange={handleNotificationChange}
+                    disabled={loading || !notificationPrefs.emailNotifications}
+                  />
+                  <label htmlFor="sessionCreated">
+                    <strong>New Session Created</strong>
+                    <span className="option-description">Get notified when a new session is scheduled in your campaigns</span>
+                  </label>
+                </div>
+
+                <div className="notification-option">
+                  <input
+                    type="checkbox"
+                    id="sessionUpdated"
+                    name="sessionUpdated"
+                    checked={notificationPrefs.sessionUpdated}
+                    onChange={handleNotificationChange}
+                    disabled={loading || !notificationPrefs.emailNotifications}
+                  />
+                  <label htmlFor="sessionUpdated">
+                    <strong>Session Updated</strong>
+                    <span className="option-description">Get notified when session details are changed</span>
+                  </label>
+                </div>
+
+                <div className="notification-option">
+                  <input
+                    type="checkbox"
+                    id="sessionReminder"
+                    name="sessionReminder"
+                    checked={notificationPrefs.sessionReminder}
+                    onChange={handleNotificationChange}
+                    disabled={loading || !notificationPrefs.emailNotifications}
+                  />
+                  <label htmlFor="sessionReminder">
+                    <strong>Session Reminders</strong>
+                    <span className="option-description">Receive reminders before upcoming sessions (coming soon)</span>
+                  </label>
+                </div>
+              </div>
+
+              <button type="submit" className="btn btn-primary" disabled={loading}>
+                {loading ? 'Saving...' : 'Save Preferences'}
               </button>
             </form>
           )}

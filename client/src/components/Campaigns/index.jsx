@@ -1,10 +1,12 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../../contexts/AuthContext';
 import { fetchCampaigns, createCampaign, deleteCampaign, joinCampaign } from '../../utils/campaignService';
 import { fetchCharacters } from '../../utils/characterService';
 import './campaigns.css';
 
 function Campaigns() {
+  const { user } = useAuth();
   const [campaigns, setCampaigns] = useState([]);
   const [characters, setCharacters] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -125,8 +127,7 @@ function Campaigns() {
   };
 
   const getCurrentUserId = () => {
-    const user = localStorage.getItem('user');
-    return user ? JSON.parse(user)._id : null;
+    return user?._id || null;
   };
 
   if (loading) {

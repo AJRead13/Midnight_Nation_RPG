@@ -154,6 +154,12 @@ router.get('/me', require('../middleware/auth'), async (req, res) => {
         avatar: req.user.avatar,
         bio: req.user.bio,
         isGM: req.user.isGM,
+        notificationPreferences: req.user.notificationPreferences || {
+          emailNotifications: true,
+          sessionCreated: true,
+          sessionUpdated: true,
+          sessionReminder: true
+        },
         characters: req.user.characters,
         campaigns: req.user.campaigns,
         createdAt: req.user.createdAt
@@ -263,6 +269,52 @@ router.put(
     } catch (error) {
       console.error('Change password error:', error);
       res.status(500).json({ message: 'Server error changing password' });
+    }
+  }
+);
+
+// @route   PUT /api/auth/notifications
+// @desc    Update notification preferences
+// @access  Private
+router.put(
+  '/notifications',
+  require('../middleware/auth'),
+  async (req, res) => {
+    try {
+      const { emailNotifications, sessionCreated, sessionUpdated, sessionReminder } = req.body;
+      const user = await User.findById(req.user._id);
+
+      if (!user) {
+        return res.status(404).json({ message: 'User not found' });
+      }
+
+      // Update notification preferences
+      if (!user.notificationPreferences) {
+        user.notificationPreferences = {};
+      }
+
+      if (emailNotifications !== undefined) {
+        user.notificationPreferences.emailNotifications = emailNotifications;
+      }
+      if (sessionCreated !== undefined) {
+        user.notificationPreferences.sessionCreated = sessionCreated;
+      }
+      if (sessionUpdated !== undefined) {
+        user.notificationPreferences.sessionUpdated = sessionUpdated;
+      }
+      if (sessionReminder !== undefined) {
+        user.notificationPreferences.sessionReminder = sessionReminder;
+      }
+
+      await user.save();
+
+      res.json({
+        message: 'Notification preferences updated successfully',
+        notificationPreferences: user.notificationPreferences
+      });
+    } catch (error) {
+      console.error('Update notification preferences error:', error);
+      res.status(500).json({ message: 'Server error updating preferences' });
     }
   }
 );

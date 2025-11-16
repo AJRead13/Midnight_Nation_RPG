@@ -40,6 +40,24 @@ const userSchema = new mongoose.Schema({
     type: Boolean,
     default: false
   },
+  notificationPreferences: {
+    emailNotifications: {
+      type: Boolean,
+      default: true
+    },
+    sessionCreated: {
+      type: Boolean,
+      default: true
+    },
+    sessionUpdated: {
+      type: Boolean,
+      default: true
+    },
+    sessionReminder: {
+      type: Boolean,
+      default: true
+    }
+  },
   characters: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Character'

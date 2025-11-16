@@ -142,6 +142,28 @@ export const isAuthenticated = () => {
   return !!localStorage.getItem('token');
 };
 
+// Update notification preferences
+export const updateNotificationPreferences = async (preferences) => {
+  try {
+    const response = await fetch(`${API_URL}/notifications`, {
+      method: 'PUT',
+      headers: getAuthHeaders(),
+      body: JSON.stringify(preferences)
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.message || 'Failed to update notification preferences');
+    }
+
+    return data;
+  } catch (error) {
+    console.error('Update notification preferences error:', error);
+    throw error;
+  }
+};
+
 export default {
   register,
   login,
@@ -149,5 +171,6 @@ export default {
   getCurrentUser,
   updateProfile,
   changePassword,
+  updateNotificationPreferences,
   isAuthenticated
 };

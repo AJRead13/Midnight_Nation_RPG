@@ -5,6 +5,7 @@ const Campaign = require('../models/Campaign');
 const Character = require('../models/Character');
 const User = require('../models/User');
 const authMiddleware = require('../middleware/auth');
+const { notifyCampaignMembers } = require('../utils/emailService');
 
 // @route   GET /api/campaigns
 // @desc    Get all campaigns (user's own and joined)
@@ -553,9 +554,20 @@ router.post(
       campaign.updatedAt = new Date();
       await campaign.save();
 
+      const newSession = campaign.sessions[campaign.sessions.length - 1];
+
+      // Send email notifications to campaign members (async, don't wait)
+      notifyCampaignMembers(campaign, newSession, 'created')
+        .then(result => {
+          console.log('Session created notifications sent:', result);
+        })
+        .catch(error => {
+          console.error('Error sending session notifications:', error);
+        });
+
       res.json({
         message: 'Session added successfully',
-        session: campaign.sessions[campaign.sessions.length - 1]
+        session: newSession
       });
     } catch (error) {
       console.error('Add session error:', error);
@@ -597,6 +609,15 @@ router.put(
 
       campaign.updatedAt = new Date();
       await campaign.save();
+
+      // Send email notifications to campaign members (async, don't wait)
+      notifyCampaignMembers(campaign, session, 'updated')
+        .then(result => {
+          console.log('Session updated notifications sent:', result);
+        })
+        .catch(error => {
+          console.error('Error sending session notifications:', error);
+        });
 
       res.json({
         message: 'Session updated successfully',

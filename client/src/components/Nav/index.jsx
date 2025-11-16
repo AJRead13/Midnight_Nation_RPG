@@ -382,7 +382,7 @@ function Nav({ currentPage }) {
             ) : (
               <div className="campaigns-list">
                 {campaigns.map((campaign) => {
-                  const isGM = campaign.gameMaster._id === currentUser?._id;
+                  const isGM = campaign.gameMaster._id === user?._id;
                   const role = isGM ? 'Game Master' : 'Player';
                   
                   return (
