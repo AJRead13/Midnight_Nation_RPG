@@ -8,6 +8,7 @@ const DiceRoller = ({ isOpen, onClose }) => {
   const [customFormula, setCustomFormula] = useState('');
   const [isRolling, setIsRolling] = useState(false);
   const [advantageMode, setAdvantageMode] = useState(0); // -1: disadvantage, 0: normal, 1: advantage
+  const [quickModifier, setQuickModifier] = useState(0); // Global modifier for quick rolls
   
   const { emitDiceRoll, connected } = useSocket();
   const location = useLocation();
@@ -101,7 +102,7 @@ const DiceRoller = ({ isOpen, onClose }) => {
   };
 
   const handleQuickRoll = (sides) => {
-    rollDice(sides, 1, 0, true);
+    rollDice(sides, 1, quickModifier, true);
   };
 
   const parseFormula = (formula) => {
@@ -143,7 +144,29 @@ const DiceRoller = ({ isOpen, onClose }) => {
         <div className="dice-roller-content">
           {/* Advantage/Disadvantage Controls */}
           <div className="advantage-section">
-            <h3>Roll Modifier</h3>
+            <h3>Roll Modifiers</h3>
+            <div className="modifier-row">
+              <div className="modifier-input-group">
+                <label htmlFor="quick-modifier">Add to Roll:</label>
+                <input
+                  id="quick-modifier"
+                  type="number"
+                  value={quickModifier}
+                  onChange={(e) => setQuickModifier(parseInt(e.target.value) || 0)}
+                  className="modifier-input"
+                  placeholder="0"
+                  disabled={isRolling}
+                />
+                <button
+                  className="btn-reset-modifier"
+                  onClick={() => setQuickModifier(0)}
+                  disabled={isRolling || quickModifier === 0}
+                  title="Reset modifier"
+                >
+                  Reset
+                </button>
+              </div>
+            </div>
             <div className="advantage-controls">
               <button
                 className={`advantage-btn ${advantageMode === -1 ? 'active disadvantage' : ''}`}
@@ -167,11 +190,16 @@ const DiceRoller = ({ isOpen, onClose }) => {
                 +1 Dice (Keep Highest)
               </button>
             </div>
-            <p className="advantage-help">
-              {advantageMode === 1 && '✓ Rolling with +1 die, keeping highest results'}
-              {advantageMode === -1 && '✓ Rolling with +1 die, keeping lowest results'}
-              {advantageMode === 0 && 'Standard rolls - no bonuses or penalties'}
-            </p>
+            <div className="modifier-status">
+              {advantageMode === 1 && <span className="status-advantage">✓ Advantage: +1 die, keeping highest</span>}
+              {advantageMode === -1 && <span className="status-disadvantage">✓ Disadvantage: +1 die, keeping lowest</span>}
+              {advantageMode === 0 && <span className="status-normal">Standard rolls</span>}
+              {quickModifier !== 0 && (
+                <span className={`status-modifier ${quickModifier > 0 ? 'positive' : 'negative'}`}>
+                  {quickModifier > 0 ? '+' : ''}{quickModifier} to all quick rolls
+                </span>
+              )}
+            </div>
           </div>
 
           {/* Quick Roll Buttons */}

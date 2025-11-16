@@ -75,8 +75,12 @@ const DiceFeed = ({ campaignId }) => {
               </div>
               <div className="dice-feed-formula">{roll.formula}</div>
               <div className="dice-feed-results">
-                {roll.rolls.map((die, dieIndex) => (
-                  <span key={dieIndex} className="die-result">
+                {roll.rolls && roll.rolls.map((die, dieIndex) => (
+                  <span 
+                    key={dieIndex} 
+                    className={`die-result ${die.dropped ? 'dropped' : ''}`}
+                    title={die.dropped ? 'Dropped (not counted)' : ''}
+                  >
                     {die.result}
                   </span>
                 ))}

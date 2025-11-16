@@ -87,6 +87,70 @@
   font-size: 1.1rem;
 }
 
+/* Modifier Input Row */
+.modifier-row {
+  margin-bottom: 1rem;
+}
+
+.modifier-input-group {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  background: rgba(0, 0, 0, 0.2);
+  padding: 0.75rem;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.modifier-input-group label {
+  color: rgba(255, 255, 255, 0.9);
+  font-weight: 600;
+  font-size: 0.95rem;
+  white-space: nowrap;
+}
+
+.modifier-input {
+  flex: 1;
+  max-width: 100px;
+  padding: 0.5rem;
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 6px;
+  color: white;
+  font-size: 1rem;
+  font-weight: 600;
+  text-align: center;
+}
+
+.modifier-input:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  background: rgba(0, 0, 0, 0.4);
+}
+
+.btn-reset-modifier {
+  padding: 0.5rem 1rem;
+  background: rgba(239, 68, 68, 0.2);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  color: #ef4444;
+  border-radius: 6px;
+  font-weight: 600;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.btn-reset-modifier:hover:not(:disabled) {
+  background: rgba(239, 68, 68, 0.3);
+  border-color: #ef4444;
+}
+
+.btn-reset-modifier:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
 .advantage-controls {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -137,12 +201,54 @@
   cursor: not-allowed;
 }
 
-.advantage-help {
+/* Modifier Status Display */
+.modifier-status {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 0.75rem;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 6px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.modifier-status span {
+  font-size: 0.9rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.status-advantage {
+  color: #10b981;
+}
+
+.status-disadvantage {
+  color: #ef4444;
+}
+
+.status-normal {
   color: #888;
-  font-size: 0.85rem;
-  margin: 0;
   font-style: italic;
-  min-height: 1.2rem;
+}
+
+.status-modifier {
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  font-size: 0.85rem;
+}
+
+.status-modifier.positive {
+  background: rgba(16, 185, 129, 0.2);
+  border: 1px solid rgba(16, 185, 129, 0.3);
+  color: #10b981;
+}
+
+.status-modifier.negative {
+  background: rgba(239, 68, 68, 0.2);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  color: #ef4444;
 }
 
 /* Quick Roll Section */
