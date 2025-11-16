@@ -2,6 +2,8 @@ import ReactDOM from 'react-dom/client';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import App from './App.jsx';
 import Error from './components/ErrorPage';
+import ErrorBoundary from './components/ErrorBoundary';
+import { ToastProvider } from './components/Toast';
 import About from './components/About';
 import Lore from './components/Lore';
 import Rules from './components/Rules';
@@ -74,5 +76,9 @@ const router = createBrowserRouter([
 ]);
 
 ReactDOM.createRoot(document.getElementById('root')).render(
-  <RouterProvider router={router} />
+  <ErrorBoundary>
+    <ToastProvider>
+      <RouterProvider router={router} />
+    </ToastProvider>
+  </ErrorBoundary>
 );

@@ -14,6 +14,9 @@ function Campaigns() {
   const [selectedCharacter, setSelectedCharacter] = useState('');
   const [inviteCode, setInviteCode] = useState('');
   const [deleteConfirm, setDeleteConfirm] = useState(null);
+  const [isCreating, setIsCreating] = useState(false);
+  const [isJoining, setIsJoining] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
   const [campaignForm, setCampaignForm] = useState({
     name: '',
     description: '',
@@ -48,6 +51,7 @@ function Campaigns() {
 
   const handleCreateCampaign = async (e) => {
     e.preventDefault();
+    setIsCreating(true);
     try {
       const newCampaign = await createCampaign(campaignForm);
       setCampaigns([newCampaign, ...campaigns]);
@@ -63,6 +67,8 @@ function Campaigns() {
       navigate(`/campaign/${newCampaign._id}`);
     } catch (err) {
       alert(`Failed to create campaign: ${err.message}`);
+    } finally {
+      setIsCreating(false);
     }
   };
 
@@ -72,6 +78,7 @@ function Campaigns() {
       alert('Please select a character');
       return;
     }
+    setIsJoining(true);
     try {
       const campaign = await joinCampaign(inviteCode, selectedCharacter);
       setCampaigns([...campaigns, campaign]);
@@ -81,6 +88,8 @@ function Campaigns() {
       navigate(`/campaign/${campaign._id}`);
     } catch (err) {
       alert(`Failed to join campaign: ${err.message}`);
+    } finally {
+      setIsJoining(false);
     }
   };
 
@@ -90,12 +99,15 @@ function Campaigns() {
 
   const handleDeleteConfirm = async () => {
     if (!deleteConfirm) return;
+    setIsDeleting(true);
     try {
       await deleteCampaign(deleteConfirm._id);
       setCampaigns(campaigns.filter(c => c._id !== deleteConfirm._id));
       setDeleteConfirm(null);
     } catch (err) {
       alert(`Failed to delete campaign: ${err.message}`);
+    } finally {
+      setIsDeleting(false);
     }
   };
 
@@ -303,11 +315,11 @@ function Campaigns() {
               </div>
 
               <div className="modal-actions">
-                <button type="button" className="btn-cancel" onClick={() => setShowCreateModal(false)}>
+                <button type="button" className="btn-cancel" onClick={() => setShowJoinModal(false)} disabled={isJoining}>
                   Cancel
                 </button>
-                <button type="submit" className="btn-confirm">
-                  Create Campaign
+                <button type="submit" className="btn-confirm" disabled={isJoining}>
+                  {isJoining ? 'Joining...' : 'Join Campaign'}
                 </button>
               </div>
             </form>
@@ -379,11 +391,11 @@ function Campaigns() {
               This will remove all players and session data. This action cannot be undone.
             </p>
             <div className="modal-actions">
-              <button className="btn-cancel" onClick={() => setDeleteConfirm(null)}>
+              <button className="btn-cancel" onClick={() => setDeleteConfirm(null)} disabled={isDeleting}>
                 Cancel
               </button>
-              <button className="btn-confirm-delete" onClick={handleDeleteConfirm}>
-                Delete Campaign
+              <button className="btn-delete" onClick={handleDeleteConfirm} disabled={isDeleting}>
+                {isDeleting ? 'Deleting...' : 'Delete Campaign'}
               </button>
             </div>
           </div>

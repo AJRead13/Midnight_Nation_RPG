@@ -16,6 +16,10 @@ function CampaignDetail() {
   const [showAddSessionModal, setShowAddSessionModal] = useState(false);
   const [showInviteModal, setShowInviteModal] = useState(false);
   const [copiedCode, setCopiedCode] = useState(false);
+  const [isUpdating, setIsUpdating] = useState(false);
+  const [isAddingSession, setIsAddingSession] = useState(false);
+  const [isLeaving, setIsLeaving] = useState(false);
+  const [removingPlayerId, setRemovingPlayerId] = useState(null);
   const [editForm, setEditForm] = useState({
     name: '',
     description: '',
@@ -64,6 +68,7 @@ function CampaignDetail() {
 
   const handleUpdateCampaign = async (e) => {
     e.preventDefault();
+    setIsUpdating(true);
     try {
       const updated = await updateCampaign(id, editForm);
       setCampaign(updated);
@@ -71,11 +76,14 @@ function CampaignDetail() {
       alert('Campaign updated successfully!');
     } catch (err) {
       alert(`Failed to update campaign: ${err.message}`);
+    } finally {
+      setIsUpdating(false);
     }
   };
 
   const handleAddSession = async (e) => {
     e.preventDefault();
+    setIsAddingSession(true);
     try {
       const updated = await addSession(id, sessionForm);
       setCampaign(updated);
@@ -84,26 +92,39 @@ function CampaignDetail() {
       alert('Session added successfully!');
     } catch (err) {
       alert(`Failed to add session: ${err.message}`);
+    } finally {
+      setIsAddingSession(false);
     }
   };
 
   const handleLeaveCampaign = async () => {
     if (!confirm('Are you sure you want to leave this campaign?')) return;
     
+    setIsLeaving(true);
     try {
       await leaveCampaign(id);
       navigate('/campaigns');
     } catch (err) {
       alert(`Failed to leave campaign: ${err.message}`);
+    } finally {
+      setIsLeaving(false);
     }
   };
 
   const handleRemovePlayer = async (userId) => {
     if (!confirm('Are you sure you want to remove this player?')) return;
     
+    setRemovingPlayerId(userId);
     try {
       const updated = await removePlayer(id, userId);
       setCampaign(updated);
+      alert('Player removed successfully!');
+    } catch (err) {
+      alert(`Failed to remove player: ${err.message}`);
+    } finally {
+      setRemovingPlayerId(null);
+    }
+  };
       alert('Player removed successfully!');
     } catch (err) {
       alert(`Failed to remove player: ${err.message}`);
@@ -200,8 +221,8 @@ function CampaignDetail() {
               </>
             )}
             {!isGM && (
-              <button className="btn-leave" onClick={handleLeaveCampaign}>
-                Leave Campaign
+              <button className="btn-leave" onClick={handleLeaveCampaign} disabled={isLeaving}>
+                {isLeaving ? 'Leaving...' : 'Leave Campaign'}
               </button>
             )}
           </div>
@@ -323,9 +344,10 @@ function CampaignDetail() {
                         <button 
                           className="btn-remove-player"
                           onClick={() => handleRemovePlayer(player.user._id)}
+                          disabled={removingPlayerId === player.user._id}
                           title="Remove player"
                         >
-                          ×
+                          {removingPlayerId === player.user._id ? '...' : '×'}
                         </button>
                       )}
                     </div>
@@ -425,11 +447,11 @@ function CampaignDetail() {
                 />
               </div>
               <div className="modal-actions">
-                <button type="button" className="btn-cancel" onClick={() => setShowEditModal(false)}>
+                <button type="button" className="btn-cancel" onClick={() => setShowEditModal(false)} disabled={isUpdating}>
                   Cancel
                 </button>
-                <button type="submit" className="btn-confirm">
-                  Save Changes
+                <button type="submit" className="btn-confirm" disabled={isUpdating}>
+                  {isUpdating ? 'Saving...' : 'Save Changes'}
                 </button>
               </div>
             </form>
@@ -481,11 +503,11 @@ function CampaignDetail() {
                 />
               </div>
               <div className="modal-actions">
-                <button type="button" className="btn-cancel" onClick={() => setShowAddSessionModal(false)}>
+                <button type="button" className="btn-cancel" onClick={() => setShowAddSessionModal(false)} disabled={isAddingSession}>
                   Cancel
                 </button>
-                <button type="submit" className="btn-confirm">
-                  Add Session
+                <button type="submit" className="btn-confirm" disabled={isAddingSession}>
+                  {isAddingSession ? 'Adding...' : 'Add Session'}
                 </button>
               </div>
             </form>
