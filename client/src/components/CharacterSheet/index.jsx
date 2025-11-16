@@ -706,6 +706,25 @@ function CharacterSheet() {
         </div>
       </section>
 
+      {/* Campaigns Section */}
+      {character.campaigns && character.campaigns.length > 0 && (
+        <section className="sheet-section">
+          <h3>Active Campaigns</h3>
+          <div className="campaigns-list">
+            {character.campaigns.map((campaignEntry, index) => (
+              <div key={index} className="campaign-badge">
+                <span className="campaign-name">
+                  {campaignEntry.campaign?.name || 'Unknown Campaign'}
+                </span>
+                <span className={`campaign-status status-${campaignEntry.campaign?.status || 'planning'}`}>
+                  {campaignEntry.campaign?.status || 'planning'}
+                </span>
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
+
       <section className="sheet-section">
         <h3>Basic Information</h3>
         <div className="form-grid">

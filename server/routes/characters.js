@@ -12,7 +12,7 @@ const authMiddleware = require('../middleware/auth');
 router.get('/', authMiddleware, async (req, res) => {
   try {
     const characters = await Character.find({ owner: req.user._id })
-      .populate('campaign', 'name')
+      .populate('campaigns.campaign', 'name status')
       .sort({ createdAt: -1 });
 
     res.json({ characters });
@@ -28,7 +28,7 @@ router.get('/', authMiddleware, async (req, res) => {
 router.get('/:id', authMiddleware, async (req, res) => {
   try {
     const character = await Character.findById(req.params.id)
-      .populate('campaign', 'name gameMaster');
+      .populate('campaigns.campaign', 'name status gameMaster');
 
     if (!character) {
       return res.status(404).json({ message: 'Character not found' });

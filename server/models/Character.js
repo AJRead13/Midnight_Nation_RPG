@@ -118,6 +118,21 @@ const characterSchema = new mongoose.Schema({
     ref: 'Campaign',
     default: null
   },
+  // Campaign linking
+  campaigns: [{
+    campaign: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Campaign'
+    },
+    joinedAt: {
+      type: Date,
+      default: Date.now
+    },
+    isActive: {
+      type: Boolean,
+      default: true
+    }
+  }],
   createdAt: {
     type: Date,
     default: Date.now

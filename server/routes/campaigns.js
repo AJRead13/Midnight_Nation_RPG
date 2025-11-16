@@ -260,12 +260,20 @@ router.post('/join', authMiddleware, async (req, res) => {
         return res.status(403).json({ message: 'You do not own this character' });
       }
 
-      if (character.campaign) {
-        return res.status(400).json({ message: 'Character is already in another campaign' });
+      // Check if character is already in this campaign
+      const alreadyInCampaign = character.campaigns.some(
+        c => c.campaign.toString() === campaign._id.toString()
+      );
+
+      if (alreadyInCampaign) {
+        return res.status(400).json({ message: 'Character is already in this campaign' });
       }
 
-      // Update character's campaign
-      character.campaign = campaign._id;
+      // Add campaign to character's campaigns array
+      character.campaigns.push({
+        campaign: campaign._id,
+        isActive: true
+      });
       await character.save();
     }
 
@@ -466,7 +474,7 @@ router.post('/:id/leave', authMiddleware, async (req, res) => {
     if (characterId) {
       await Character.findByIdAndUpdate(
         characterId,
-        { $set: { campaign: null } }
+        { $pull: { campaigns: { campaign: campaign._id } } }
       );
     }
 
