@@ -7,6 +7,7 @@ import Lore from './components/Lore';
 import Rules from './components/Rules';
 import CharacterSheet from './components/CharacterSheet';
 import CharacterList from './components/CharacterList';
+import Campaigns from './components/Campaigns';
 import Items from './components/Items';
 import Portfolio from './components/Portfolio';
 import Contact from './components/Contact';
@@ -45,7 +46,13 @@ const router = createBrowserRouter([
         element: <CharacterList />,
       },
       {
-        path: 'items',
+        path: 'campaigns',
+        element: <Campaigns />,
+      },
+      {
+        path: 'campaign/:id',
+        element: <CampaignDetail />,
+      },
         element: <Items />,
       },
       {
