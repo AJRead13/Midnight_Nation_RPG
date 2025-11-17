@@ -4,6 +4,8 @@ import { capitalizeFirstLetter } from '../../utils/helpers';
 import referenceDataService from '../../utils/referenceDataService';
 import { useAuth } from '../../contexts/AuthContext';
 
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3001';
+
 function Nav({ currentPage }) {
   const pages = ['lore', 'rules', 'characters', 'campaigns', 'character-sheet', 'items'];
   const navigate = useNavigate();
@@ -57,7 +59,7 @@ function Nav({ currentPage }) {
 
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch('http://localhost:3001/api/campaigns', {
+      const response = await fetch('`${API_URL}/api/campaigns`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -86,7 +88,7 @@ function Nav({ currentPage }) {
 
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch('http://localhost:3001/api/campaigns/join', {
+      const response = await fetch(`${API_URL}/api/campaigns/join`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

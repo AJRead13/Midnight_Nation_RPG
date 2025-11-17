@@ -1,7 +1,10 @@
 require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
+const helmet = require('helmet');
+const rateLimit = require('express-rate-limit');
 const http = require('http');
+const path = require('path');
 const { Server } = require('socket.io');
 const connectDB = require('./config/db');
 
@@ -34,7 +37,33 @@ const io = new Server(server, {
 // Connect to MongoDB
 connectDB();
 
-// Middleware
+// Security Middleware
+app.use(helmet({
+  contentSecurityPolicy: process.env.NODE_ENV === 'production',
+  crossOriginEmbedderPolicy: false
+}));
+
+// Rate limiting
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 100, // Limit each IP to 100 requests per windowMs
+  message: 'Too many requests from this IP, please try again later.',
+  standardHeaders: true,
+  legacyHeaders: false,
+});
+
+const authLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 5, // Limit each IP to 5 login/register requests per windowMs
+  message: 'Too many authentication attempts, please try again later.',
+  skipSuccessfulRequests: true,
+});
+
+app.use('/api/', limiter);
+app.use('/api/auth/login', authLimiter);
+app.use('/api/auth/register', authLimiter);
+
+// CORS Middleware
 app.use(cors({
   origin: function(origin, callback) {
     // Allow requests with no origin (like mobile apps or curl requests)
@@ -63,6 +92,19 @@ app.use('/api/characters', characterRoutes);
 app.use('/api/campaigns', campaignRoutes);
 app.use('/api/reference', referenceDataRoutes);
 
+// Serve static files in production
+if (process.env.NODE_ENV === 'production') {
+  app.use(express.static(path.join(__dirname, '../client/dist')));
+  
+  // Handle React routing, return all requests to React app
+  app.get('*', (req, res, next) => {
+    if (req.path.startsWith('/api/')) {
+      return next();
+    }
+    res.sendFile(path.join(__dirname, '../client/dist', 'index.html'));
+  });
+}
+
 // Health check route
 app.get('/api/health', (req, res) => {
   res.json({ status: 'Server is running', timestamp: new Date() });
@@ -73,6 +115,7 @@ app.get('/', (req, res) => {
   res.json({ 
     message: 'Midnight Nation RPG API',
     version: '1.0.0',
+    environment: process.env.NODE_ENV || 'development',
     endpoints: {
       auth: '/api/auth',
       characters: '/api/characters',
