@@ -7,7 +7,9 @@
     "start": "node server.js",
     "dev": "nodemon server.js",
     "seed": "node utils/seedDatabase.js",
-    "seed:modules": "node utils/seedModules.js"
+    "seed:modules": "node utils/seedModules.js",
+    "update": "node utils/incrementalUpdate.js",
+    "update:monsters": "node utils/updateMonsters.js"
   },
   "keywords": [
     "rpg",
