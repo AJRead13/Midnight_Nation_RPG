@@ -1,14 +1,24 @@
+// API URL Configuration
+const PRODUCTION_API_URL = 'https://midnight-nation-api.onrender.com';
+const DEVELOPMENT_API_URL = 'http://localhost:3001';
+
 // Helper function to get API URL safely
-// Build timestamp: 2025-11-19 - Force rebuild
+// Build timestamp: 2025-11-19 - Force rebuild v3
 const getApiUrl = () => {
-  // Check if we're in production by looking at the hostname
-  if (typeof window !== 'undefined' && window.location.hostname.includes('onrender.com')) {
-    return 'https://midnight-nation-api.onrender.com';
+  try {
+    const hostname = window.location.hostname;
+    
+    // Production: Render.com deployment
+    if (hostname.includes('onrender.com')) {
+      return PRODUCTION_API_URL;
+    }
+    
+    // Development: localhost
+    return DEVELOPMENT_API_URL;
+  } catch (error) {
+    // Fallback if window is not available
+    return DEVELOPMENT_API_URL;
   }
-  // Try to get from env, fallback to localhost
-  return (typeof import.meta !== 'undefined' && import.meta.env && import.meta.env.VITE_API_URL) 
-    ? import.meta.env.VITE_API_URL 
-    : 'http://localhost:3001';
 };
 
 const moduleService = {

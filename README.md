@@ -1,5 +1,13 @@
 # Midnight Nation RPG [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
+MIDNIGHT NATION — OFFICIAL LICENSE (v1.0)
+
+Copyright © 2025 Midnight Nation / Andrew Read. All Rights Reserved.
+
+Midnight Nation is an original tabletop role-playing system, including but not limited to its mechanics, setting, rules text, artwork, terminology, world design, factions, creatures, bloodlines, supernatural systems, and related narrative content.
+
+By using, reproducing, distributing, or creating content derived from Midnight Nation, you agree to the following terms:
+
 ## Description
 A full-stack tabletop RPG website featuring a React frontend and Express/MongoDB backend for character management, campaign tracking, and user authentication. Set in post-WWII America (1947-1955) where heaven and hell are real, and secret organizations fight supernatural threats.
 
