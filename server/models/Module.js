@@ -3,8 +3,9 @@ const mongoose = require('mongoose');
 const moduleSchema = new mongoose.Schema({
   moduleId: {
     type: String,
-    required: true,
+    required: false,  // Optional - modules without this are classified
     unique: true,
+    sparse: true,  // Allows multiple documents with undefined moduleId
     trim: true
   },
   title: {
