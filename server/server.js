@@ -91,6 +91,35 @@ app.use(express.urlencoded({ extended: true }));
 // Serve static files for module downloads (before routes to ensure proper serving)
 app.use('/modules', express.static(path.join(__dirname, 'public/modules')));
 
+// Health check endpoint
+app.get('/api/health', (req, res) => {
+  res.json({ 
+    status: 'OK', 
+    timestamp: new Date().toISOString(),
+    environment: process.env.NODE_ENV || 'development'
+  });
+});
+
+// Test endpoint to check if module file exists
+app.get('/api/test-module/:moduleId', (req, res) => {
+  const { moduleId } = req.params;
+  const filePath = path.join(__dirname, 'public/modules', `${moduleId}.json`);
+  
+  if (fs.existsSync(filePath)) {
+    res.json({ 
+      exists: true, 
+      path: filePath,
+      size: fs.statSync(filePath).size 
+    });
+  } else {
+    res.status(404).json({ 
+      exists: false, 
+      path: filePath,
+      message: 'File not found' 
+    });
+  }
+});
+
 // Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/characters', characterRoutes);
