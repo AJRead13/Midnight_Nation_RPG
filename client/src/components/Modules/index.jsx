@@ -24,6 +24,10 @@ function Modules() {
     try {
       setLoading(true);
       const data = await moduleService.getAllModules({ difficulty: filter });
+      console.log('[Modules] Fetched modules:', data);
+      data.forEach(mod => {
+        console.log(`[Modules] ${mod.title}: moduleId=${mod.moduleId}, _id=${mod._id}`);
+      });
       setModules(data);
     } catch (error) {
       console.error('Error fetching modules:', error);
