@@ -53,13 +53,40 @@
   cursor: pointer;
   font-size: 0.9rem;
   transition: all 0.3s ease;
-  margin-bottom: 1rem;
 }
 
 .back-button:hover {
   background: rgba(255, 215, 0, 0.2);
   border-color: #ffd700;
   transform: translateX(-3px);
+}
+
+.header-actions {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+}
+
+.print-button {
+  background: rgba(100, 200, 100, 0.15);
+  border: 1px solid rgba(100, 200, 100, 0.4);
+  color: #6fc86f;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.print-button:hover {
+  background: rgba(100, 200, 100, 0.25);
+  border-color: #6fc86f;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(100, 200, 100, 0.3);
 }
 
 .module-title-block {
@@ -875,5 +902,205 @@
 
   .module-section h2 {
     font-size: 1.5rem;
+  }
+}
+
+/* Print Styles */
+@media print {
+  /* Hide interactive elements */
+  .no-print,
+  .back-button,
+  .print-button,
+  .header-actions,
+  .session-button,
+  .collapsible-header,
+  .screen-only {
+    display: none !important;
+  }
+
+  /* Show print-only sections */
+  .print-only-sessions {
+    display: block !important;
+  }
+
+  /* Reset page styling for print */
+  .module-viewer {
+    background: white !important;
+    color: black !important;
+    padding: 0;
+    max-width: 100%;
+    min-height: auto;
+  }
+
+  .module-header {
+    background: white !important;
+    color: black !important;
+    box-shadow: none !important;
+    border: none !important;
+    page-break-after: avoid;
+    margin-bottom: 1rem;
+    padding: 1rem 0;
+  }
+
+  .module-title {
+    color: #000 !important;
+    text-shadow: none !important;
+    font-size: 2rem;
+  }
+
+  .module-subtitle {
+    color: #333 !important;
+  }
+
+  .module-section {
+    background: white !important;
+    color: black !important;
+    box-shadow: none !important;
+    border: none !important;
+    padding: 0.5rem 0;
+    page-break-inside: avoid;
+  }
+
+  .module-section h2 {
+    color: #000 !important;
+    border-bottom: 2px solid #000 !important;
+    page-break-after: avoid;
+    font-size: 1.5rem;
+  }
+
+  .module-section h3 {
+    color: #222 !important;
+    page-break-after: avoid;
+  }
+
+  .module-section h4,
+  .module-section h5 {
+    color: #333 !important;
+    page-break-after: avoid;
+  }
+
+  /* Card styling for print */
+  .faction-card,
+  .npc-card,
+  .location-card,
+  .scene-card,
+  .hook-card,
+  .challenge-card,
+  .choice-card {
+    background: white !important;
+    border: 1px solid #ccc !important;
+    color: black !important;
+    page-break-inside: avoid;
+    margin-bottom: 0.5rem;
+  }
+
+  /* Tables for print */
+  .clues-table {
+    background: white !important;
+    border: 1px solid #000;
+  }
+
+  .clues-table th {
+    background: #f0f0f0 !important;
+    color: #000 !important;
+    border-bottom: 2px solid #000 !important;
+  }
+
+  .clues-table td {
+    color: #000 !important;
+    border-bottom: 1px solid #ccc !important;
+  }
+
+  /* Text colors for print */
+  p, li, span, em, strong {
+    color: black !important;
+  }
+
+  /* Badges and tags */
+  .meta-badge,
+  .theme-tag,
+  .reward-type,
+  .minion-tag {
+    background: #f0f0f0 !important;
+    color: #000 !important;
+    border: 1px solid #ccc !important;
+  }
+
+  /* Special sections */
+  .tagline {
+    background: #f9f9f9 !important;
+    color: #000 !important;
+    border-left: 4px solid #000 !important;
+  }
+
+  .scene-atmosphere,
+  .location-atmosphere {
+    background: #f9f9f9 !important;
+    color: #000 !important;
+    border-left: 3px solid #666 !important;
+  }
+
+  .combat-encounter,
+  .combat-encounter-detailed,
+  .boss-encounter {
+    background: #fff5f5 !important;
+    border: 2px solid #000 !important;
+    color: #000 !important;
+  }
+
+  .cliffhanger {
+    background: #fff5f5 !important;
+    border-left: 4px solid #000 !important;
+    color: #000 !important;
+  }
+
+  .recruitment-pitch,
+  .npc-quotes li {
+    background: #f9f9f9 !important;
+    color: #000 !important;
+    border-left: 3px solid #666 !important;
+  }
+
+  /* Auto-expand all sections */
+  .npcs,
+  .locations,
+  .handouts,
+  .rewards,
+  .guidance-content {
+    display: block !important;
+  }
+
+  /* Session detail always visible */
+  .session-detail {
+    display: block !important;
+    background: white !important;
+    border: none !important;
+  }
+
+  /* Footer */
+  .module-footer {
+    color: #666 !important;
+    border-top: 1px solid #ccc !important;
+  }
+
+  /* Page breaks */
+  .session-content {
+    page-break-before: always;
+  }
+
+  .session-content:first-child {
+    page-break-before: avoid;
+  }
+
+  /* Ensure proper spacing */
+  body {
+    font-size: 11pt;
+    line-height: 1.5;
+  }
+
+  /* Remove shadows and effects */
+  * {
+    box-shadow: none !important;
+    text-shadow: none !important;
   }
 }

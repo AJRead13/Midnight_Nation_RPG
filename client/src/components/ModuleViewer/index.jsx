@@ -36,6 +36,21 @@ const ModuleViewer = () => {
     }));
   };
 
+  const handlePrint = () => {
+    // Auto-expand all sections for printing
+    setExpandedSections({
+      npcs: true,
+      locations: true,
+      handouts: true,
+      rewards: true,
+      guidance: true
+    });
+    // Small delay to ensure sections are expanded before print dialog
+    setTimeout(() => {
+      window.print();
+    }, 100);
+  };
+
   if (loading) {
     return (
       <div className="module-viewer loading">
@@ -60,9 +75,14 @@ const ModuleViewer = () => {
     <div className="module-viewer">
       {/* Header */}
       <header className="module-header">
-        <button className="back-button" onClick={() => navigate('/modules')}>
-          ← Back to Modules
-        </button>
+        <div className="header-actions no-print">
+          <button className="back-button" onClick={() => navigate('/modules')}>
+            ← Back to Modules
+          </button>
+          <button className="print-button" onClick={handlePrint} title="Print or Export as PDF">
+            🖨️ Print / Export PDF
+          </button>
+        </div>
         <div className="module-title-block">
           <h1 className="module-title">{metadata.title}</h1>
           <p className="module-subtitle">{metadata.subtitle}</p>
@@ -120,7 +140,7 @@ const ModuleViewer = () => {
       </section>
 
       {/* Sessions Navigation */}
-      <section className="module-section sessions-nav">
+      <section className="module-section sessions-nav no-print">
         <h2>Sessions</h2>
         <div className="session-buttons">
           {sessions.map((session) => (
@@ -135,9 +155,9 @@ const ModuleViewer = () => {
         </div>
       </section>
 
-      {/* Session Details */}
+      {/* Session Details - Active session for screen, all sessions for print */}
       {activeSession && (
-        <section className="module-section session-detail">
+        <section className="module-section session-detail screen-only">
           {sessions
             .filter(s => s.number === activeSession)
             .map((session) => (
@@ -411,6 +431,23 @@ const ModuleViewer = () => {
             ))}
         </section>
       )}
+
+      {/* All Sessions - Print Only (hidden on screen, visible when printing) */}
+      <div className="print-only-sessions" style={{ display: 'none' }}>
+        {sessions.map((session) => (
+          <section key={session.number} className="module-section session-detail">
+            <div className="session-content">
+              <h2>Session {session.number}: {session.title}</h2>
+              <div className="session-meta">
+                <strong>Focus:</strong> {session.focus}
+              </div>
+              <p className="session-summary">{session.summary}</p>
+
+              {/* ... (rest of session rendering would go here - simplified for now) */}
+            </div>
+          </section>
+        ))}
+      </div>
 
       {/* NPCs */}
       <section className="module-section npcs">
