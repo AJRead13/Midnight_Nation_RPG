@@ -9,6 +9,8 @@ const ModuleViewer = () => {
   const [loading, setLoading] = useState(true);
   const [activeSession, setActiveSession] = useState(null);
   const [expandedSections, setExpandedSections] = useState({});
+  const [npcModalOpen, setNpcModalOpen] = useState(false);
+  const [currentNpcIndex, setCurrentNpcIndex] = useState(0);
 
   useEffect(() => {
     loadModule();
@@ -61,6 +63,40 @@ const ModuleViewer = () => {
       window.print();
     }, 100);
   };
+
+  const openNpcModal = (index) => {
+    setCurrentNpcIndex(index);
+    setNpcModalOpen(true);
+  };
+
+  const closeNpcModal = () => {
+    setNpcModalOpen(false);
+  };
+
+  const nextNpc = () => {
+    if (moduleData?.npcs) {
+      setCurrentNpcIndex((prev) => (prev + 1) % moduleData.npcs.length);
+    }
+  };
+
+  const prevNpc = () => {
+    if (moduleData?.npcs) {
+      setCurrentNpcIndex((prev) => (prev - 1 + moduleData.npcs.length) % moduleData.npcs.length);
+    }
+  };
+
+  // Keyboard navigation for modal
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (npcModalOpen) {
+        if (e.key === 'Escape') closeNpcModal();
+        if (e.key === 'ArrowRight') nextNpc();
+        if (e.key === 'ArrowLeft') prevNpc();
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [npcModalOpen]);
 
   if (loading) {
     return (
@@ -468,38 +504,16 @@ const ModuleViewer = () => {
         {expandedSections.npcs && (
           <div className="npc-grid">
             {npcs.map((npc, idx) => (
-              <div key={idx} className="npc-card">
+              <div 
+                key={idx} 
+                className="npc-card clickable" 
+                onClick={() => openNpcModal(idx)}
+                title="Click to view full details"
+              >
                 <h3>{npc.name}</h3>
                 <div className="npc-faction">{npc.faction} • {npc.role}</div>
-                <p>{npc.description}</p>
-                <div className="npc-personality">
-                  <strong>Personality:</strong> {npc.personality}
-                </div>
-                {npc.backstory && (
-                  <div className="npc-backstory">
-                    <strong>Background:</strong> {npc.backstory}
-                  </div>
-                )}
-                {npc.combat_stats && (
-                  <div className="npc-stats">
-                    <strong>Combat Stats:</strong>
-                    <ul>
-                      <li>Wound Threshold: {npc.combat_stats.wound_threshold}</li>
-                      <li>Weapons: {npc.combat_stats.weapons.join(', ')}</li>
-                      <li>Skills: {npc.combat_stats.skills.join(', ')}</li>
-                    </ul>
-                  </div>
-                )}
-                {npc.quotes && (
-                  <div className="npc-quotes">
-                    <strong>Quotes:</strong>
-                    <ul>
-                      {npc.quotes.map((quote, qidx) => (
-                        <li key={qidx}><em>"{quote}"</em></li>
-                      ))}
-                    </ul>
-                  </div>
-                )}
+                <p className="npc-preview">{npc.description}</p>
+                <div className="npc-click-hint">Click for full details →</div>
               </div>
             ))}
           </div>
@@ -613,6 +627,209 @@ const ModuleViewer = () => {
         <p>Midnight Nation RPG • Module by AJ Scrivner</p>
         <p>For personal use in campaigns. Have fun!</p>
       </footer>
+
+      {/* NPC Modal */}
+      {npcModalOpen && moduleData?.npcs && moduleData.npcs[currentNpcIndex] && (
+        <div className="npc-modal-overlay" onClick={closeNpcModal}>
+          <div className="npc-modal-content" onClick={(e) => e.stopPropagation()}>
+            <button className="modal-close" onClick={closeNpcModal}>×</button>
+            
+            <div className="modal-navigation">
+              <button className="modal-nav-btn" onClick={prevNpc}>‹</button>
+              <span className="modal-counter">
+                {currentNpcIndex + 1} / {moduleData.npcs.length}
+              </span>
+              <button className="modal-nav-btn" onClick={nextNpc}>›</button>
+            </div>
+
+            {(() => {
+              const npc = moduleData.npcs[currentNpcIndex];
+              return (
+                <div className="npc-modal-body">
+                  <div className="npc-modal-header">
+                    <h2>{npc.name}</h2>
+                    <div className="npc-modal-subtitle">
+                      {npc.faction} • {npc.role}
+                    </div>
+                  </div>
+
+                  <div className="npc-modal-section">
+                    <h3>Description</h3>
+                    <p>{npc.description}</p>
+                  </div>
+
+                  <div className="npc-modal-section">
+                    <h3>Personality</h3>
+                    <p>{npc.personality}</p>
+                  </div>
+
+                  {npc.motivation && (
+                    <div className="npc-modal-section">
+                      <h3>Motivation</h3>
+                      <p>{npc.motivation}</p>
+                    </div>
+                  )}
+
+                  {npc.backstory && (
+                    <div className="npc-modal-section">
+                      <h3>Background</h3>
+                      <p>{npc.backstory}</p>
+                    </div>
+                  )}
+
+                  {npc.attributes && (
+                    <div className="npc-modal-section">
+                      <h3>Attributes</h3>
+                      <div className="npc-attributes">
+                        <div className="attribute-box">
+                          <span className="attribute-label">Mind</span>
+                          <span className="attribute-value">{npc.attributes.mind}</span>
+                        </div>
+                        <div className="attribute-box">
+                          <span className="attribute-label">Body</span>
+                          <span className="attribute-value">{npc.attributes.body}</span>
+                        </div>
+                        <div className="attribute-box">
+                          <span className="attribute-label">Soul</span>
+                          <span className="attribute-value">{npc.attributes.soul}</span>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+
+                  {npc.competencies && npc.competencies.length > 0 && (
+                    <div className="npc-modal-section">
+                      <h3>Competencies</h3>
+                      <div className="npc-competencies">
+                        {npc.competencies.map((comp, idx) => (
+                          <span key={idx} className="competency-tag">{comp}</span>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
+                  {npc.talents && Object.keys(npc.talents).length > 0 && (
+                    <div className="npc-modal-section">
+                      <h3>Talents</h3>
+                      <ul className="npc-talents-list">
+                        {Object.entries(npc.talents).map(([talent, data], idx) => (
+                          <li key={idx}>
+                            <strong>{talent.replace(/_/g, ' ')}:</strong> Rank {data.rank}
+                            {data.focus && ` (Focus: ${data.focus})`}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+
+                  {npc.combat_stats && (
+                    <div className="npc-modal-section combat-stats-section">
+                      <h3>Combat Statistics</h3>
+                      
+                      {npc.combat_stats.wound_track && (
+                        <div className="wound-track">
+                          <h4>Wound Track</h4>
+                          <div className="wound-grid">
+                            <div className="wound-location">
+                              <span className="location-label">Head</span>
+                              <span className="wound-boxes">
+                                {Array.from({ length: npc.combat_stats.wound_track.head }).map((_, i) => (
+                                  <span key={i} className="wound-box">□</span>
+                                ))}
+                              </span>
+                            </div>
+                            <div className="wound-location">
+                              <span className="location-label">Torso</span>
+                              <span className="wound-boxes">
+                                {Array.from({ length: npc.combat_stats.wound_track.torso }).map((_, i) => (
+                                  <span key={i} className="wound-box">□</span>
+                                ))}
+                              </span>
+                            </div>
+                            <div className="wound-location">
+                              <span className="location-label">Arms</span>
+                              <span className="wound-boxes">
+                                {Array.from({ length: npc.combat_stats.wound_track.arms }).map((_, i) => (
+                                  <span key={i} className="wound-box">□</span>
+                                ))}
+                              </span>
+                            </div>
+                            <div className="wound-location">
+                              <span className="location-label">Legs</span>
+                              <span className="wound-boxes">
+                                {Array.from({ length: npc.combat_stats.wound_track.legs }).map((_, i) => (
+                                  <span key={i} className="wound-box">□</span>
+                                ))}
+                              </span>
+                            </div>
+                          </div>
+                        </div>
+                      )}
+
+                      {npc.combat_stats.wound_threshold && (
+                        <div className="stat-line">
+                          <strong>Wound Threshold:</strong> {npc.combat_stats.wound_threshold}
+                        </div>
+                      )}
+
+                      {npc.combat_stats.weapons && (
+                        <div className="stat-line">
+                          <strong>Weapons:</strong> {npc.combat_stats.weapons.join(', ')}
+                        </div>
+                      )}
+
+                      {npc.combat_stats.skills && (
+                        <div className="stat-line">
+                          <strong>Skills:</strong> {npc.combat_stats.skills.join(', ')}
+                        </div>
+                      )}
+
+                      {npc.combat_stats.special && (
+                        <div className="stat-line special-ability">
+                          <strong>Special:</strong> {npc.combat_stats.special}
+                        </div>
+                      )}
+                    </div>
+                  )}
+
+                  {npc.secrets && npc.secrets.length > 0 && (
+                    <div className="npc-modal-section secrets-section">
+                      <h3>🔒 Secrets (GM Only)</h3>
+                      <ul>
+                        {npc.secrets.map((secret, idx) => (
+                          <li key={idx}>{secret}</li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+
+                  {npc.plot_hooks && npc.plot_hooks.length > 0 && (
+                    <div className="npc-modal-section">
+                      <h3>Plot Hooks</h3>
+                      <ul>
+                        {npc.plot_hooks.map((hook, idx) => (
+                          <li key={idx}>{hook}</li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+
+                  {npc.quotes && npc.quotes.length > 0 && (
+                    <div className="npc-modal-section quotes-section">
+                      <h3>Quotes</h3>
+                      <div className="npc-quotes-list">
+                        {npc.quotes.map((quote, idx) => (
+                          <blockquote key={idx}>"{quote}"</blockquote>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                </div>
+              );
+            })()}
+          </div>
+        </div>
+      )}
     </div>
   );
 };

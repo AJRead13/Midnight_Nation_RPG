@@ -606,6 +606,222 @@
 
   "npcs": [
     {
+      "name": "Detective Henry Marlowe",
+      "faction": "Unaffiliated (Lean: Covenant of St. Michael)",
+      "role": "Police Detective, South Pier Precinct",
+      "description": "A weathered detective in his late 40s with tired eyes that have seen too much. Wears a rumpled trench coat and chain-smokes Lucky Strikes. His badge is tarnished but his resolve isn't.",
+      "personality": "Pragmatic and world-weary. Knows the supernatural is real but keeps it buried under paperwork and whiskey. Protects civilians first, asks questions later. Has a soft spot for those trying to make amends.",
+      "motivation": "Solve the murders, protect civilians, suppress panic.",
+      "attributes": {
+        "mind": 58,
+        "body": 62,
+        "soul": 49
+      },
+      "competencies": ["Pistol", "Interrogation", "Street Knowledge"],
+      "talents": {
+        "Coercion": { "rank": 2, "focus": "Intimidation" },
+        "Investigation": { "rank": 1 }
+      },
+      "combat_stats": {
+        "wound_track": {
+          "head": 3,
+          "torso": 4,
+          "arms": 3,
+          "legs": 3
+        },
+        "weapons": [".38 Special Revolver", "Blackjack"],
+        "skills": ["Investigation +2", "Intimidation +2", "Firearms +1"]
+      },
+      "secrets": [
+        "He knows supernatural activity is real but won't admit it openly.",
+        "Mallory was under his protection as part of an unofficial rehab program."
+      ],
+      "plot_hooks": [
+        "Warns players about Ashwood agents operating in the precinct.",
+        "Provides sealed police files in exchange for results."
+      ],
+      "quotes": [
+        "I've seen three 'impossible' murders this month. At a certain point, impossible becomes Tuesday.",
+        "Whatever you are, whatever you're into—I don't care. Just don't leave bodies in my district.",
+        "Mallory was a good man trying to get straight. He didn't deserve what happened."
+      ]
+    },
+    {
+      "name": "Sister Aurelia Valente",
+      "faction": "Covenant of St. Michael",
+      "role": "Covenant Envoy / Exorcist",
+      "description": "A striking woman in her early 30s who wears a modified nun's habit with tactical boots. Italian accent. Carries a rosary in one hand and concealed blessed silver in the other. Burn scars mar her left arm from a failed exorcism.",
+      "personality": "Zealous but not unkind. Believes redemption is possible even for the damned, but preparation for the alternative is essential. Speaks of damnation and salvation with equal certainty.",
+      "motivation": "Cleanse supernatural incursions without allowing government intervention.",
+      "attributes": {
+        "mind": 64,
+        "body": 45,
+        "soul": 78
+      },
+      "competencies": ["Rituals", "Holy Symbols", "Medicine Basics"],
+      "talents": {
+        "Occult": { "rank": 2, "focus": "Banishment" },
+        "Lore_Religion": { "rank": 2 }
+      },
+      "combat_stats": {
+        "wound_track": {
+          "head": 3,
+          "torso": 3,
+          "arms": 2,
+          "legs": 2
+        },
+        "weapons": ["Consecrated Dagger (d8, holy)", "Prayer Beads (can bind demons)", "Holy Water"],
+        "skills": ["Occult +3", "Religion +3", "Willpower +2"],
+        "special": "Can perform exorcism rituals. Holy symbols deal extra damage to supernatural creatures."
+      },
+      "secrets": [
+        "She believes one of the PCs may be a prophesied 'Reconciler.'",
+        "She is hiding a demonic sigil carved into her shoulder—a mark from her failed exorcism."
+      ],
+      "plot_hooks": [
+        "Offers to sanctify weapons in exchange for information.",
+        "Will forcibly exorcise a PC if their bloodline becomes obvious."
+      ],
+      "quotes": [
+        "God's grace is infinite, but His patience is not. Choose wisely.",
+        "I have faced demons in the flesh. What are you compared to that?",
+        "The darkness calls to you. I can help you resist—or I can end you before you fall."
+      ]
+    },
+    {
+      "name": "Agent Silas Mercer",
+      "faction": "Black Chamber (U.S. Intelligence)",
+      "role": "Field Operative / Handler",
+      "description": "Mid-30s with a forgettable face—exactly as trained. Always wears dark suits and carries an earpiece. Former OSS operative who transitioned to 'specialized operations' after the war. Knows more than he reveals.",
+      "personality": "Cold War pragmatist through and through. Views everything as either an asset or a threat. Not cruel, just clinical. Will make the hard calls without hesitation because someone has to.",
+      "motivation": "Contain supernatural forces and weaponize them for covert operations.",
+      "attributes": {
+        "mind": 72,
+        "body": 59,
+        "soul": 52
+      },
+      "competencies": ["Pistol", "Subterfuge", "Occult Tech"],
+      "talents": {
+        "Warfare_Firearms": { "rank": 1 },
+        "Engineering_Electronics": { "rank": 1 },
+        "Subterfuge": { "rank": 2, "focus": "Espionage" }
+      },
+      "combat_stats": {
+        "wound_track": {
+          "head": 3,
+          "torso": 4,
+          "arms": 3,
+          "legs": 3
+        },
+        "weapons": ["Suppressed M1911 (d8)", "Garrote Wire (d8, stealth)", "Flash Grenades"],
+        "skills": ["Espionage +3", "Deception +3", "Firearms +2", "Investigation +2"],
+        "special": "Can call in Black Chamber backup teams. Has access to experimental occult technology."
+      },
+      "secrets": [
+        "He knows about Project MK-Harrow, a ritual superweapon initiative.",
+        "He may recruit or abduct a PC depending on their behavior and usefulness."
+      ],
+      "plot_hooks": [
+        "Offers classified documents in exchange for cooperation.",
+        "Sends agents to shadow or detain PCs if they interfere with operations."
+      ],
+      "quotes": [
+        "The Soviets have three operational psychic divisions. We're playing catch-up.",
+        "I don't need you to like me. I need you to not be a liability.",
+        "Patriotism isn't about flags—it's about making choices civilians never have to know about."
+      ]
+    },
+    {
+      "name": "Jonas Vell",
+      "faction": "Independent Occult Cell (unknowingly feeding The Black Chamber)",
+      "role": "Cult Leader / Ritualist",
+      "description": "A charismatic man in his late 40s with intense eyes that seem to glow amber in dim light. Wears expensive suits beneath ritual robes. Speaks with the calm certainty of a true believer. Ritual scars cover his arms.",
+      "personality": "Visionary zealot who believes he's saving humanity by forcing supernatural evolution. Not sadistic—clinical. Sees casualties as necessary sacrifices. Genuinely believes the PCs should thank him for awakening them.",
+      "motivation": "Awaken latent bloodlines across the city to trigger a new occult age.",
+      "backstory": "Former academic obsessed with occult history. Witnessed something during the war that shattered his worldview. Spent decades researching forbidden rituals. Believes daemon pacts are the key to human transcendence.",
+      "attributes": {
+        "mind": 67,
+        "body": 41,
+        "soul": 74
+      },
+      "competencies": ["Rituals", "Leadership", "Forgery"],
+      "talents": {
+        "Occult": { "rank": 3, "focus": "Summoning" },
+        "Lore_History": { "rank": 1 },
+        "Coercion": { "rank": 1 }
+      },
+      "combat_stats": {
+        "wound_track": {
+          "head": 3,
+          "torso": 3,
+          "arms": 3,
+          "legs": 3
+        },
+        "weapons": ["Ritual Dagger (d6, cursed)", "Summoned Daemon (2d8)", "Psychic Attacks (2d6)"],
+        "skills": ["Occult +4", "Persuasion +3", "Rituals +4"],
+        "special": "Can channel power from awakened individuals. Each awakened within 30 feet adds +1 die to his ritual pools. Can summon lesser daemons as combat actions."
+      },
+      "secrets": [
+        "He believes a greater daemon can grant true immortality.",
+        "His rituals are being monitored by The Black Chamber without his knowledge.",
+        "He was the one who marked Mallory before death, attempting to use him as a ritual anchor."
+      ],
+      "plot_hooks": [
+        "PCs may find his ritual notes and attempt to mimic or counter his work.",
+        "He will attempt to recruit awakened PCs, offering power and purpose.",
+        "He escapes the final encounter if not killed, setting up future conflicts."
+      ],
+      "quotes": [
+        "You feel it, don't you? The power awakening in your blood. I can teach you to embrace it.",
+        "They called Oppenheimer a monster for unleashing the atom. History will vindicate us both.",
+        "Humanity's next evolution begins with blood and fire. Join me, or be left behind."
+      ]
+    },
+    {
+      "name": "Francis 'Frank' Mallory",
+      "faction": "Civilian (Veteran)",
+      "role": "Murder Victim / Catalyst",
+      "description": "DECEASED. A Korean War veteran in his early 30s who was trying to rebuild his life. Worked as a mechanic. Had kind eyes despite the things he'd seen. His body was found mutilated in an alley—the first victim.",
+      "personality": "Was a good man trying to leave violence behind. Haunted by war but determined to help others avoid his fate. Discovered the cult and tried to stop them alone.",
+      "motivation": "Was trying to stop the cult before death; left clues behind for those who would listen.",
+      "attributes": {
+        "mind": 43,
+        "body": 61,
+        "soul": 54
+      },
+      "competencies": ["Rifle", "Survival", "Military Protocol"],
+      "talents": {
+        "Tracking": { "rank": 1 }
+      },
+      "combat_stats": {
+        "wound_track": {
+          "head": 2,
+          "torso": 4,
+          "arms": 2,
+          "legs": 2
+        },
+        "weapons": ["M1 Garand (no longer possessed)", "Combat Knife (in evidence)"],
+        "skills": ["Firearms +2", "Survival +1", "Mechanics +1"]
+      },
+      "secrets": [
+        "He was partially awakened—bloodline unknown, possibly celestial or angelic.",
+        "His body was used as the anchor point for the daemon summoning ritual.",
+        "His ghost may linger if the ritual succeeds, seeking vengeance or peace.",
+        "He left coded notes in his apartment about sewer tunnel locations."
+      ],
+      "plot_hooks": [
+        "His dog tags contain a ritual ward etched into the metal—possibly protection given by someone who knew.",
+        "His apartment hides coded notes about sewer tunnels and cult meeting locations.",
+        "Flashbacks, visions, or ghostly manifestations may reveal his last moments to PCs.",
+        "Detective Marlowe feels guilty about failing to protect him and will help PCs investigate."
+      ],
+      "quotes": [
+        "[From his journal] 'Something's wrong in the city. People changing. I've seen it before—in the war, in the camps. This time I won't run.'",
+        "[From witness accounts] 'Frank was always helping people. Donated to the shelter, fixed cars for free. Good man.'",
+        "[Possible ghost manifestation] 'Stop... them... tunnels... beneath... the warehouse...'"
+      ]
+    },
+    {
       "name": "Colonel Marcus Reeves",
       "faction": "Ashwood Foundation",
       "role": "Military commander",
