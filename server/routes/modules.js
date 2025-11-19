@@ -49,7 +49,6 @@ router.get('/', async (req, res) => {
     
     // If no modules in database, return hardcoded modules as fallback
     if (transformedModules.length === 0) {
-    if (modules.length === 0) {
       console.log('[modules.js] No modules in database, returning fallback data');
       const fallbackModules = [
         {
