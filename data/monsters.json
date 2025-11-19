@@ -1201,6 +1201,155 @@
       ],
       "tactics": "Appear at night, knocking on doors or car windows. Use compulsion and human sympathy to gain entry. Once inside, reveal true nature and begin feeding. Work alone or in pairs, never groups larger than three.",
       "storyHooks": "Multiple reports of strange children asking for help at odd hours. Those who let them in are found days later, alive but unresponsive, staring at nothing. Security footage shows the children's eyes are completely black."
+    },
+    {
+      "name": "Lesser Shade",
+      "category": "spirit",
+      "threatTier": "minion",
+      "origin": "Lingering remnants of the violently deceased or echoes from places of great suffering.",
+      "attributes": {
+        "mind": 30,
+        "body": 20,
+        "soul": 60
+      },
+      "competencies": [
+        "stealth",
+        "intimidation"
+      ],
+      "abilities": [
+        {
+          "name": "Phase Through Walls",
+          "type": "passive",
+          "effect": "Can move through solid matter, ignoring physical barriers. Cannot be struck by mundane weapons while phased."
+        },
+        {
+          "name": "Whispering Terror",
+          "type": "active",
+          "effect": "Fills the area with unsettling whispers. All nearby characters must succeed on a Soul check or suffer -1 dice to actions due to fear."
+        }
+      ],
+      "weaknesses": [
+        "Bright light forces them to retreat or weakens them significantly (-2 dice).",
+        "Holy symbols can repel or harm them.",
+        "Salt circles can trap them.",
+        "Resolving their unfinished business may banish them permanently."
+      ],
+      "woundProfile": {
+        "robustness": "minion",
+        "notes": "Only 3 wounds total. Light wounds can banish them temporarily. Incorporeal, so immune to mundane physical attacks unless manifested."
+      },
+      "attacks": [
+        {
+          "name": "Shadow Claw",
+          "range": "melee",
+          "baseDiceBonus": 1,
+          "woundNotes": "Inflicts chilling touch that saps warmth. Light wound or higher inflicts supernatural fear, causing victim to flee or freeze."
+        }
+      ],
+      "tactics": "Ambush from walls or shadows, targeting isolated victims. Flee if faced with light or determined resistance. Often distract or separate groups.",
+      "storyHooks": "Haunting a murder site or abandoned building. May be tied to a specific object or location that needs cleansing."
+    },
+    {
+      "name": "Corpse-Feeder Daemon",
+      "category": "demon",
+      "threatTier": "standard",
+      "origin": "Lesser infernal entities that slip through during necromantic rituals or feed in cursed graveyards.",
+      "attributes": {
+        "mind": 45,
+        "body": 70,
+        "soul": 55
+      },
+      "competencies": [
+        "melee",
+        "climbing",
+        "tracking"
+      ],
+      "abilities": [
+        {
+          "name": "Rapid Climb",
+          "type": "passive",
+          "effect": "Can scale walls and ceilings with supernatural speed. Gains +2 dice on climbing checks and can attack from unexpected angles."
+        },
+        {
+          "name": "Heat Distortion",
+          "type": "passive",
+          "effect": "Radiates infernal heat that creates shimmering air. Attackers suffer -1 dice to hit from visual distortion."
+        },
+        {
+          "name": "Summon Flies",
+          "type": "active",
+          "effect": "Calls swarms of carrion flies to obscure vision and spread disease. Creates difficult terrain and may cause infection on wounds."
+        }
+      ],
+      "weaknesses": [
+        "Silver weapons cause extra damage.",
+        "Consecrated water burns like acid (-1 dice to all actions if splashed).",
+        "Destroying corpses it has fed on weakens it.",
+        "Bound by infernal pacts and true names."
+      ],
+      "woundProfile": {
+        "robustness": "tough",
+        "notes": "Can sustain 4 wounds. Regenerates Light wounds between scenes if it has fed recently. Moderate+ wounds cause bleeding that prevents regeneration."
+      },
+      "attacks": [
+        {
+          "name": "Bone Hook Claws",
+          "range": "melee",
+          "baseDiceBonus": 2,
+          "woundNotes": "Jagged claws that tear flesh. Moderate or higher wounds cause persistent bleeding (additional Light wound at end of each round until treated)."
+        }
+      ],
+      "tactics": "Stalks prey from above, dropping down for surprise attacks. Prefers to wound and retreat, letting victims bleed out. Drawn to fresh corpses and graveyards.",
+      "storyHooks": "Cemetery workers report missing bodies and strange scratching sounds at night. Victims are found with deep claw marks and surrounded by dead flies."
+    },
+    {
+      "name": "Cult Fanatic",
+      "category": "human",
+      "threatTier": "minion",
+      "origin": "Mortals driven to madness and violence by forbidden knowledge or demonic influence.",
+      "attributes": {
+        "mind": 40,
+        "body": 50,
+        "soul": 35
+      },
+      "competencies": [
+        "melee",
+        "occultSymbols",
+        "intimidation"
+      ],
+      "abilities": [
+        {
+          "name": "Fearless",
+          "type": "passive",
+          "effect": "Immune to fear effects and intimidation. Will fight to the death without hesitation. Pain and injury do not slow them."
+        },
+        {
+          "name": "Occult Rites",
+          "type": "active",
+          "effect": "Can perform simple rituals: summon minor entities, create protective circles, or curse victims. Requires time and preparation."
+        }
+      ],
+      "weaknesses": [
+        "Still human—normal weapons and tactics work.",
+        "Fanaticism makes them predictable and reckless.",
+        "Destroying their cult symbols or idol may break their fervor.",
+        "Can be captured and interrogated if subdued."
+      ],
+      "woundProfile": {
+        "robustness": "human",
+        "notes": "Only 2 wounds. Light wound might not stop them due to fearlessness, but Moderate+ will put them down."
+      },
+      "attacks": [
+        {
+          "name": "Rusty Machete",
+          "range": "melee",
+          "baseDiceBonus": 1,
+          "woundNotes": "Crude but effective. Dirty blade may cause infection if wounds are not properly treated."
+        }
+      ],
+      "tactics": "Swarm targets in groups, attacking recklessly. No self-preservation instinct. Often chanting or screaming religious phrases. Will sacrifice themselves to protect cult leaders.",
+      "storyHooks": "Low-level muscle for darker forces. Often found guarding ritual sites or protecting cult leaders. May be former victims themselves, turned through indoctrination or possession."
     }
   ]
 }
+
