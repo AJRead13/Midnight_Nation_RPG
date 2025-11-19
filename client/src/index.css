@@ -2766,19 +2766,21 @@ textarea {
     width: 100%;
     height: auto;
     min-height: auto;
-    max-height: 100vh;
-    overflow-y: auto;
-    font-size: 1rem;
-    padding: 1rem;
+    max-height: auto;
+    overflow-y: visible;
+    font-size: 0.85rem;
+    padding: 0.75rem 0.5rem;
     z-index: 1000;
     border-right: none;
     border-bottom: 2px solid var(--primary);
   }
   
   nav:not(.items-nav):not(.rules-nav):not(.lore-nav) ul {
-    flex-direction: column;
-    align-items: stretch;
-    gap: 0.5rem;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 0.35rem;
   }
   
   nav:not(.items-nav):not(.rules-nav):not(.lore-nav) li {
@@ -2786,9 +2788,59 @@ textarea {
   }
   
   nav:not(.items-nav):not(.rules-nav):not(.lore-nav) a {
-    padding: 0.75rem;
-    display: block;
+    padding: 0.4rem 0.6rem;
+    display: inline-block;
     text-align: center;
+    font-size: 0.85rem;
+  }
+  
+  .auth-container {
+    width: 100%;
+    margin: 0.5rem 0 0 0;
+    padding: 0.5rem 0 0 0;
+    border-top: 1px solid rgba(140, 84, 255, 0.3);
+    border-bottom: none;
+    order: 1;
+  }
+  
+  .search-container {
+    width: 100%;
+    order: 0;
+    margin-bottom: 0.5rem;
+  }
+  
+  .search-input {
+    font-size: 0.85rem;
+    padding: 0.4rem;
+  }
+  
+  .auth-buttons {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.35rem;
+  }
+  
+  .btn-auth {
+    padding: 0.4rem 0.6rem;
+    font-size: 0.85rem;
+    width: auto;
+    max-width: none;
+    white-space: nowrap;
+  }
+  
+  .user-menu {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.35rem;
+  }
+  
+  .username {
+    width: 100%;
+    font-size: 0.85rem;
+    padding: 0.3rem;
+    margin-bottom: 0.25rem;
   }
   
   .container {
@@ -2799,19 +2851,9 @@ textarea {
   
   main {
     margin-left: 0;
-    padding-top: 60vh;
+    padding-top: 180px;
   }
   
-  .auth-buttons {
-    flex-direction: column;
-    gap: 0.75rem;
-  }
-  .btn-auth {
-    max-width: 100%;
-  }
-  .user-menu {
-    flex-direction: column;
-  }
   header h1 {
     font-size: 1.8rem;
   }
