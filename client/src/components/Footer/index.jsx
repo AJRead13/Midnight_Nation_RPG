@@ -11,6 +11,10 @@ function Footer() {
       link: "https://www.linkedin.com/in/andrewjread"
     },
     {
+      name: "fab fa-discord",
+      link: "https://discord.gg/7h4btsMy"
+    },
+    {
       name: "fab fa-instagram",
       link: "https://www.instagram.com/"
     },
