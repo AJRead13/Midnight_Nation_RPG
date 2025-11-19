@@ -19,12 +19,22 @@ const ModuleViewer = () => {
       setLoading(true);
       // Load from backend API modules folder
       const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3001';
-      const response = await fetch(`${API_URL}/modules/${moduleId}.json`);
-      if (!response.ok) throw new Error('Module not found');
+      const url = `${API_URL}/modules/${moduleId}.json`;
+      console.log('Attempting to load module from:', url);
+      console.log('VITE_API_URL:', import.meta.env.VITE_API_URL);
+      
+      const response = await fetch(url);
+      console.log('Response status:', response.status);
+      
+      if (!response.ok) {
+        throw new Error(`Module not found (${response.status})`);
+      }
+      
       const data = await response.json();
       setModuleData(data);
     } catch (error) {
       console.error('Error loading module:', error);
+      console.error('Module ID:', moduleId);
     } finally {
       setLoading(false);
     }
