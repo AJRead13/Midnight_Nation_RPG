@@ -31,10 +31,18 @@ router.get('/', async (req, res) => {
     
     const modules = await Module.find(query).sort({ releaseOrder: 1, createdAt: -1 });
     console.log('[modules.js] Found modules:', modules.length);
+    console.log('[modules.js] Raw modules from database:', JSON.stringify(modules.map(m => ({ 
+      title: m.title, 
+      moduleId: m.moduleId,
+      releaseOrder: m.releaseOrder,
+      difficulty: m.difficulty,
+      featured: m.featured,
+      active: m.active 
+    }))));
     
     // Log each module's moduleId to debug classified styling
     modules.forEach(mod => {
-      console.log(`[modules.js] Module: ${mod.title}, moduleId: ${mod.moduleId}, hasModuleId: ${!!mod.moduleId}`);
+      console.log(`[modules.js] Module: ${mod.title}, moduleId: ${mod.moduleId}, hasModuleId: ${!!mod.moduleId}, releaseOrder: ${mod.releaseOrder}`);
     });
     
     // Transform modules to ensure undefined/null moduleId is properly handled
