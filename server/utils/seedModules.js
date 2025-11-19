@@ -60,11 +60,18 @@ async function seedModules() {
     await Module.deleteMany({});
     console.log('Cleared existing modules');
 
+    // Log what we're about to insert
+    console.log('\n=== Modules to be inserted ===');
+    sampleModules.forEach(mod => {
+      console.log(`${mod.title}: moduleId = ${mod.moduleId === undefined ? 'UNDEFINED (CLASSIFIED)' : mod.moduleId}`);
+    });
+    console.log('================================\n');
+
     // Insert sample modules
     const modules = await Module.insertMany(sampleModules);
     console.log(`Successfully seeded ${modules.length} modules:`);
     modules.forEach(module => {
-      console.log(`  - ${module.title} (${module.difficulty})`);
+      console.log(`  - ${module.title} (${module.difficulty}) - moduleId: ${module.moduleId || 'UNDEFINED'}`);
     });
 
     console.log('\nModule seeding complete!');
