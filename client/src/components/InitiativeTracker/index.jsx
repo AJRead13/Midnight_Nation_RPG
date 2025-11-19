@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useSocketContext } from '../../contexts/SocketContext';
+import { useSocket } from '../../contexts/SocketContext';
 import { useToast } from '../Toast';
 import { fetchCharacters } from '../../utils/characterService';
 import './initiativeTracker.css';
