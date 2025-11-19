@@ -37,6 +37,7 @@ router.get('/', async (req, res) => {
       console.log('[modules.js] No modules in database, returning fallback data');
       const fallbackModules = [
         {
+          _id: "fallback-the-awakening",
           moduleId: "the-awakening",
           title: "The Awakening",
           description: "A mysterious force begins to stir in the city, awakening dormant powers and ancient threats.",
@@ -49,6 +50,7 @@ router.get('/', async (req, res) => {
           active: true
         },
         {
+          _id: "fallback-shadow-protocol",
           title: "Shadow Protocol",
           description: "Corporate espionage meets supernatural horror in this thrilling adventure through the underbelly of Midnight Nation.",
           fullDescription: "A powerful corporation has been experimenting with occult forces, and the results are about to be unleashed on an unsuspecting city. Your characters must navigate corporate intrigue, underground networks, and supernatural dangers to stop a catastrophe.",
@@ -60,6 +62,7 @@ router.get('/', async (req, res) => {
           active: true
         },
         {
+          _id: "fallback-blood-moon-rising",
           title: "Blood Moon Rising",
           description: "When the blood moon appears, ancient vampire clans emerge from hiding to claim their dominion over the city.",
           fullDescription: "An ancient prophecy comes to pass as the blood moon rises over the city. Vampire clans that have hidden in the shadows for centuries make their move to claim power, and only your characters stand between them and total domination.",
