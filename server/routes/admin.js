@@ -12,6 +12,22 @@ router.post('/seed-modules', async (req, res) => {
     await Module.deleteMany({});
     console.log('[admin] Cleared existing modules');
 
+    // Drop the old unique index on moduleId if it exists
+    try {
+      await Module.collection.dropIndex('moduleId_1');
+      console.log('[admin] Dropped old moduleId index');
+    } catch (err) {
+      console.log('[admin] No existing moduleId index to drop or already correct');
+    }
+
+    // Recreate the index with sparse option
+    try {
+      await Module.collection.createIndex({ moduleId: 1 }, { unique: true, sparse: true });
+      console.log('[admin] Created new sparse unique index on moduleId');
+    } catch (err) {
+      console.log('[admin] Index may already exist with correct options');
+    }
+
     const sampleModules = [
       {
         moduleId: "the-awakening",
