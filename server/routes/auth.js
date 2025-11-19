@@ -199,12 +199,13 @@ router.put(
         return res.status(400).json({ errors: errors.array() });
       }
 
-      const { displayName, bio, avatar } = req.body;
+      const { displayName, bio, avatar, isGM } = req.body;
       const updateFields = {};
 
       if (displayName !== undefined) updateFields.displayName = displayName;
       if (bio !== undefined) updateFields.bio = bio;
       if (avatar !== undefined) updateFields.avatar = avatar;
+      if (isGM !== undefined) updateFields.isGM = isGM;
 
       const user = await User.findByIdAndUpdate(
         req.user._id,

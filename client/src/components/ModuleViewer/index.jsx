@@ -1,10 +1,12 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import { useAuth } from '../../contexts/AuthContext';
 import './moduleViewer.css';
 
 const ModuleViewer = () => {
   const { moduleId } = useParams();
   const navigate = useNavigate();
+  const { user } = useAuth();
   const [moduleData, setModuleData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [activeSession, setActiveSession] = useState(null);
@@ -433,7 +435,7 @@ const ModuleViewer = () => {
                         )}
 
                         {/* GM Guidance */}
-                        {scene.gm_guidance && (
+                        {scene.gm_guidance && user?.isGM && (
                           <div className="scene-gm-guidance">
                             <strong>GM Note:</strong> <em>{scene.gm_guidance}</em>
                           </div>
@@ -589,10 +591,10 @@ const ModuleViewer = () => {
 
       {/* GM Guidance */}
       <section className="module-section gm-guidance">
-        <h2 onClick={() => toggleSection('guidance')} className="collapsible-header">
-          GM Guidance {expandedSections.guidance ? '−' : '+'}
+        <h2 onClick={() => user?.isGM && toggleSection('guidance')} className="collapsible-header">
+          🔒 GM Guidance {user?.isGM ? (expandedSections.guidance ? '−' : '+') : '(Game Master Access Required)'}
         </h2>
-        {expandedSections.guidance && (
+        {user?.isGM && expandedSections.guidance && (
           <div className="guidance-content">
             <div className="guidance-block">
               <h4>Tone</h4>
@@ -792,7 +794,7 @@ const ModuleViewer = () => {
                     </div>
                   )}
 
-                  {npc.secrets && npc.secrets.length > 0 && (
+                  {npc.secrets && npc.secrets.length > 0 && user?.isGM && (
                     <div className="npc-modal-section secrets-section">
                       <h3>🔒 Secrets (GM Only)</h3>
                       <ul>

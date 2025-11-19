@@ -15,7 +15,8 @@ const Profile = () => {
   const [profileForm, setProfileForm] = useState({
     displayName: '',
     bio: '',
-    avatar: ''
+    avatar: '',
+    isGM: false
   });
 
   // Password form state
@@ -40,7 +41,8 @@ const Profile = () => {
       setProfileForm({
         displayName: user.displayName || '',
         bio: user.bio || '',
-        avatar: user.avatar || ''
+        avatar: user.avatar || '',
+        isGM: user.isGM || false
       });
       
       if (user.notificationPreferences) {
@@ -273,6 +275,20 @@ const Profile = () => {
                 />
                 {errors.bio && <span className="error-message">{errors.bio}</span>}
                 <small>{profileForm.bio.length}/500 characters</small>
+              </div>
+
+              <div className="form-group checkbox-group">
+                <label className="checkbox-label">
+                  <input
+                    type="checkbox"
+                    name="isGM"
+                    checked={profileForm.isGM}
+                    onChange={(e) => setProfileForm(prev => ({ ...prev, isGM: e.target.checked }))}
+                    disabled={loading}
+                  />
+                  <span>I am a Game Master (unlock GM-only content)</span>
+                </label>
+                <small>Enable this to view GM guidance, secrets, and other content meant for Game Masters</small>
               </div>
 
               <button type="submit" className="btn btn-primary" disabled={loading}>
