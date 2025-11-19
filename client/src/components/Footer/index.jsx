@@ -1,3 +1,5 @@
+import { Link } from 'react-router-dom';
+
 function Footer() {
 
   // Replace links with social media profiles
@@ -30,6 +32,9 @@ function Footer() {
 
   return (
     <footer className="flex-row px-1">
+      <div className="footer-links">
+        <Link to="/terms" className="footer-link">Terms & License</Link>
+      </div>
       {icons.map(icon =>
       (
         <a href={icon.link} key={icon.name} target="_blank" rel="noopener noreferrer"><i className={icon.name}></i></a>

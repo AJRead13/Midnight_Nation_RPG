@@ -20,6 +20,7 @@ import Register from './components/Register';
 import Profile from './components/Profile';
 import Modules from './components/Modules';
 import ModuleViewer from './components/ModuleViewer';
+import Terms from './components/Terms';
 import './index.css';
 
 const router = createBrowserRouter([
@@ -107,6 +108,10 @@ const router = createBrowserRouter([
       {
         path: 'modules/:moduleId',
         element: <ModuleViewer />,
+      },
+      {
+        path: 'terms',
+        element: <Terms />,
       },
     ],
   },
