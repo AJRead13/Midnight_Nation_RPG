@@ -1,0 +1,879 @@
+/* Module Viewer - Noir/Gothic RPG Theme */
+
+.module-viewer {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+  color: #e0e0e0;
+  font-family: 'Georgia', 'Times New Roman', serif;
+  line-height: 1.7;
+  min-height: 100vh;
+}
+
+.module-viewer.loading,
+.module-viewer.error {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 60vh;
+  text-align: center;
+}
+
+.loading-spinner {
+  width: 50px;
+  height: 50px;
+  border: 4px solid rgba(255, 215, 0, 0.3);
+  border-top-color: #ffd700;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Header */
+.module-header {
+  background: linear-gradient(135deg, #0f3460 0%, #16213e 100%);
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+  margin-bottom: 2rem;
+  border: 2px solid rgba(255, 215, 0, 0.2);
+}
+
+.back-button {
+  background: rgba(255, 215, 0, 0.1);
+  border: 1px solid rgba(255, 215, 0, 0.3);
+  color: #ffd700;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: all 0.3s ease;
+  margin-bottom: 1rem;
+}
+
+.back-button:hover {
+  background: rgba(255, 215, 0, 0.2);
+  border-color: #ffd700;
+  transform: translateX(-3px);
+}
+
+.module-title-block {
+  margin-bottom: 1.5rem;
+}
+
+.module-title {
+  font-size: 3rem;
+  font-weight: bold;
+  color: #ffd700;
+  text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.8);
+  margin: 0;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+.module-subtitle {
+  font-size: 1.2rem;
+  color: #b8b8b8;
+  font-style: italic;
+  margin: 0.5rem 0 0 0;
+}
+
+.module-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.meta-badge {
+  background: rgba(255, 255, 255, 0.1);
+  padding: 0.4rem 0.8rem;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  font-family: 'Arial', sans-serif;
+}
+
+.meta-badge.difficulty {
+  background: rgba(255, 0, 0, 0.2);
+  border-color: rgba(255, 0, 0, 0.4);
+  color: #ff6b6b;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.module-tone {
+  margin-bottom: 1rem;
+  font-size: 1rem;
+  color: #d4af37;
+}
+
+.module-themes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.theme-tag {
+  background: rgba(212, 175, 55, 0.15);
+  color: #d4af37;
+  padding: 0.3rem 0.7rem;
+  border-radius: 15px;
+  font-size: 0.85rem;
+  border: 1px solid rgba(212, 175, 55, 0.3);
+}
+
+/* Sections */
+.module-section {
+  background: rgba(22, 33, 62, 0.6);
+  padding: 2rem;
+  border-radius: 10px;
+  margin-bottom: 2rem;
+  border: 1px solid rgba(255, 215, 0, 0.15);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+}
+
+.module-section h2 {
+  font-size: 2rem;
+  color: #ffd700;
+  margin-top: 0;
+  margin-bottom: 1.5rem;
+  border-bottom: 2px solid rgba(255, 215, 0, 0.3);
+  padding-bottom: 0.5rem;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+}
+
+.collapsible-header {
+  cursor: pointer;
+  user-select: none;
+  transition: color 0.3s ease;
+}
+
+.collapsible-header:hover {
+  color: #ffed4e;
+}
+
+/* Overview */
+.overview .tagline {
+  font-size: 1.5rem;
+  font-style: italic;
+  color: #d4af37;
+  margin-bottom: 1.5rem;
+  text-align: center;
+  padding: 1rem;
+  background: rgba(212, 175, 55, 0.1);
+  border-radius: 8px;
+  border-left: 4px solid #d4af37;
+}
+
+.synopsis,
+.premise {
+  font-size: 1.1rem;
+  line-height: 1.8;
+  margin-bottom: 1rem;
+  text-indent: 2rem;
+}
+
+/* Factions */
+.faction-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+}
+
+.faction-card {
+  background: rgba(15, 52, 96, 0.5);
+  padding: 1.5rem;
+  border-radius: 8px;
+  border: 2px solid rgba(255, 215, 0, 0.2);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.faction-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 24px rgba(255, 215, 0, 0.2);
+}
+
+.faction-card h3 {
+  color: #ffd700;
+  margin-top: 0;
+  font-size: 1.5rem;
+  border-bottom: 1px solid rgba(255, 215, 0, 0.3);
+  padding-bottom: 0.5rem;
+}
+
+.faction-detail {
+  margin-bottom: 0.75rem;
+  font-size: 0.95rem;
+}
+
+.faction-detail strong {
+  color: #d4af37;
+}
+
+.recruitment-pitch {
+  margin-top: 1rem;
+  padding: 1rem;
+  background: rgba(0, 0, 0, 0.3);
+  border-left: 3px solid #d4af37;
+  font-style: italic;
+  color: #c0c0c0;
+}
+
+/* Sessions */
+.sessions-nav {
+  background: rgba(15, 52, 96, 0.4);
+}
+
+.session-buttons {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+}
+
+.session-button {
+  background: rgba(255, 215, 0, 0.1);
+  border: 2px solid rgba(255, 215, 0, 0.3);
+  color: #ffd700;
+  padding: 1rem;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 1rem;
+  font-family: 'Georgia', serif;
+  transition: all 0.3s ease;
+  text-align: left;
+}
+
+.session-button:hover {
+  background: rgba(255, 215, 0, 0.2);
+  transform: translateY(-3px);
+  box-shadow: 0 6px 20px rgba(255, 215, 0, 0.3);
+}
+
+.session-button.active {
+  background: rgba(255, 215, 0, 0.3);
+  border-color: #ffd700;
+  font-weight: bold;
+}
+
+/* Session Detail */
+.session-detail {
+  background: linear-gradient(135deg, rgba(15, 52, 96, 0.7) 0%, rgba(22, 33, 62, 0.7) 100%);
+  border: 2px solid rgba(255, 215, 0, 0.4);
+}
+
+.session-content h2 {
+  color: #ffed4e;
+}
+
+.session-meta {
+  font-size: 1.1rem;
+  margin-bottom: 1rem;
+  color: #d4af37;
+}
+
+.session-summary {
+  font-size: 1.1rem;
+  margin-bottom: 1.5rem;
+  font-style: italic;
+  padding: 1rem;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 8px;
+}
+
+/* Hooks */
+.session-hooks {
+  margin-bottom: 2rem;
+}
+
+.session-hooks h3 {
+  color: #ffd700;
+  font-size: 1.4rem;
+  margin-bottom: 1rem;
+}
+
+.hook-card {
+  background: rgba(212, 175, 55, 0.1);
+  padding: 1rem;
+  border-radius: 8px;
+  border-left: 4px solid #d4af37;
+  margin-bottom: 1rem;
+}
+
+.hook-card h4 {
+  color: #ffd700;
+  margin-top: 0;
+}
+
+/* Scenes */
+.scenes {
+  margin-top: 2rem;
+}
+
+.scenes h3 {
+  color: #ffd700;
+  font-size: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.scene-card {
+  background: rgba(0, 0, 0, 0.4);
+  padding: 1.5rem;
+  border-radius: 8px;
+  margin-bottom: 2rem;
+  border: 1px solid rgba(255, 215, 0, 0.2);
+}
+
+.scene-card h4 {
+  color: #ffed4e;
+  font-size: 1.3rem;
+  margin-top: 0;
+  margin-bottom: 1rem;
+  border-bottom: 1px solid rgba(255, 215, 0, 0.3);
+  padding-bottom: 0.5rem;
+}
+
+.scene-location,
+.scene-opening {
+  margin-bottom: 1rem;
+  font-size: 0.95rem;
+}
+
+.scene-location strong {
+  color: #d4af37;
+}
+
+.scene-atmosphere {
+  background: rgba(212, 175, 55, 0.1);
+  padding: 0.75rem;
+  border-radius: 6px;
+  margin-bottom: 1rem;
+  border-left: 3px solid #d4af37;
+  color: #e0e0e0;
+  font-style: italic;
+}
+
+/* Clues Table */
+.scene-clues {
+  margin: 1.5rem 0;
+}
+
+.scene-clues h5 {
+  color: #ffd700;
+  margin-bottom: 0.75rem;
+}
+
+.clues-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.clues-table th {
+  background: rgba(255, 215, 0, 0.2);
+  color: #ffd700;
+  padding: 0.75rem;
+  text-align: left;
+  font-weight: bold;
+  border-bottom: 2px solid rgba(255, 215, 0, 0.4);
+}
+
+.clues-table td {
+  padding: 0.75rem;
+  border-bottom: 1px solid rgba(255, 215, 0, 0.1);
+}
+
+.clues-table tr:hover {
+  background: rgba(255, 215, 0, 0.05);
+}
+
+/* Bloodline Triggers */
+.bloodline-triggers {
+  margin: 1.5rem 0;
+}
+
+.bloodline-triggers h5 {
+  color: #ffd700;
+  margin-bottom: 1rem;
+}
+
+.trigger-card {
+  background: rgba(139, 0, 0, 0.2);
+  padding: 1rem;
+  border-radius: 6px;
+  border-left: 4px solid #8b0000;
+  margin-bottom: 1rem;
+}
+
+.trigger-card strong {
+  color: #ff6b6b;
+  font-size: 1.1rem;
+}
+
+.mechanical-effect {
+  margin-top: 0.5rem;
+  padding: 0.5rem;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 4px;
+  color: #c0c0c0;
+  font-size: 0.9rem;
+}
+
+/* Combat Encounters */
+.combat-encounter,
+.combat-encounter-detailed,
+.boss-encounter {
+  background: rgba(139, 0, 0, 0.2);
+  padding: 1rem;
+  border-radius: 8px;
+  border: 2px solid rgba(255, 0, 0, 0.3);
+  margin: 1.5rem 0;
+}
+
+.combat-encounter h5,
+.combat-encounter-detailed h5,
+.boss-encounter h5 {
+  color: #ff6b6b;
+  margin-top: 0;
+  margin-bottom: 1rem;
+}
+
+.enemy-info,
+.enemy-block {
+  margin-bottom: 1rem;
+}
+
+.enemy-info strong,
+.enemy-block strong {
+  color: #ff6b6b;
+  font-size: 1.1rem;
+}
+
+.boss-stats h6 {
+  color: #ff4444;
+  font-size: 1.3rem;
+  margin: 0 0 0.75rem 0;
+}
+
+.abilities,
+.weaknesses,
+.tactics,
+.battlefield,
+.minions {
+  margin: 0.75rem 0;
+}
+
+.abilities ul,
+.weaknesses ul,
+.battlefield ul {
+  margin: 0.5rem 0;
+  padding-left: 1.5rem;
+}
+
+.minion-tag {
+  display: inline-block;
+  background: rgba(0, 0, 0, 0.4);
+  padding: 0.3rem 0.6rem;
+  border-radius: 4px;
+  margin-right: 0.5rem;
+  margin-bottom: 0.5rem;
+  font-size: 0.9rem;
+  border: 1px solid rgba(255, 0, 0, 0.3);
+}
+
+/* Skill Challenges */
+.skill-challenges {
+  margin: 1.5rem 0;
+}
+
+.skill-challenges h5 {
+  color: #ffd700;
+  margin-bottom: 1rem;
+}
+
+.challenge-card {
+  background: rgba(0, 100, 150, 0.2);
+  padding: 1rem;
+  border-radius: 6px;
+  border-left: 4px solid #4a9eff;
+  margin-bottom: 1rem;
+}
+
+.challenge-card strong {
+  color: #4a9eff;
+  font-size: 1.05rem;
+}
+
+/* Choices */
+.scene-choices,
+.decision-point {
+  margin: 1.5rem 0;
+}
+
+.scene-choices h5 {
+  color: #ffd700;
+  margin-bottom: 1rem;
+}
+
+.choice-card {
+  background: rgba(218, 165, 32, 0.1);
+  padding: 1rem;
+  border-radius: 6px;
+  border-left: 4px solid #daa520;
+  margin-bottom: 1rem;
+}
+
+.choice-card strong {
+  color: #daa520;
+  font-size: 1.05rem;
+}
+
+/* NPCs */
+.npcs-present {
+  margin: 1.5rem 0;
+}
+
+.npcs-present h5 {
+  color: #ffd700;
+  margin-bottom: 0.75rem;
+}
+
+.npc-present {
+  margin-bottom: 0.75rem;
+}
+
+.npc-present strong {
+  color: #d4af37;
+}
+
+/* Session End */
+.session-end {
+  margin-top: 2rem;
+  padding: 1.5rem;
+  background: rgba(139, 0, 0, 0.3);
+  border-radius: 8px;
+  border: 2px solid rgba(255, 0, 0, 0.4);
+}
+
+.session-end h3 {
+  color: #ff6b6b;
+  margin-top: 0;
+}
+
+.cliffhanger {
+  background: rgba(0, 0, 0, 0.5);
+  padding: 1rem;
+  border-radius: 6px;
+  margin-bottom: 1rem;
+  border-left: 4px solid #ff4444;
+}
+
+.cliffhanger p {
+  font-style: italic;
+  font-size: 1.05rem;
+  margin: 0.5rem 0 0 0;
+}
+
+.xp-reward {
+  color: #d4af37;
+  font-weight: bold;
+}
+
+/* Epilogue */
+.epilogue {
+  margin-top: 2rem;
+  padding: 2rem;
+  background: rgba(212, 175, 55, 0.2);
+  border-radius: 8px;
+  border: 2px solid #d4af37;
+}
+
+.epilogue h3 {
+  color: #ffd700;
+  margin-top: 0;
+}
+
+.final-rewards {
+  margin-top: 1rem;
+}
+
+.final-rewards ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.final-rewards li {
+  padding: 0.5rem;
+  margin-bottom: 0.5rem;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 4px;
+  border-left: 3px solid #ffd700;
+}
+
+/* NPCs Section */
+.npc-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: 1.5rem;
+}
+
+.npc-card {
+  background: rgba(15, 52, 96, 0.4);
+  padding: 1.5rem;
+  border-radius: 8px;
+  border: 2px solid rgba(255, 215, 0, 0.2);
+  transition: transform 0.3s ease;
+}
+
+.npc-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+}
+
+.npc-card h3 {
+  color: #ffd700;
+  margin-top: 0;
+  font-size: 1.4rem;
+}
+
+.npc-faction {
+  color: #d4af37;
+  font-size: 0.9rem;
+  margin-bottom: 1rem;
+}
+
+.npc-personality,
+.npc-backstory {
+  margin: 1rem 0;
+}
+
+.npc-personality strong,
+.npc-backstory strong {
+  color: #d4af37;
+}
+
+.npc-stats {
+  background: rgba(0, 0, 0, 0.3);
+  padding: 1rem;
+  border-radius: 6px;
+  margin: 1rem 0;
+}
+
+.npc-stats ul {
+  list-style: none;
+  padding: 0;
+  margin: 0.5rem 0 0 0;
+}
+
+.npc-stats li {
+  margin-bottom: 0.3rem;
+}
+
+.npc-quotes {
+  margin-top: 1rem;
+}
+
+.npc-quotes ul {
+  list-style: none;
+  padding: 0;
+}
+
+.npc-quotes li {
+  padding: 0.5rem;
+  margin-bottom: 0.5rem;
+  background: rgba(0, 0, 0, 0.3);
+  border-left: 3px solid #d4af37;
+  border-radius: 4px;
+  font-style: italic;
+  color: #c0c0c0;
+}
+
+/* Locations */
+.location-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+}
+
+.location-card {
+  background: rgba(15, 52, 96, 0.4);
+  padding: 1.5rem;
+  border-radius: 8px;
+  border: 2px solid rgba(74, 158, 255, 0.3);
+}
+
+.location-card h3 {
+  color: #4a9eff;
+  margin-top: 0;
+}
+
+.location-atmosphere {
+  margin: 1rem 0;
+  padding: 0.75rem;
+  background: rgba(74, 158, 255, 0.1);
+  border-left: 3px solid #4a9eff;
+  border-radius: 4px;
+}
+
+.location-secrets,
+.location-hazards {
+  margin: 1rem 0;
+}
+
+.location-secrets strong,
+.location-hazards strong {
+  color: #d4af37;
+}
+
+/* Handouts */
+.handout-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1rem;
+}
+
+.handout-card {
+  background: rgba(218, 165, 32, 0.15);
+  padding: 1rem;
+  border-radius: 8px;
+  border: 2px solid rgba(218, 165, 32, 0.3);
+  font-family: 'Courier New', monospace;
+}
+
+.handout-card h4 {
+  color: #daa520;
+  margin-top: 0;
+  font-family: 'Georgia', serif;
+}
+
+/* Rewards */
+.reward-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1rem;
+}
+
+.reward-card {
+  background: rgba(139, 0, 139, 0.2);
+  padding: 1rem;
+  border-radius: 8px;
+  border: 2px solid rgba(186, 85, 211, 0.4);
+}
+
+.reward-card h4 {
+  color: #ba55d3;
+  margin-top: 0;
+}
+
+.reward-type {
+  color: #d4af37;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  margin-bottom: 0.5rem;
+}
+
+.reward-description {
+  font-style: italic;
+  color: #c0c0c0;
+  margin-top: 0.5rem;
+}
+
+/* GM Guidance */
+.guidance-content {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.guidance-block h4 {
+  color: #ffd700;
+  margin-top: 0;
+  margin-bottom: 0.75rem;
+}
+
+.guidance-block {
+  background: rgba(0, 0, 0, 0.3);
+  padding: 1rem;
+  border-radius: 6px;
+  border-left: 4px solid #d4af37;
+}
+
+/* Footer */
+.module-footer {
+  text-align: center;
+  padding: 2rem;
+  color: #888;
+  font-size: 0.9rem;
+  border-top: 1px solid rgba(255, 215, 0, 0.2);
+  margin-top: 2rem;
+}
+
+/* Scene GM Guidance */
+.scene-gm-guidance {
+  margin-top: 1rem;
+  padding: 0.75rem;
+  background: rgba(0, 150, 0, 0.1);
+  border-left: 4px solid #4caf50;
+  border-radius: 4px;
+}
+
+.scene-gm-guidance strong {
+  color: #4caf50;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .module-viewer {
+    padding: 1rem;
+  }
+
+  .module-title {
+    font-size: 2rem;
+  }
+
+  .module-section {
+    padding: 1rem;
+  }
+
+  .faction-grid,
+  .npc-grid,
+  .location-grid,
+  .handout-grid,
+  .reward-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .session-buttons {
+    grid-template-columns: 1fr;
+  }
+
+  .clues-table {
+    font-size: 0.85rem;
+  }
+
+  .clues-table th,
+  .clues-table td {
+    padding: 0.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .module-title {
+    font-size: 1.5rem;
+  }
+
+  .module-subtitle {
+    font-size: 1rem;
+  }
+
+  .module-section h2 {
+    font-size: 1.5rem;
+  }
+}

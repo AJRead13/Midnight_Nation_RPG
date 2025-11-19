@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
 import { useToast } from '../Toast';
-import moduleService from '../../utils/moduleService';
+import * as moduleService from '../../utils/moduleService';
 import './modules.css';
 
 function Modules() {
@@ -12,6 +13,7 @@ function Modules() {
   const [downloading, setDownloading] = useState(false);
   const { user } = useAuth();
   const toast = useToast();
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetchModules();
@@ -198,10 +200,16 @@ function Modules() {
               <div className="module-actions">
                 <button 
                   className="btn-primary" 
+                  onClick={() => navigate(`/modules/${selectedModule.moduleId || selectedModule._id}`)}
+                >
+                  View Online
+                </button>
+                <button 
+                  className="btn-secondary" 
                   onClick={() => handleDownload(selectedModule)}
                   disabled={downloading}
                 >
-                  {downloading ? 'Downloading...' : 'Download Module'}
+                  {downloading ? 'Downloading...' : 'Download PDF'}
                 </button>
                 {selectedModule.previewUrl && (
                   <button 

@@ -1,0 +1,887 @@
+{
+  "moduleId": "the-awakening",
+  "metadata": {
+    "title": "The Awakening",
+    "subtitle": "Midnight Nation – Module 01",
+    "system": "Midnight Nation",
+    "tone": "Noir, Supernatural Mystery, Occult Espionage",
+    "players": "3-5",
+    "recommendedLevel": 1,
+    "sessionLength": "4-5 sessions",
+    "setting": "Post-WWII American city (Chicago, St. Louis, Baltimore, Detroit)",
+    "themes": ["Hidden powers emerge", "Cold War paranoia", "Spiritual unrest", "Dormant bloodlines awakening"],
+    "difficulty": "beginner",
+    "version": "1.0"
+  },
+  
+  "overview": {
+    "synopsis": "Something ancient has stirred beneath the city—whispers in sewers, dead radios crackling with voices, and people vanishing without a trace. At the same time, the player characters experience their first supernatural awakening: abilities, instincts, visions, or compulsions tied to their Bloodline.",
+    "premise": "The PCs become the spark point where three powerful factions collide, each with their own agenda regarding the supernatural awakening sweeping through the city.",
+    "tagline": "When the sleeping powers awaken, whose side will you choose?"
+  },
+
+  "factions": [
+    {
+      "name": "Ashwood Foundation",
+      "agenda": "Hunt & contain supernatural threats. Believe PCs are part of the outbreak.",
+      "approach": "Militant, pragmatic, treat supernaturals as threats to be neutralized",
+      "resources": "Military-grade weapons, containment facilities, extensive intelligence network",
+      "key_npc": "Colonel Marcus Reeves",
+      "recruitment_pitch": "Help us protect humanity from the darkness. You've seen what's out there—join us before you become it."
+    },
+    {
+      "name": "Covenant of St. Michael",
+      "agenda": "Attempt to 'purify' the awakening—may see PCs as chosen or cursed.",
+      "approach": "Zealous faith, exorcisms, holy relics, see everything through religious lens",
+      "resources": "Consecrated weapons, holy sanctuaries, ancient texts, church backing",
+      "key_npc": "Sister Catherine Moreau",
+      "recruitment_pitch": "You are touched by powers beyond mortal understanding. We can help you master them—or cleanse them if needed."
+    },
+    {
+      "name": "The Black Chamber",
+      "agenda": "U.S. intelligence wants to weaponize awakening phenomena for covert ops.",
+      "approach": "Cold War pragmatism, see supernaturals as assets or Soviet threats",
+      "resources": "Government authority, cutting-edge technology, unlimited budget",
+      "key_npc": "Agent Harrison Webb",
+      "recruitment_pitch": "The Soviets are already weaponizing the supernatural. Help us level the playing field. Your country needs you."
+    }
+  ],
+
+  "sessions": [
+    {
+      "number": 1,
+      "title": "The Stirring",
+      "focus": "Awakening and local mystery",
+      "summary": "The PCs investigate a brutal murder that defies explanation while experiencing their own supernatural awakening.",
+      
+      "hooks": [
+        {
+          "title": "The Veteran",
+          "description": "A decorated war veteran found mutilated in an alley, no blood left in body. One of the PCs knew him from the war or the neighborhood."
+        },
+        {
+          "title": "The Return",
+          "description": "A missing person known to the PCs resurfaces possessed or altered. They seek out the PCs specifically, as if drawn by instinct."
+        },
+        {
+          "title": "The Vision",
+          "description": "The PCs are drawn to a strange incident site by visions, dreams, or unexplainable compulsions. They arrive separately but are all pulled to the same location."
+        }
+      ],
+
+      "scenes": [
+        {
+          "title": "Scene 1: The Crime Scene",
+          "location": "Dark alley behind a jazz club, rain-slicked cobblestones",
+          "atmosphere": "Cigarette smoke mingles with iron-scent of blood. Neon signs flicker. Police tape cordons off the area. Detective's trench coat drips with rain.",
+          "description": "The ground is scorched in hand-shaped patterns. Witnesses recall a pale figure fleeing the scene. The body is twisted in an unnatural position, face frozen in terror.",
+          
+          "clues": [
+            {
+              "clue": "Burn patterns on ground",
+              "skill": "Lore (Occult)",
+              "dc": 8,
+              "success": "Demonic thermal residue. Whatever made this handprint radiates infernal heat.",
+              "failure": "Strange burns, possibly accelerant or electrical."
+            },
+            {
+              "clue": "Footprints leading away",
+              "skill": "Tracking / Body",
+              "dc": 7,
+              "success": "Digitigrade (animal-like) prints. Barefoot, clawed, approximately human-sized.",
+              "failure": "Disturbed mud and refuse, nothing clear."
+            },
+            {
+              "clue": "Black residue on victim",
+              "skill": "Chemistry or Occult",
+              "dc": 9,
+              "success": "Ashed human flesh mixed with sulfuric compounds. Not dirt—this is what remains when a demon feeds.",
+              "failure": "Soot or ash, possibly from a fire."
+            },
+            {
+              "clue": "Witness statements",
+              "skill": "Persuasion / Intimidation",
+              "dc": 7,
+              "success": "Drunk at nearby bar saw 'something wrong with its legs' running away. Moved too fast to be human.",
+              "failure": "Witnesses clam up or give contradictory accounts."
+            }
+          ],
+
+          "npcs_present": [
+            {
+              "name": "Detective Lou Ferraro",
+              "description": "Worn-down cop, two years from retirement, seen too much already",
+              "attitude": "Skeptical but shaken. 'Just keep civilians out of my crime scene.'",
+              "knowledge": "This is the third killing this month with similar MO"
+            }
+          ]
+        },
+        {
+          "title": "Scene 2: The Awakening",
+          "trigger": "During investigation or immediately after",
+          "description": "Each PC experiences a sudden, overwhelming supernatural manifestation tied to their bloodline. This is terrifying, exhilarating, and undeniable.",
+          
+          "bloodline_triggers": [
+            {
+              "bloodline": "Vampire",
+              "trigger": "Smell blood → hunger overwhelms briefly. Fangs ache. Victim's spilled blood smells intoxicating.",
+              "mechanical_effect": "Gain Bloodline Level 1 Passive + Power. Must roll Soul (DC 8) to avoid compulsion to taste blood."
+            },
+            {
+              "bloodline": "Wolf / Skinwalker",
+              "trigger": "Hear distant howling no one else hears. Feel pack bonds forming with other PCs. Nails sharpen momentarily.",
+              "mechanical_effect": "Gain enhanced senses. +1 die to Tracking. Can sense other supernatural beings within 30 feet."
+            },
+            {
+              "bloodline": "Angelic / Nephilim",
+              "trigger": "Soft radiance lights the scene. Demon's residue burns your skin. You feel righteous fury rising.",
+              "mechanical_effect": "Gain divine sense. Can detect evil intent. Holy symbols glow faintly in your presence."
+            },
+            {
+              "bloodline": "Empath / Telekine",
+              "trigger": "Psychic ripple as victim died—you feel their final terror. Nearby objects rattle. Lights flicker.",
+              "mechanical_effect": "Gain telepathic sensitivity. Can read surface thoughts (Soul check). Objects move involuntarily when emotional."
+            },
+            {
+              "bloodline": "Revenant / Death-touched",
+              "trigger": "See the victim's ghost lingering at the scene. They point toward the sewers, mouthing 'below.'",
+              "mechanical_effect": "Gain death sight. See ghosts and spiritual residue. Immune to fear from undead."
+            }
+          ],
+
+          "gm_guidance": "Play this moment as both frightening and empowering. The PCs should feel out of control but also awakened to hidden potential. Allow players to describe how it feels. This is their origin story."
+        },
+        {
+          "title": "Scene 3: First Blood (Optional Combat)",
+          "trigger": "If PCs linger or investigate too thoroughly, entity returns",
+          "description": "Temperature drops. Lights flicker. Witnesses flee. A Lesser Shade materializes from the alley wall.",
+          
+          "enemy": {
+            "name": "Lesser Shade",
+            "quantity": 1,
+            "tactics": "Phase through walls to attack from behind. Target the weakest-looking PC. Flee if reduced to 1 wound.",
+            "motivation": "Eliminate witnesses to the demon's feeding"
+          },
+
+          "environment": "Alley, confined space, poor lighting. Dumpsters provide cover. Fire escape ladder leads to rooftops.",
+          
+          "outcome_success": "Shade dissipates with an echoing wail. Leaves behind ectoplasmic residue that points toward the sewers.",
+          "outcome_failure": "Shade escapes through wall. PCs hear it whispering their names as it flees."
+        }
+      ],
+
+      "session_end": {
+        "cliffhanger": "A manhole cover nearby is slightly ajar. Steam rises from below. Scratching sounds echo from the depths. A child's voice calls for help from the darkness.",
+        "xp_reward": "50 XP per player",
+        "advancement": "PCs should reach Level 1 by end of session if starting at 0"
+      }
+    },
+
+    {
+      "number": 2,
+      "title": "Shadows in the Sewers",
+      "focus": "Investigation turns to danger",
+      "summary": "The PCs descend into the city's underworld, discovering a cult's ritual site and facing horrors in the dark.",
+
+      "opening": "News reports: three sewer workers missing. Police seal off access points. PCs have leads pointing underground. Strange symbols appear spray-painted near manhole covers.",
+
+      "scenes": [
+        {
+          "title": "Scene 1: Descent",
+          "location": "Sewer entrance, industrial district",
+          "description": "Rusted ladder descends into darkness. Water rushes below. Walls sweat with condensation. Radio signals die as you descend.",
+          
+          "skill_challenges": [
+            {
+              "challenge": "Navigate the maze",
+              "skill": "Survival / Tracking",
+              "dc": 8,
+              "success": "Find direct route to ritual chamber. Avoid patrols.",
+              "failure": "Get lost. Encounter extra cultist patrol. Waste time."
+            },
+            {
+              "challenge": "Interpret occult symbols",
+              "skill": "Occult / Religion",
+              "dc": 9,
+              "success": "Symbols form a summoning circle. Ritual requires human sacrifice and is nearly complete.",
+              "failure": "Symbols seem random. Ominous but unintelligible."
+            },
+            {
+              "challenge": "Remain undetected",
+              "skill": "Stealth",
+              "dc": 10,
+              "success": "Observe cult activities unnoticed. Gather intel.",
+              "failure": "Alert cultists or Ashwood patrol. Combat inevitable."
+            }
+          ],
+
+          "discoveries": [
+            "Walls etched with occult runes in reverse Latin: 'Wake the Sleepers'",
+            "Piles of bones dissolved by acid, not chewed—something chemical or supernatural",
+            "Industrial maintenance tunnels converted into makeshift temple",
+            "Fresh blood trails leading deeper",
+            "Ashwood Foundation agents in hazmat suits taking samples"
+          ]
+        },
+
+        {
+          "title": "Scene 2: The Feeding Ground",
+          "location": "Drainage junction, ankle-deep water",
+          "atmosphere": "Unnatural heat. Smell of sulfur and rot. Dripping water echoes. Shadows move wrong.",
+          
+          "description": "Three humanoid figures crouch over corpses, feeding. Their skin is gray and mottled. Claws scrape concrete. They sense the PCs and turn—faces elongated, hollow-eyed, mouths too wide.",
+
+          "combat_encounter": {
+            "enemies": [
+              {
+                "name": "Corpse-Feeder Daemon",
+                "quantity": 3,
+                "tactics": "Climb walls. Surround PCs. Focus fire on isolated targets. Flee if outnumbered."
+              }
+            ],
+            "terrain": "Water slows movement. Pipes provide cover. Low ceiling prevents some maneuvers.",
+            "complications": [
+              "Loud combat alerts nearby cultists",
+              "Blood in water attracts more creatures",
+              "Structural damage could cause flooding"
+            ]
+          },
+
+          "loot": [
+            "Daemon claw (can be used as weapon, d6 damage)",
+            "Half-dissolved ID badge from missing worker",
+            "Ritual medallion showing three-pointed star"
+          ]
+        },
+
+        {
+          "title": "Scene 3: The Ritual Chamber",
+          "location": "Converted pump station, 40 feet in diameter",
+          "description": "Massive circular chamber. Symbols painted in blood. Central altar made of stacked bones. Candles flicker despite no wind. Four cult fanatics chant in unison.",
+
+          "npcs_present": [
+            {
+              "name": "Cult Leader (unnamed for now)",
+              "description": "Robed figure, face hidden, voice echoing",
+              "dialogue": "'The Awakening cannot be stopped. The sleepers rise. Join us or be consumed.'",
+              "knowledge": "Knows about PCs' bloodlines. Offers corruption."
+            }
+          ],
+
+          "choices": [
+            {
+              "option": "Interrupt the ritual",
+              "consequence": "Combat with 4 cult fanatics. Ritual partially disrupted but not stopped."
+            },
+            {
+              "option": "Observe and gather intel",
+              "consequence": "Learn ritual's full scope. Gain +2 dice to stop it in Session 5."
+            },
+            {
+              "option": "Negotiate",
+              "consequence": "Cultist offers knowledge in exchange for blood or favor. Moral compromise."
+            }
+          ]
+        }
+      ],
+
+      "session_end": {
+        "cliffhanger": "Ashwood Foundation flashbangs explode. Armed team breaches chamber. Leader: 'On the ground! You're all under arrest!' Cultists scatter. Daemons shriek and flee into darkness.",
+        "xp_reward": "75 XP per player"
+      }
+    },
+
+    {
+      "number": 3,
+      "title": "Blood in the Water",
+      "focus": "Major confrontation",
+      "summary": "The PCs face the true threat behind the killings and learn the ritual's horrifying purpose.",
+
+      "opening": "PCs escape Ashwood or are detained briefly. Cult activity escalates. Bodies pile up. Media blackout begins. PCs receive visions or messages urging them to finish what they started.",
+
+      "scenes": [
+        {
+          "title": "Scene 1: Faction Pressure",
+          "description": "Each faction makes contact, offering resources in exchange for cooperation.",
+
+          "faction_encounters": [
+            {
+              "faction": "Ashwood Foundation",
+              "contact": "Colonel Marcus Reeves",
+              "approach": "Tactical briefing. 'We have satellite intel showing ritual convergence points. Work with us or get out of the way.'",
+              "offer": "Military-grade silver ammunition, body armor, tactical support"
+            },
+            {
+              "faction": "Covenant of St. Michael",
+              "contact": "Sister Catherine Moreau",
+              "approach": "Spiritual counsel. 'Your souls are in danger. Accept our blessing or face damnation.'",
+              "offer": "Consecrated weapons, protective wards, sanctuary"
+            },
+            {
+              "faction": "The Black Chamber",
+              "contact": "Agent Harrison Webb",
+              "approach": "Cold pragmatism. 'We've been tracking this cell for months. You're now assets or obstacles.'",
+              "offer": "Classified intel, government authority, extraction if things go wrong"
+            }
+          ],
+
+          "decision_point": "PCs can accept help from one faction, attempt independence, or play factions against each other."
+        },
+
+        {
+          "title": "Scene 2: The Daemon's Lair",
+          "location": "Abandoned waterfront warehouse, midnight",
+          "atmosphere": "Fog rolls off black water. Rusted metal groans. Distant foghorn. Building interior lit by ritual candles.",
+
+          "description": "The Lesser Daemon—larger than the feeders, standing eight feet tall—tends to a grotesque altar of corpses. It's intelligent, calculating. It knows the PCs are coming.",
+
+          "boss_encounter": {
+            "enemy": {
+              "name": "Lesser Daemon (Enhanced Corpse-Feeder)",
+              "wound_threshold": 6,
+              "abilities": [
+                "Summon Flies: Creates obscuring cloud, -2 dice to attacks",
+                "Rapid Regeneration: Heals 1 wound per turn unless damaged by silver/holy",
+                "Terror Aura: All PCs must roll Soul (DC 10) or suffer -1 die for encounter"
+              ],
+              "tactics": "Use environment. Summon minions. Try to separate and isolate PCs. Monologue about the coming awakening."
+            },
+
+            "minions": [
+              {"name": "Cult Fanatic", "quantity": 3},
+              {"name": "Lesser Shade", "quantity": 2}
+            ],
+
+            "battlefield": {
+              "features": [
+                "Catwalk above (requires climbing, provides height advantage)",
+                "Chemical barrels (can be ignited for area damage)",
+                "Loading dock door (escape route or call for backup)",
+                "Ritual altar (destroying it weakens daemon)"
+              ]
+            }
+          },
+
+          "mid_combat_twist": {
+            "trigger": "Daemon reduced to 3 wounds",
+            "event": "Daemon reveals truth: 'I am not the architect! The ritual will proceed with or without me! Your awakening is the key!'",
+            "revelation": "The daemon is a pawn. The real threat is the mass awakening event."
+          }
+        },
+
+        {
+          "title": "Scene 3: Aftermath and Revelation",
+          "description": "Daemon banished or killed. Cult scattered. But ritual components point to something larger—a citywide event planned for the new moon (3 days away).",
+
+          "evidence_found": [
+            "Map showing 13 ritual sites across the city",
+            "List of names—other awakened individuals being hunted or recruited",
+            "Communication from 'The Architect' (true villain's title)",
+            "Calendar marked: NEW MOON - THE GREAT AWAKENING"
+          ],
+
+          "npc_reaction": {
+            "ashwood": "Lockdown protocol. Martial law proposed.",
+            "covenant": "Mass exorcism planned. May harm innocents.",
+            "black_chamber": "Extraction teams mobilize. May weaponize awakened individuals."
+          }
+        }
+      ],
+
+      "session_end": {
+        "cliffhanger": "PCs' bloodlines flare violently. They feel others like them awakening across the city. A psychic scream echoes: 'Come to us. Join the Awakening. Or burn with the old world.'",
+        "xp_reward": "100 XP per player"
+      }
+    },
+
+    {
+      "number": 4,
+      "title": "Factions Collide",
+      "focus": "Moral choices and allegiances",
+      "summary": "With the final ritual approaching, PCs must choose sides or forge their own path.",
+
+      "opening": "City in chaos. Disappearances spike. News reports 'mass hysteria.' Military vehicles patrol streets. Churches hold emergency vigils. PCs are contacted by all three factions simultaneously.",
+
+      "scenes": [
+        {
+          "title": "Scene 1: The Offers",
+          "structure": "Three separate meetings, players choose order",
+
+          "meetings": [
+            {
+              "faction": "Ashwood Foundation",
+              "location": "Unmarked military van, industrial park",
+              "npc": "Colonel Reeves",
+              "pitch": "We're deploying containment teams at all 13 sites. You're insiders—awakened but still human. Help us identify targets before they become threats.",
+              "mission": "Infiltrate final ritual. Tag key individuals for capture. Prevent mass awakening.",
+              "reward": "Military contracts, steady income, protection from other factions",
+              "consequence": "Become hunters of your own kind. Morally grey at best."
+            },
+            {
+              "faction": "Covenant of St. Michael",
+              "location": "Cathedral basement, candles and incense",
+              "npc": "Sister Catherine",
+              "pitch": "The awakening is a test of faith. Some will be sanctified, others damned. We can guide you toward salvation—and help others find it too.",
+              "mission": "Consecrate ritual sites. Offer awakened individuals redemption or purification.",
+              "reward": "Holy weapons, spiritual protection, sanctuary network",
+              "consequence": "Forced 'conversions.' Zealotry may harm innocents."
+            },
+            {
+              "faction": "The Black Chamber",
+              "location": "Secure government facility, underground",
+              "npc": "Agent Webb",
+              "pitch": "The Soviets have their own program—Operation Red Star. We need assets to counter them. You're patriots, aren't you?",
+              "mission": "Hijack the ritual. Redirect awakening energy into controlled subjects (PCs included).",
+              "reward": "Government backing, classified tech, license to operate",
+              "consequence": "Become government weapons. Cold War escalation."
+            }
+          ]
+        },
+
+        {
+          "title": "Scene 2: The Fourth Option",
+          "trigger": "If PCs reject all three factions or show hesitation",
+          "description": "A mysterious figure contacts PCs—another awakened individual, neither faction-aligned. Offers an alternative.",
+
+          "npc": {
+            "name": "Elias Thorne",
+            "description": "Older man, refined, knowing eyes. Awakened decades ago.",
+            "background": "Former Black Chamber asset who went rogue. Knows the truth about all three factions.",
+            "pitch": "They all want to control you. I'm offering freedom. Stop the ritual on YOUR terms. Become the balance between humanity and the supernatural.",
+            "offer": "Hidden safehouse network, ancient texts, independence"
+          },
+
+          "revelation": "Elias reveals: The Architect is experimenting with forced awakenings. Natural awakening is rare and personal—this ritual is mass-production, and most subjects won't survive."
+        },
+
+        {
+          "title": "Scene 3: Preparation Montage",
+          "structure": "Players describe how PCs spend final day before ritual",
+          "options": [
+            "Gather allies from earlier sessions",
+            "Acquire special equipment or weapons",
+            "Research ritual weaknesses (Occult checks)",
+            "Set up ambushes or countermeasures at ritual sites",
+            "Make peace with loved ones",
+            "Explore their bloodline powers (training montage)"
+          ],
+
+          "gm_guidance": "Give each PC a spotlight moment. Build tension. Let them roll prep checks that give bonuses in finale."
+        }
+      ],
+
+      "session_end": {
+        "cliffhanger": "New moon rises. City lights flicker. Psychic pulse ripples outward. All 13 ritual sites activate simultaneously. PCs feel the pull—they MUST go to the central site. It's not a choice. The Architect awaits.",
+        "xp_reward": "75 XP per player"
+      }
+    },
+
+    {
+      "number": 5,
+      "title": "The Ritual",
+      "focus": "Climactic finale",
+      "summary": "The PCs confront the Architect and decide the fate of the awakening—and possibly the entire supernatural community.",
+
+      "opening": "New moon. Waterfront industrial complex. Thirteen ritual circles glow across the city. At the center: an ancient, powerful entity channeling awakening energy.",
+
+      "scenes": [
+        {
+          "title": "Scene 1: Approach",
+          "location": "Waterfront, abandoned dock",
+          "description": "Ritual in progress. Hundreds of people—willing and unwilling—stand in concentric circles, chanting. Reality warps. Sky tears open. Faction forces converge from all sides.",
+
+          "complications": [
+            {
+              "complication": "Ashwood strikes early",
+              "effect": "Gunfire. Chaos. Innocents caught in crossfire."
+            },
+            {
+              "complication": "Covenant attempts mass exorcism",
+              "effect": "Psychic backlash. Some awakened individuals die instantly."
+            },
+            {
+              "complication": "Black Chamber deploys experimental tech",
+              "effect": "EMP pulse. Magic and technology both disrupted."
+            }
+          ]
+        },
+
+        {
+          "title": "Scene 2: The Architect Revealed",
+          "description": "At ritual's heart stands the Architect—a figure in black robes, face obscured. Voice resonates with power.",
+
+          "villain": {
+            "name": "The Architect (Dr. Solomon Grey)",
+            "background": "Occult researcher who witnessed atomic bomb tests. Believes supernatural power is the next stage of human evolution. Willing to sacrifice thousands to force it.",
+            "motivation": "Create a new world order where awakened rule openly",
+            "appearance": "Scholarly, middle-aged, burn scars from failed ritual decades ago",
+            "powers": "Master ritualist, can channel others' powers, psychically dominate weak-willed"
+          },
+
+          "dialogue": "You feel it, don't you? The old world is dying. Hiroshima, Nagasaki—humanity proved it can destroy itself. But WE... we can transcend. Join me. Rule the new age.",
+
+          "choice_point": {
+            "join": "Architect offers PCs positions of power. Ritual succeeds but PCs become villains.",
+            "refuse": "Boss fight begins. Architect + elite guards.",
+            "hijack": "Redirect ritual energy (Occult DC 15). Risky but empowering."
+          }
+        },
+
+        {
+          "title": "Scene 3: Final Battle",
+          "boss_encounter": {
+            "enemy": {
+              "name": "Dr. Solomon Grey (The Architect)",
+              "wound_threshold": 8,
+              "abilities": [
+                "Channel Ritual: Absorb power from nearby awakened. Heals 2 wounds per turn.",
+                "Dominate Mind: Force Soul check (DC 12) or ally turns hostile for 1d3 rounds.",
+                "Reality Tear: AOE attack, 2d10 damage to all in 20ft radius.",
+                "Phase Shift: Can't be targeted by mundane weapons while channeling."
+              ],
+              "weaknesses": [
+                "Disrupting ritual circle (-3 dice to all actions)",
+                "Destroying 3+ ritual foci ends channeling",
+                "Attacks from other awakened ignore phase shift"
+              ]
+            },
+
+            "minions": [
+              {"name": "Dominated Awakened", "quantity": 4, "note": "Can be freed with Soul checks"},
+              {"name": "Cult Fanatics (Elite)", "quantity": 6},
+              {"name": "Summoned Daemon", "quantity": 1}
+            ],
+
+            "battlefield": {
+              "features": [
+                "Central ritual platform (15ft raised)",
+                "13 ritual circles (destroying each weakens Architect)",
+                "Dimensional tears (portals to... elsewhere)",
+                "Faction forces battling on perimeter"
+              ],
+              "environmental_hazard": "Reality instability. Each turn, roll d6: 1-2 = gravity shifts, 3-4 = time hiccup, 5-6 = psychic scream (Soul check)"
+            }
+          }
+        },
+
+        {
+          "title": "Scene 4: Resolution",
+          "outcomes": [
+            {
+              "outcome": "Stop the ritual completely",
+              "result": "Awakening prevented. Status quo maintained. PCs remain rare anomalies. Factions grateful but wary.",
+              "campaign_impact": "PCs become hidden protectors. Low supernatural activity."
+            },
+            {
+              "outcome": "Allow ritual to complete",
+              "result": "Mass awakening. Chaos. Thousands die or go mad. Survivors form new supernatural community. World changes forever.",
+              "campaign_impact": "Urban fantasy setting. Factions war openly. High-stakes politics."
+            },
+            {
+              "outcome": "Hijack ritual for controlled awakening",
+              "result": "PCs absorb power surge. Become significantly more powerful. Smaller-scale awakening. PCs responsible for guiding new awakened.",
+              "campaign_impact": "PCs as mentors/leaders. Balanced supernatural presence."
+            },
+            {
+              "outcome": "Faction takes control",
+              "result": "Ashwood/Covenant/Black Chamber weaponizes ritual. PCs become agents/assets. Moral compromise.",
+              "campaign_impact": "Factional campaign. Espionage and covert ops focus."
+            }
+          ]
+        }
+      ],
+
+      "epilogue": {
+        "text": "The new moon sets. Dawn breaks over the city. Smoke rises from the waterfront. Emergency crews respond. News anchors struggle to explain the night's events. The PCs stand amid the aftermath, forever changed. The Awakening—controlled, chaotic, or prevented—has passed. But its echoes will shape everything that follows. Welcome to Midnight Nation.",
+        "xp_reward": "150 XP per player",
+        "final_rewards": [
+          "Architect's grimoire (powerful but dangerous artifact)",
+          "Faction standing (ally or enemy status locked in)",
+          "Bloodline advancement (unique power unlocked)",
+          "Reputation: The PCs are now known in supernatural circles"
+        ]
+      }
+    }
+  ],
+
+  "npcs": [
+    {
+      "name": "Colonel Marcus Reeves",
+      "faction": "Ashwood Foundation",
+      "role": "Military commander",
+      "description": "Late 40s, crew cut graying at temples, ramrod posture, carries himself like career military because he is. Fought in WWII, seen things that can't be explained by standard doctrine.",
+      "personality": "Pragmatic, disciplined, sees supernaturals as enemy combatants. Not cruel—just coldly tactical. 'Threats must be contained.' Will honor deals but always plans for betrayal.",
+      "combat_stats": {
+        "wound_threshold": 4,
+        "weapons": ["M1911 pistol (d8)", "Combat knife (d6)"],
+        "skills": ["Tactics +3", "Firearms +2", "Intimidation +2"]
+      },
+      "quotes": [
+        "I've seen what happens when you let these things run loose. Dresden. Manila. Not on my watch.",
+        "You want to help? Fine. But the moment you become the problem, I put you down.",
+        "Sentiment is a luxury we can't afford."
+      ]
+    },
+    {
+      "name": "Sister Catherine Moreau",
+      "faction": "Covenant of St. Michael",
+      "role": "Exorcist and spiritual counselor",
+      "description": "Early 30s, nun's habit with combat boots visible underneath, rosary wrapped around one hand, old burn scars on the other. French-Algerian accent. Eyes that have seen demons and still believe in grace.",
+      "personality": "Compassionate but zealous. Genuinely wants to save souls—including monsters'. But 'saving' might mean death if redemption fails. Will offer mercy once. Only once.",
+      "combat_stats": {
+        "wound_threshold": 3,
+        "weapons": ["Consecrated blade (d8, holy)", "Prayer beads (can bind demons)"],
+        "skills": ["Occult +3", "Religion +3", "Willpower +2"]
+      },
+      "quotes": [
+        "God does not abandon His children—even those touched by darkness.",
+        "You have been given a gift. The question is: will you use it for His glory or your damnation?",
+        "I have cast out demons from cathedrals. Do not test my faith."
+      ]
+    },
+    {
+      "name": "Agent Harrison Webb",
+      "faction": "The Black Chamber",
+      "role": "Intelligence operative",
+      "description": "Mid-30s, forgettable face, suits that blend into any setting, always has an earpiece. Ex-OSS, transitioned to this new 'specialized' division. Knows more than he says.",
+      "personality": "Cold War pragmatist. Everything is an asset or a threat. Personally? He's tired. Knows the job is dirty. Does it anyway because someone has to. Will betray PCs if national security demands it.",
+      "combat_stats": {
+        "wound_threshold": 3,
+        "weapons": ["Suppressed pistol (d6)", "Garrote wire (d8, stealth kill)"],
+        "skills": ["Espionage +3", "Deception +3", "Investigation +2"]
+      },
+      "quotes": [
+        "Patriotism isn't about flags and parades. It's about making hard choices so civilians don't have to.",
+        "The Soviets already have three operational psychic units. We're behind.",
+        "I don't need you to like me. I need you to not screw up."
+      ]
+    },
+    {
+      "name": "Dr. Solomon Grey (The Architect)",
+      "faction": "Independent / Cult Leader",
+      "role": "Primary antagonist",
+      "description": "Late 50s, once handsome but now scarred from ritual burns. Expensive suit under ritual robes. Speaks with calm certainty of a true believer. Eyes glow faintly amber when channeling power.",
+      "personality": "Visionary zealot. Believes he's saving humanity by forcing evolution. Not sadistic—clinical. Sees casualties as necessary. Genuinely thinks PCs should thank him. Charismatic enough that some do.",
+      "backstory": "Manhattan Project scientist. Witnessed Trinity test. Became obsessed with idea that supernatural power could prevent nuclear annihilation. Decades of research led here.",
+      "combat_stats": {
+        "wound_threshold": 8,
+        "weapons": ["Ritual dagger (d6, cursed)", "Psychic attacks (2d8)"],
+        "skills": ["Occult +4", "Persuasion +3", "Rituals +4"],
+        "special": "Can channel awakened individuals' powers. Each awakened in range adds +1 die to his pools."
+      },
+      "quotes": [
+        "I stood at Alamogordo and watched man become god. Now I offer you the same transcendence.",
+        "Your squeamishness is evolutionary deadweight. Adapt or perish.",
+        "They called Oppenheimer a monster too. History will vindicate us both."
+      ]
+    },
+    {
+      "name": "Elias Thorne",
+      "faction": "Independent / Mentor figure",
+      "role": "Potential ally / information broker",
+      "description": "Early 60s, silver-haired, three-piece suits, walks with cane (doesn't need it—affectation). Smokes Turkish cigarettes. Ageless quality to his eyes.",
+      "personality": "Weary immortal. Seen too many cycles of this. Wants to guide new generation without controlling them. Cryptic but not malicious. Will help but won't fight your battles.",
+      "backstory": "Awakened in 1920s. Worked for Black Chamber's predecessor. Went rogue in 1945 after seeing Hiroshima. Now operates underground railroad for rogue supernaturals.",
+      "combat_stats": {
+        "wound_threshold": 5,
+        "weapons": ["Walking stick (d6, concealed blade)", "Bloodline powers (varies)"],
+        "skills": ["Lore +4", "History +3", "Subterfuge +3"]
+      },
+      "quotes": [
+        "This isn't the first 'awakening' I've witnessed. They all think they're special.",
+        "The factions aren't your enemies—they're symptoms of a deeper disease.",
+        "I can teach you to survive what's coming. I can't teach you why."
+      ]
+    },
+    {
+      "name": "Detective Lou Ferraro",
+      "faction": "None (civilian)",
+      "role": "Police contact / potential complication",
+      "description": "Late 50s, rumpled coat, permanent coffee stain on tie, eyes that have seen department corruption. Two years from retirement but gets pulled into supernatural cases.",
+      "personality": "Skeptical cop turned reluctant believer. Wants to help but bound by law and bureaucracy. Can be valuable ally or frustrated obstacle depending on how PCs approach.",
+      "combat_stats": {
+        "wound_threshold": 2,
+        "weapons": ["Service revolver (d8)", "Brass knuckles (d6)"],
+        "skills": ["Investigation +2", "Streetwise +2", "Intimidation +1"]
+      },
+      "quotes": [
+        "I don't care what you are. You commit murder, I arrest you. Simple as that.",
+        "Twenty-three years on the force. Never seen anything like this until last month.",
+        "Whatever you're into, keep it away from my city."
+      ]
+    }
+  ],
+
+  "locations": [
+    {
+      "name": "The Alley Behind Velvet Room Jazz Club",
+      "description": "Narrow cobblestone alley, rain-slicked, lit by one flickering neon sign. Dumpsters provide cover. Fire escape leads to rooftops. Where the first victim was found.",
+      "atmosphere": "Noir film come to life. Saxophone music drifts from club. Cigarette smoke. Shadows pool unnaturally deep.",
+      "secrets": "Demon claw marks on brick if you know what to look for. Hidden cult symbol scratched near ground level."
+    },
+    {
+      "name": "The Sewer Network",
+      "description": "Victorian-era brick tunnels, newer concrete sections, steam pipes running overhead. Water ankle-to-waist deep depending on section. Echoes carry for hundreds of feet.",
+      "atmosphere": "Claustrophobic darkness. Dripping water constant metronome. Rats scatter. Something larger moves in the distance.",
+      "hazards": "Flooding during heavy rain. Toxic fumes in some sections. Cultist patrols. Daemon feeding grounds.",
+      "map_features": "Junction Alpha (main ritual chamber). Maintenance Hub 7 (Ashwood observation post). Drain 13 (cult escape route)."
+    },
+    {
+      "name": "St. Michael's Cathedral",
+      "description": "Gothic revival architecture, stained glass depicting angel/demon battles. Basement converted to Covenant operations center. Bell tower has sniper position.",
+      "atmosphere": "Sacred but militarized. Incense mingles with gun oil. Prayers and tactical radio chatter.",
+      "secrets": "Hidden armory of consecrated weapons. Ancient texts in restricted section. Vampire remains in basement reliquary."
+    },
+    {
+      "name": "The Waterfront Industrial Complex",
+      "description": "Abandoned during Depression, partially repurposed during war, now derelict again. Rusted machinery. Broken windows. Central warehouse converted to ritual site.",
+      "atmosphere": "Desolation and unnatural energy. Fog that doesn't behave right. Temperature drops. Reality feels thin here.",
+      "finale_features": "13 ritual circles. Central platform. Loading bay doors (faction insertion points). Catwalk above. Chemical storage (explosive)."
+    },
+    {
+      "name": "Black Chamber Safe House",
+      "description": "Unmarked building, government plates on vehicles, armed guards in civilian clothes. Basement interrogation rooms. Radio antenna on roof.",
+      "atmosphere": "Cold War paranoia incarnate. Fluorescent lights. Metal furniture. Watching eyes.",
+      "secrets": "Holding cells for captured supernaturals. Files on PCs already started. Direct line to Washington."
+    },
+    {
+      "name": "Elias Thorne's Safehouse",
+      "description": "Speakeasy-turned-occult-library. Hidden entrance behind false wall. Shelves of ancient texts. Maps showing ley lines. Comfortable but secured.",
+      "atmosphere": "Gentleman's study meets arcane workshop. Safe haven. Outside world feels distant.",
+      "resources": "Research materials (+2 dice to Occult checks). Emergency escape routes. Warded against scrying."
+    }
+  ],
+
+  "handouts": [
+    {
+      "title": "Newspaper Clipping",
+      "content": "VETERAN FOUND DEAD IN ALLEY - Police baffled by brutal slaying. Decorated war hero Thomas McKenna found deceased behind Velvet Room. Autopsy pending. Detective Ferraro asks witnesses to come forward."
+    },
+    {
+      "title": "Cult Symbol",
+      "content": "Three-pointed star within circle. Points labeled (in Latin): Corpus, Anima, Daemon. Translation: Body, Soul, Demon. Symbol of forced transformation ritual."
+    },
+    {
+      "title": "Architect's Letter (found in Session 3)",
+      "content": "To my devoted: The Sleepers stir. Our sacrifices bear fruit. Thirteen circles. New moon. The chosen will rise. The weak will perish. This is mercy. - S.G."
+    },
+    {
+      "title": "Ashwood Briefing Document",
+      "content": "CLASSIFICATION: OBSIDIAN. Codename: AWAKENING PROTOCOL. Confirmed supernatural activity: +300% last 30 days. Recommend containment operations. Congressional oversight suspended per Emergency Directive 7."
+    },
+    {
+      "title": "Black Chamber Intercept",
+      "content": "Encrypted transmission (partially decoded): SOVIET ASSET CONFIRMED IN CITY. OPERATION RED STAR ACTIVE. COUNTER-MEASURES AUTHORIZED. ALL AWAKENED SUBJECTS TO BE SECURED OR NEUTRALIZED."
+    }
+  ],
+
+  "random_events": [
+    {
+      "roll": "1",
+      "event": "Street lights flicker and die. Something moves in the darkness.",
+      "effect": "Stealth check to avoid random encounter with Lesser Shade."
+    },
+    {
+      "roll": "2",
+      "event": "Ashwood patrol passes nearby. Military vehicles, searchlights.",
+      "effect": "Hide or talk your way past. Getting detained wastes time."
+    },
+    {
+      "roll": "3",
+      "event": "Psychic flashback: see victim's final moments.",
+      "effect": "Gain clue but suffer -1 die next roll from trauma."
+    },
+    {
+      "roll": "4",
+      "event": "Meet another awakened individual, scared and hiding.",
+      "effect": "Potential ally or liability. Choice: help or ignore."
+    },
+    {
+      "roll": "5",
+      "event": "Cult graffiti appears on walls—watching you.",
+      "effect": "Intimidation check or suffer -1 die to Willpower rolls from paranoia."
+    },
+    {
+      "roll": "6",
+      "event": "Faction contact offers intel in exchange for favor.",
+      "effect": "Gain advantage but owe debt."
+    }
+  ],
+
+  "rewards": [
+    {
+      "name": "Consecrated Revolver",
+      "type": "Weapon",
+      "stats": "d8 damage, counts as holy weapon against demons and undead",
+      "description": "Silver-plated .38, blessed by Sister Catherine. Bullets engraved with prayers."
+    },
+    {
+      "name": "Blood-Etched Dog Tags",
+      "type": "Talisman",
+      "effect": "Once per session, ignore one Moderate wound",
+      "description": "Military dog tags inscribed with protective runes. Warm to touch."
+    },
+    {
+      "name": "Ritual Chalk",
+      "type": "Consumable",
+      "effect": "Reroll one failed Occult check per session",
+      "description": "White chalk infused with ground bone and silver. Used for protective circles."
+    },
+    {
+      "name": "Ashwood Combat Knife",
+      "type": "Weapon",
+      "stats": "d6 damage, silvered blade",
+      "description": "Tactical knife with silver edge. Foundation issue. Traceable back to them."
+    },
+    {
+      "name": "The Architect's Grimoire",
+      "type": "Artifact (dangerous)",
+      "effect": "+2 dice to Ritual magic, but each use risks corruption (Soul check)",
+      "description": "Leather-bound journal filled with Solomon Grey's research. Pages whisper."
+    },
+    {
+      "name": "Black Chamber Credentials",
+      "type": "Social",
+      "effect": "Government authority when flashed. Draws attention from Agency.",
+      "description": "Fake but functional ID and badge. 'Consultant' status. Use carefully."
+    }
+  ],
+
+  "gm_guidance": {
+    "tone": "This module should feel like a noir detective story colliding with supernatural horror. Think True Detective season 1 meets Constantine. Rain, shadows, cigarettes, moral ambiguity, and cosmic dread.",
+    
+    "pacing": "Sessions 1-2 are investigation and discovery. Session 3 escalates to action. Session 4 is choice-driven roleplay. Session 5 is climactic set-piece. Adjust if group prefers different balance.",
+    
+    "faction_balance": "No faction is purely good or evil. Ashwood protects humanity but treats supernaturals as monsters. Covenant saves souls but through zealotry. Black Chamber serves nation but through exploitation. Let players debate which is 'right.'",
+    
+    "player_agency": "The Awakening can end five different ways based on player choice. Don't railroad to one outcome. Each is valid and sets up different campaign styles.",
+    
+    "horror_elements": "Use body horror (daemon feeding), cosmic horror (reality tearing), and psychological horror (forced awakening trauma). Balance with heroic moments so players feel empowered, not helpless.",
+    
+    "adaptation": "Module is flexible. Set in any post-WWII American city. Swap factions if needed. Scale encounters for party size. Add or remove sessions based on campaign length.",
+    
+    "failure_states": "If PCs die or fail catastrophically, don't end campaign. Have faction recruit them as revenants/ghosts, or start new characters investigating the PCs' disappearance."
+  },
+
+  "appendix": {
+    "difficulty_scaling": {
+      "easy_mode": "Reduce enemy wound thresholds by 1. Give PCs extra starting gear. Faction backup arrives sooner.",
+      "hard_mode": "Add more minions. Architect has 10 wounds. Time pressure: ritual succeeds in 5 rounds instead of 10.",
+      "nightmare_mode": "All three factions hostile. PCs hunted by everyone. No safe havens."
+    },
+    
+    "alternate_hooks": {
+      "military": "PCs are Army investigators looking into fragging incident that was actually daemon attack.",
+      "civilian": "PCs are journalists investigating missing persons story.",
+      "criminal": "PCs are mob enforcers who discover supernatural threat to their territory."
+    },
+    
+    "sequel_hooks": [
+      "Architect's grimoire contains prophecy of greater threat.",
+      "Soviet Operation Red Star agents arrive seeking revenge.",
+      "One PC's bloodline has unique, world-shaking destiny.",
+      "Ritual partially succeeded—13 new awakened need guidance.",
+      "Faction war erupts. PCs caught in middle."
+    ]
+  }
+}

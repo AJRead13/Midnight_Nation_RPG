@@ -19,6 +19,7 @@ import Login from './components/Login';
 import Register from './components/Register';
 import Profile from './components/Profile';
 import Modules from './components/Modules';
+import ModuleViewer from './components/ModuleViewer';
 import './index.css';
 
 const router = createBrowserRouter([
@@ -102,6 +103,10 @@ const router = createBrowserRouter([
       {
         path: 'modules',
         element: <Modules />,
+      },
+      {
+        path: 'modules/:moduleId',
+        element: <ModuleViewer />,
       },
     ],
   },
