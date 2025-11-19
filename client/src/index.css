@@ -2663,22 +2663,38 @@ textarea {
     padding-left: 0;
   }
   nav:not(.items-nav):not(.rules-nav):not(.lore-nav) {
-    position: static;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
     width: 100%;
     height: auto;
     border-right: none;
     border-bottom: 2px solid var(--primary);
     padding: 1rem;
-    font-size: 1.3rem;
+    font-size: 1.1rem;
+    z-index: 1000;
+    background: rgba(0, 0, 0, 0.9);
   }
   nav:not(.items-nav):not(.rules-nav):not(.lore-nav) ul {
-    flex-direction: column;
-    align-items: stretch;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
   }
   nav:not(.items-nav):not(.rules-nav):not(.lore-nav) ul li {
-    width: 100%;
+    width: auto;
     text-align: center;
-    margin: 0.5rem 0;
+    margin: 0;
+  }
+  nav:not(.items-nav):not(.rules-nav):not(.lore-nav) a {
+    padding: 0.5rem 0.75rem;
+    display: inline-block;
+  }
+  main {
+    margin-left: 0;
+    padding-top: 200px;
   }
   .container {
     margin-left: auto;
@@ -2783,7 +2799,8 @@ textarea {
     gap: 0.35rem;
   }
   
-  nav:not(.items-nav):not(.rules-nav):not(.lore-nav) li {
+  nav:not(.items-nav):not(.rules-nav):not(.lore-nav) li:not(.search-container):not(.auth-container) {
+    order: 0;
     margin: 0;
   }
   
@@ -2800,13 +2817,13 @@ textarea {
     padding: 0.5rem 0 0 0;
     border-top: 1px solid rgba(140, 84, 255, 0.3);
     border-bottom: none;
-    order: 1;
+    order: 2;
   }
   
   .search-container {
     width: 100%;
-    order: 0;
-    margin-bottom: 0.5rem;
+    order: 1;
+    margin: 0.5rem 0;
   }
   
   .search-input {
