@@ -11,6 +11,7 @@ function Modules() {
   const [filter, setFilter] = useState('all');
   const [loading, setLoading] = useState(true);
   const [downloading, setDownloading] = useState(false);
+  const [showClassifiedModal, setShowClassifiedModal] = useState(false);
   const { user } = useAuth();
   const toast = useToast();
   const navigate = useNavigate();
@@ -111,13 +112,13 @@ function Modules() {
           filteredModules.map(module => (
             <div 
               key={module._id} 
-              className="module-card"
-              onClick={() => setSelectedModule(module)}
+              className={`module-card ${!module.moduleId ? 'classified' : ''}`}
+              onClick={() => module.moduleId ? setSelectedModule(module) : setShowClassifiedModal(true)}
             >
-              {/* Coming Soon Banner for modules without moduleId */}
+              {/* Classified Banner for modules without moduleId */}
               {!module.moduleId && (
-                <div className="coming-soon-banner">
-                  <span>COMING SOON</span>
+                <div className="classified-banner">
+                  <span>CLASSIFIED</span>
                 </div>
               )}
               <div className="module-thumbnail">
@@ -236,6 +237,34 @@ function Modules() {
                   </button>
                 )}
               </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Classified Access Modal */}
+      {showClassifiedModal && (
+        <div className="modal-overlay" onClick={() => setShowClassifiedModal(false)}>
+          <div className="modal-content classified-modal" onClick={(e) => e.stopPropagation()}>
+            <button className="modal-close" onClick={() => setShowClassifiedModal(false)}>×</button>
+            <div className="classified-modal-body">
+              <div className="classified-icon">🔒</div>
+              <h2>ACCESS RESTRICTED</h2>
+              <p className="classified-message">
+                This module is currently classified and unavailable for viewing.
+              </p>
+              <p className="classified-submessage">
+                Clearance Level: <span className="clearance-level">TOP SECRET</span>
+              </p>
+              <p className="classified-note">
+                Module content is under development. Check back soon.
+              </p>
+              <button 
+                className="btn-primary classified-btn" 
+                onClick={() => setShowClassifiedModal(false)}
+              >
+                Acknowledged
+              </button>
             </div>
           </div>
         </div>
