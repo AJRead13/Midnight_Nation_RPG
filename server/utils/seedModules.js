@@ -19,7 +19,7 @@ const sampleModules = [
     active: true
   },
   {
-    moduleId: "shadow-protocol",
+    // NO moduleId - this will trigger classified styling
     title: "Shadow Protocol",
     description: "Corporate espionage meets supernatural horror in this thrilling adventure through the underbelly of Midnight Nation.",
     fullDescription: "A powerful corporation has been experimenting with occult forces, and the results are about to be unleashed on an unsuspecting city. Your characters must navigate corporate intrigue, underground networks, and supernatural dangers to stop a catastrophe. This module features multiple paths to success, moral dilemmas, and a ticking clock that keeps the pressure on.",
@@ -34,7 +34,7 @@ const sampleModules = [
     active: true
   },
   {
-    moduleId: "blood-moon-rising",
+    // NO moduleId - this will trigger classified styling
     title: "Blood Moon Rising",
     description: "When the blood moon appears, ancient vampire clans emerge from hiding to claim their dominion over the city.",
     fullDescription: "An ancient prophecy comes to pass as the blood moon rises over the city. Vampire clans that have hidden in the shadows for centuries make their move to claim power, and only your characters stand between them and total domination. This epic campaign features complex political intrigue, intense combat encounters, and world-shaking consequences. Recommended for experienced groups.",
