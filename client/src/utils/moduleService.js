@@ -206,4 +206,13 @@ const moduleService = {
   }
 };
 
+// Export individual functions for named imports
+export const getAllModules = moduleService.getAllModules.bind(moduleService);
+export const getModuleById = moduleService.getModuleById.bind(moduleService);
+export const downloadModule = moduleService.downloadModule.bind(moduleService);
+export const createModule = moduleService.createModule.bind(moduleService);
+export const updateModule = moduleService.updateModule.bind(moduleService);
+export const deleteModule = moduleService.deleteModule.bind(moduleService);
+
+// Also export as default for backwards compatibility
 export default moduleService;
