@@ -349,6 +349,30 @@ export const deleteCampaignSession = async (campaignId, sessionId) => {
   }
 };
 
+/**
+ * Assign a character to a campaign
+ */
+export const assignCharacter = async (campaignId, characterId) => {
+  try {
+    const response = await fetch(`${API_URL}/campaigns/${campaignId}/assign-character`, {
+      method: 'POST',
+      headers: getAuthHeaders(),
+      body: JSON.stringify({ characterId })
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.message || 'Failed to assign character');
+    }
+
+    const data = await response.json();
+    return data.campaign;
+  } catch (error) {
+    console.error('Error assigning character:', error);
+    throw error;
+  }
+};
+
 export default {
   fetchCampaigns,
   fetchPublicCampaigns,
@@ -362,5 +386,6 @@ export default {
   removePlayer,
   addCampaignSession,
   updateCampaignSession,
-  deleteCampaignSession
+  deleteCampaignSession,
+  assignCharacter
 };

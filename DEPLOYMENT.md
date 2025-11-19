@@ -249,6 +249,3 @@ If you prefer to deploy as a single service:
 4. Set up monitoring/alerts
 5. Invite users to test!
 
-QTMAunOLIgjYzorM
-
-mongodb+srv://midnight_admin:QTMAunOLIgjYzorM@midnightnation.odciv9i.mongodb.net/?appName=MidnightNation

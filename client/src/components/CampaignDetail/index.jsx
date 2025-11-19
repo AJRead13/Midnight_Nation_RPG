@@ -9,7 +9,8 @@ import {
   removePlayer,
   addCampaignSession,
   updateCampaignSession,
-  deleteCampaignSession
+  deleteCampaignSession,
+  assignCharacter
 } from '../../utils/campaignService';
 import { fetchCharacters } from '../../utils/characterService';
 import DiceFeed from '../DiceFeed';
@@ -36,6 +37,9 @@ function CampaignDetail() {
   const [isLeaving, setIsLeaving] = useState(false);
   const [removingPlayerId, setRemovingPlayerId] = useState(null);
   const [isDeletingSession, setIsDeletingSession] = useState(null);
+  const [showAssignCharacterModal, setShowAssignCharacterModal] = useState(false);
+  const [selectedCharacterId, setSelectedCharacterId] = useState('');
+  const [isAssigningCharacter, setIsAssigningCharacter] = useState(false);
   const [editForm, setEditForm] = useState({
     name: '',
     description: '',
@@ -242,6 +246,26 @@ function CampaignDetail() {
     }
   };
 
+  const handleAssignCharacter = async (e) => {
+    e.preventDefault();
+    if (!selectedCharacterId) {
+      alert('Please select a character');
+      return;
+    }
+    setIsAssigningCharacter(true);
+    try {
+      const updated = await assignCharacter(id, selectedCharacterId);
+      setCampaign(updated);
+      setShowAssignCharacterModal(false);
+      setSelectedCharacterId('');
+      alert('Character assigned successfully!');
+    } catch (err) {
+      alert(`Failed to assign character: ${err.message}`);
+    } finally {
+      setIsAssigningCharacter(false);
+    }
+  };
+
   const formatDate = (dateString) => {
     const date = new Date(dateString);
     return date.toLocaleDateString('en-US', { 
@@ -423,6 +447,15 @@ function CampaignDetail() {
           <div className="participants-section">
             <div className="section-title">
               <h3>Players ({campaign.players?.length || 0})</h3>
+              {!isGM && (
+                <button 
+                  className="btn-assign-character"
+                  onClick={() => setShowAssignCharacterModal(true)}
+                  title="Assign or change your character"
+                >
+                  {userCharacter ? '🔄 Change Character' : '+ Assign Character'}
+                </button>
+              )}
             </div>
             
             {campaign.players?.length === 0 ? (
@@ -823,6 +856,64 @@ function CampaignDetail() {
                 Close
               </button>
             </div>
+          </div>
+        </div>
+      )}
+
+      {/* Assign Character Modal */}
+      {showAssignCharacterModal && (
+        <div className="modal-overlay" onClick={() => setShowAssignCharacterModal(false)}>
+          <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+            <h3>{userCharacter ? 'Change Character' : 'Assign Character'}</h3>
+            <form onSubmit={handleAssignCharacter}>
+              {userCharacter && (
+                <div className="current-character-info">
+                  <p><strong>Current Character:</strong> {userCharacter.name} (Level {userCharacter.level})</p>
+                </div>
+              )}
+              
+              <div className="form-group">
+                <label htmlFor="character-select">Select Character *</label>
+                <select
+                  id="character-select"
+                  value={selectedCharacterId}
+                  onChange={(e) => setSelectedCharacterId(e.target.value)}
+                  required
+                >
+                  <option value="">-- Choose a character --</option>
+                  {userCharacters.map((char) => (
+                    <option key={char._id} value={char._id}>
+                      {char.name} - Level {char.level} {char.class}
+                    </option>
+                  ))}
+                </select>
+                {userCharacters.length === 0 && (
+                  <p className="help-text">
+                    You don't have any characters yet. <a href="/character-sheet">Create one</a> first.
+                  </p>
+                )}
+              </div>
+
+              <div className="modal-actions">
+                <button
+                  type="button"
+                  className="btn-cancel"
+                  onClick={() => {
+                    setShowAssignCharacterModal(false);
+                    setSelectedCharacterId('');
+                  }}
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  className="btn-confirm"
+                  disabled={isAssigningCharacter || !selectedCharacterId}
+                >
+                  {isAssigningCharacter ? 'Assigning...' : userCharacter ? 'Change Character' : 'Assign Character'}
+                </button>
+              </div>
+            </form>
           </div>
         </div>
       )}
