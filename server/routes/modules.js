@@ -32,6 +32,48 @@ router.get('/', async (req, res) => {
     const modules = await Module.find(query).sort({ featured: -1, createdAt: -1 });
     console.log('[modules.js] Found modules:', modules.length);
     
+    // If no modules in database, return hardcoded modules as fallback
+    if (modules.length === 0) {
+      console.log('[modules.js] No modules in database, returning fallback data');
+      const fallbackModules = [
+        {
+          moduleId: "the-awakening",
+          title: "The Awakening",
+          description: "A mysterious force begins to stir in the city, awakening dormant powers and ancient threats.",
+          fullDescription: "When a series of unexplained phenomena begin occurring across the city, your characters are drawn into an investigation that reveals a terrible truth: ancient powers long dormant are beginning to awaken. This introductory module is perfect for new Game Masters and players, providing a straightforward mystery with supernatural elements that introduces the core themes of Midnight Nation.",
+          difficulty: "beginner",
+          playerCount: "3-5",
+          estimatedLength: "4-6 sessions",
+          tags: ["mystery", "urban", "supernatural", "investigation"],
+          featured: true,
+          active: true
+        },
+        {
+          title: "Shadow Protocol",
+          description: "Corporate espionage meets supernatural horror in this thrilling adventure through the underbelly of Midnight Nation.",
+          fullDescription: "A powerful corporation has been experimenting with occult forces, and the results are about to be unleashed on an unsuspecting city. Your characters must navigate corporate intrigue, underground networks, and supernatural dangers to stop a catastrophe.",
+          difficulty: "intermediate",
+          playerCount: "4-6",
+          estimatedLength: "6-8 sessions",
+          tags: ["intrigue", "corporate", "action", "conspiracy"],
+          featured: true,
+          active: true
+        },
+        {
+          title: "Blood Moon Rising",
+          description: "When the blood moon appears, ancient vampire clans emerge from hiding to claim their dominion over the city.",
+          fullDescription: "An ancient prophecy comes to pass as the blood moon rises over the city. Vampire clans that have hidden in the shadows for centuries make their move to claim power, and only your characters stand between them and total domination.",
+          difficulty: "advanced",
+          playerCount: "3-6",
+          estimatedLength: "8-10 sessions",
+          tags: ["horror", "vampires", "epic", "political"],
+          featured: false,
+          active: true
+        }
+      ];
+      return res.json(fallbackModules);
+    }
+    
     res.json(modules);
   } catch (error) {
     console.error('[modules.js] Error fetching modules:', error);
