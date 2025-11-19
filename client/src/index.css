@@ -2759,12 +2759,49 @@ textarea {
 
 @media only screen and (max-width: 600px) {
   nav:not(.items-nav):not(.rules-nav):not(.lore-nav) {
-    font-size: 1.1rem;
-    padding: 0.75rem;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    height: auto;
+    min-height: auto;
+    max-height: 100vh;
+    overflow-y: auto;
+    font-size: 1rem;
+    padding: 1rem;
+    z-index: 1000;
+    border-right: none;
+    border-bottom: 2px solid var(--primary);
   }
+  
+  nav:not(.items-nav):not(.rules-nav):not(.lore-nav) ul {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.5rem;
+  }
+  
+  nav:not(.items-nav):not(.rules-nav):not(.lore-nav) li {
+    margin: 0;
+  }
+  
+  nav:not(.items-nav):not(.rules-nav):not(.lore-nav) a {
+    padding: 0.75rem;
+    display: block;
+    text-align: center;
+  }
+  
   .container {
     width: 95%;
+    margin-left: 0;
+    padding-top: 0;
   }
+  
+  main {
+    margin-left: 0;
+    padding-top: 60vh;
+  }
+  
   .auth-buttons {
     flex-direction: column;
     gap: 0.75rem;
