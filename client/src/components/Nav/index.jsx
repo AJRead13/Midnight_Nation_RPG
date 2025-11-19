@@ -59,7 +59,7 @@ function Nav({ currentPage }) {
 
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch('`${API_URL}/api/campaigns`, {
+      const response = await fetch(`${API_URL}/api/campaigns`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -120,7 +120,7 @@ function Nav({ currentPage }) {
     }
 
     try {
-      const response = await fetch('http://localhost:3001/api/campaigns', {
+      const response = await fetch(`${API_URL}/api/campaigns`, {
         headers: {
           'Authorization': `Bearer ${token}`
         }
