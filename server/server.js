@@ -88,15 +88,15 @@ app.use(cors({
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+// Serve static files for module downloads (before routes to ensure proper serving)
+app.use('/modules', express.static(path.join(__dirname, 'public/modules')));
+
 // Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/characters', characterRoutes);
 app.use('/api/campaigns', campaignRoutes);
 app.use('/api/reference', referenceDataRoutes);
 app.use('/api/modules', moduleRoutes);
-
-// Serve static files for module downloads
-app.use('/modules', express.static(path.join(__dirname, 'public/modules')));
 
 // Serve static files in production (only if dist folder exists - for single-server deployment)
 if (process.env.NODE_ENV === 'production') {

@@ -17,8 +17,9 @@ const ModuleViewer = () => {
   const loadModule = async () => {
     try {
       setLoading(true);
-      // Load from public modules folder
-      const response = await fetch(`/modules/${moduleId}.json`);
+      // Load from backend API modules folder
+      const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3001';
+      const response = await fetch(`${API_URL}/modules/${moduleId}.json`);
       if (!response.ok) throw new Error('Module not found');
       const data = await response.json();
       setModuleData(data);
