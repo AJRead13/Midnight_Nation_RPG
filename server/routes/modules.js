@@ -32,7 +32,23 @@ router.get('/', async (req, res) => {
     const modules = await Module.find(query).sort({ featured: -1, createdAt: -1 });
     console.log('[modules.js] Found modules:', modules.length);
     
+    // Log each module's moduleId to debug classified styling
+    modules.forEach(mod => {
+      console.log(`[modules.js] Module: ${mod.title}, moduleId: ${mod.moduleId}, hasModuleId: ${!!mod.moduleId}`);
+    });
+    
+    // Transform modules to ensure undefined/null moduleId is properly handled
+    const transformedModules = modules.map(mod => {
+      const obj = mod.toObject();
+      // If moduleId is null, undefined, or empty string, delete it from the response
+      if (!obj.moduleId) {
+        delete obj.moduleId;
+      }
+      return obj;
+    });
+    
     // If no modules in database, return hardcoded modules as fallback
+    if (transformedModules.length === 0) {
     if (modules.length === 0) {
       console.log('[modules.js] No modules in database, returning fallback data');
       const fallbackModules = [
@@ -77,7 +93,7 @@ router.get('/', async (req, res) => {
       return res.json(fallbackModules);
     }
     
-    res.json(modules);
+    res.json(transformedModules);
   } catch (error) {
     console.error('[modules.js] Error fetching modules:', error);
     res.status(500).json({ message: 'Error fetching modules', error: error.message });
