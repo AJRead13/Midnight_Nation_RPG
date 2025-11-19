@@ -7,5 +7,10 @@ export default defineConfig({
   server: {
     port: 5173,
     open: true
+  },
+  define: {
+    'import.meta.env.VITE_API_URL': JSON.stringify(
+      process.env.VITE_API_URL || 'http://localhost:3001'
+    )
   }
 })

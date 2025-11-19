@@ -43,4 +43,4 @@ services:
         destination: /index.html
     envVars:
       - key: VITE_API_URL
-        sync: false
+        value: https://midnight-nation-api.onrender.com
