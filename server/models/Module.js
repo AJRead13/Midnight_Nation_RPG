@@ -69,6 +69,10 @@ const moduleSchema = new mongoose.Schema({
     type: Boolean,
     default: false
   },
+  releaseOrder: {
+    type: Number,
+    default: 999
+  },
   active: {
     type: Boolean,
     default: true

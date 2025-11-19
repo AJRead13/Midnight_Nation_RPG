@@ -29,7 +29,7 @@ router.get('/', async (req, res) => {
     
     console.log('[modules.js] Database query:', JSON.stringify(query));
     
-    const modules = await Module.find(query).sort({ featured: -1, createdAt: -1 });
+    const modules = await Module.find(query).sort({ releaseOrder: 1, createdAt: -1 });
     console.log('[modules.js] Found modules:', modules.length);
     
     // Log each module's moduleId to debug classified styling
@@ -61,6 +61,7 @@ router.get('/', async (req, res) => {
           playerCount: "3-5",
           estimatedLength: "4-6 sessions",
           tags: ["mystery", "urban", "supernatural", "investigation"],
+          releaseOrder: 1,
           featured: true,
           active: true
         },
@@ -73,6 +74,7 @@ router.get('/', async (req, res) => {
           playerCount: "4-6",
           estimatedLength: "6-8 sessions",
           tags: ["intrigue", "corporate", "action", "conspiracy"],
+          releaseOrder: 2,
           featured: true,
           active: true
         },
@@ -85,7 +87,8 @@ router.get('/', async (req, res) => {
           playerCount: "3-6",
           estimatedLength: "8-10 sessions",
           tags: ["horror", "vampires", "epic", "political"],
-          featured: false,
+          releaseOrder: 3,
+          featured: true,
           active: true
         }
       ];

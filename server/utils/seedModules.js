@@ -15,6 +15,7 @@ const sampleModules = [
     fileUrl: "/modules/the-awakening.pdf",
     fileName: "the-awakening.pdf",
     fileSize: 2500000,
+    releaseOrder: 1,
     featured: true,
     active: true
   },
@@ -30,6 +31,7 @@ const sampleModules = [
     fileUrl: "/modules/shadow-protocol.pdf",
     fileName: "shadow-protocol.pdf",
     fileSize: 3200000,
+    releaseOrder: 2,
     featured: true,
     active: true
   },
@@ -45,7 +47,8 @@ const sampleModules = [
     fileUrl: "/modules/blood-moon-rising.pdf",
     fileName: "blood-moon-rising.pdf",
     fileSize: 4100000,
-    featured: false,
+    releaseOrder: 3,
+    featured: true,
     active: true
   }
 ];
