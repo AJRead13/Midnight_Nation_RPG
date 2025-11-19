@@ -14,9 +14,6 @@ import CharacterSheet from './components/CharacterSheet';
 import CharacterList from './components/CharacterList';
 import Campaigns from './components/Campaigns';
 import Items from './components/Items';
-import Portfolio from './components/Portfolio';
-import Contact from './components/Contact';
-import Resume from './components/Resume';
 import CampaignDetail from './components/CampaignDetail';
 import Login from './components/Login';
 import Register from './components/Register';
@@ -105,18 +102,6 @@ const router = createBrowserRouter([
       {
         path: 'modules',
         element: <Modules />,
-      },
-      {
-        path: 'portfolio',
-        element: <Portfolio />,
-      },
-      {
-        path: 'contact',
-        element: <Contact />,
-      },
-      {
-        path: 'resume',
-        element: <Resume />,
       },
     ],
   },
