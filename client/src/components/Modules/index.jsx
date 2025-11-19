@@ -1,52 +1,62 @@
 import { useState, useEffect } from 'react';
+import { useAuth } from '../../contexts/AuthContext';
+import { useToast } from '../Toast';
+import moduleService from '../../utils/moduleService';
 import './modules.css';
 
 function Modules() {
   const [modules, setModules] = useState([]);
   const [selectedModule, setSelectedModule] = useState(null);
   const [filter, setFilter] = useState('all');
+  const [loading, setLoading] = useState(true);
+  const [downloading, setDownloading] = useState(false);
+  const { user } = useAuth();
+  const toast = useToast();
 
   useEffect(() => {
-    // Placeholder data - will be replaced with API call
-    const placeholderModules = [
-      {
-        id: 1,
-        title: "The Awakening",
-        description: "A mysterious force begins to stir in the city, awakening dormant powers and ancient threats.",
-        difficulty: "beginner",
-        playerCount: "3-5",
-        estimatedLength: "4-6 sessions",
-        tags: ["mystery", "urban", "supernatural"],
-        thumbnail: "/modules/awakening.jpg"
-      },
-      {
-        id: 2,
-        title: "Shadow Protocol",
-        description: "Corporate espionage meets supernatural horror in this thrilling adventure through the underbelly of Midnight Nation.",
-        difficulty: "intermediate",
-        playerCount: "4-6",
-        estimatedLength: "6-8 sessions",
-        tags: ["intrigue", "corporate", "action"],
-        thumbnail: "/modules/shadow-protocol.jpg"
-      },
-      {
-        id: 3,
-        title: "Blood Moon Rising",
-        description: "When the blood moon appears, ancient vampire clans emerge from hiding to claim their dominion over the city.",
-        difficulty: "advanced",
-        playerCount: "3-6",
-        estimatedLength: "8-10 sessions",
-        tags: ["horror", "vampires", "epic"],
-        thumbnail: "/modules/blood-moon.jpg"
-      }
-    ];
-    
-    setModules(placeholderModules);
-  }, []);
+    fetchModules();
+  }, [filter]);
 
-  const filteredModules = filter === 'all' 
-    ? modules 
-    : modules.filter(module => module.difficulty === filter);
+  const fetchModules = async () => {
+    try {
+      setLoading(true);
+      const data = await moduleService.getAllModules({ difficulty: filter });
+      setModules(data);
+    } catch (error) {
+      console.error('Error fetching modules:', error);
+      toast.error('Failed to load modules');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const filteredModules = modules;
+
+  const handleDownload = async (module) => {
+    if (!user) {
+      toast.warning('Please log in to download modules');
+      return;
+    }
+
+    try {
+      setDownloading(true);
+      await moduleService.downloadModule(module._id, module.fileName);
+      toast.success(`Downloaded ${module.title}`);
+    } catch (error) {
+      console.error('Error downloading module:', error);
+      toast.error(error.message || 'Failed to download module');
+    } finally {
+      setDownloading(false);
+    }
+  };
+
+  const handleViewSample = (module) => {
+    if (module.previewUrl) {
+      window.open(module.previewUrl, '_blank');
+    } else {
+      toast.info('Sample not available for this module');
+    }
+  };
 
   const getDifficultyColor = (difficulty) => {
     switch(difficulty) {
@@ -93,41 +103,55 @@ function Modules() {
       </div>
 
       <div className="modules-grid">
-        {filteredModules.map(module => (
-          <div 
-            key={module.id} 
-            className="module-card"
-            onClick={() => setSelectedModule(module)}
-          >
-            <div className="module-thumbnail">
-              <span className="module-placeholder">📖</span>
-            </div>
-            <div className="module-content">
-              <h3>{module.title}</h3>
-              <p className="module-description">{module.description}</p>
-              
-              <div className="module-meta">
-                <span 
-                  className="module-difficulty"
-                  style={{ color: getDifficultyColor(module.difficulty) }}
-                >
-                  {module.difficulty.charAt(0).toUpperCase() + module.difficulty.slice(1)}
-                </span>
-                <span className="module-players">👥 {module.playerCount}</span>
-                <span className="module-length">⏱️ {module.estimatedLength}</span>
+        {loading ? (
+          <div className="loading-message">Loading modules...</div>
+        ) : filteredModules.length > 0 ? (
+          filteredModules.map(module => (
+            <div 
+              key={module._id} 
+              className="module-card"
+              onClick={() => setSelectedModule(module)}
+            >
+              <div className="module-thumbnail">
+                <span className="module-placeholder">📖</span>
               </div>
-              
-              <div className="module-tags">
-                {module.tags.map(tag => (
-                  <span key={tag} className="module-tag">{tag}</span>
-                ))}
+              <div className="module-content">
+                <h3>{module.title}</h3>
+                <p className="module-description">{module.description}</p>
+                
+                <div className="module-meta">
+                  <span 
+                    className="module-difficulty"
+                    style={{ color: getDifficultyColor(module.difficulty) }}
+                  >
+                    {module.difficulty.charAt(0).toUpperCase() + module.difficulty.slice(1)}
+                  </span>
+                  <span className="module-players">👥 {module.playerCount}</span>
+                  <span className="module-length">⏱️ {module.estimatedLength}</span>
+                </div>
+                
+                <div className="module-tags">
+                  {module.tags.map(tag => (
+                    <span key={tag} className="module-tag">{tag}</span>
+                  ))}
+                </div>
+                
+                {module.downloadCount > 0 && (
+                  <div className="download-count">
+                    ⬇️ {module.downloadCount} downloads
+                  </div>
+                )}
               </div>
             </div>
+          ))
+        ) : (
+          <div className="no-modules">
+            <p>No modules available yet. Check back soon!</p>
           </div>
-        ))}
+        )}
       </div>
 
-      {filteredModules.length === 0 && (
+      {!loading && filteredModules.length === 0 && filter !== 'all' && (
         <div className="no-modules">
           <p>No modules found for this difficulty level.</p>
         </div>
@@ -159,7 +183,7 @@ function Modules() {
 
             <div className="module-full-description">
               <h3>Overview</h3>
-              <p>{selectedModule.description}</p>
+              <p>{selectedModule.fullDescription || selectedModule.description}</p>
               
               <h3>What's Included</h3>
               <ul>
@@ -172,8 +196,21 @@ function Modules() {
               </ul>
 
               <div className="module-actions">
-                <button className="btn-primary">Download Module</button>
-                <button className="btn-secondary">View Sample</button>
+                <button 
+                  className="btn-primary" 
+                  onClick={() => handleDownload(selectedModule)}
+                  disabled={downloading}
+                >
+                  {downloading ? 'Downloading...' : 'Download Module'}
+                </button>
+                {selectedModule.previewUrl && (
+                  <button 
+                    className="btn-secondary"
+                    onClick={() => handleViewSample(selectedModule)}
+                  >
+                    View Sample
+                  </button>
+                )}
               </div>
             </div>
           </div>

@@ -136,10 +136,28 @@
   border: 1px solid var(--secondary);
 }
 
+.download-count {
+  margin-top: 1rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid rgba(140, 84, 255, 0.2);
+  font-size: 0.85rem;
+  color: var(--alpha);
+  text-align: center;
+}
+
+.loading-message {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 3rem;
+  color: var(--alpha);
+  font-size: 1.2rem;
+}
+
 .no-modules {
   text-align: center;
   padding: 3rem;
   color: var(--alpha);
+  grid-column: 1 / -1;
 }
 
 /* Modal Styles */
@@ -262,12 +280,18 @@
   font-family: inherit;
 }
 
+.btn-primary:disabled,
+.btn-secondary:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
 .btn-primary {
   background: var(--primary);
   color: var(--dark);
 }
 
-.btn-primary:hover {
+.btn-primary:hover:not(:disabled) {
   background: var(--light);
   border-color: var(--light);
   transform: translateY(-2px);

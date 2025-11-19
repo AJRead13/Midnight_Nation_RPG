@@ -14,6 +14,7 @@ const authRoutes = require('./routes/auth');
 const characterRoutes = require('./routes/characters');
 const campaignRoutes = require('./routes/campaigns');
 const referenceDataRoutes = require('./routes/referenceData');
+const moduleRoutes = require('./routes/modules');
 
 const app = express();
 const server = http.createServer(app);
@@ -92,6 +93,10 @@ app.use('/api/auth', authRoutes);
 app.use('/api/characters', characterRoutes);
 app.use('/api/campaigns', campaignRoutes);
 app.use('/api/reference', referenceDataRoutes);
+app.use('/api/modules', moduleRoutes);
+
+// Serve static files for module downloads
+app.use('/modules', express.static(path.join(__dirname, 'public/modules')));
 
 // Serve static files in production (only if dist folder exists - for single-server deployment)
 if (process.env.NODE_ENV === 'production') {
