@@ -35,7 +35,6 @@ services:
   - type: web
     name: midnight-nation-client
     env: static
-    region: oregon
     buildCommand: cd client && npm install && npm run build
     staticPublishPath: ./client/dist
     routes:
