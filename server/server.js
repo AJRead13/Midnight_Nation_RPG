@@ -5,6 +5,7 @@ const helmet = require('helmet');
 const rateLimit = require('express-rate-limit');
 const http = require('http');
 const path = require('path');
+const fs = require('fs');
 const { Server } = require('socket.io');
 const connectDB = require('./config/db');
 
@@ -92,19 +93,24 @@ app.use('/api/characters', characterRoutes);
 app.use('/api/campaigns', campaignRoutes);
 app.use('/api/reference', referenceDataRoutes);
 
-// Serve static files in production
+// Serve static files in production (only if dist folder exists - for single-server deployment)
 if (process.env.NODE_ENV === 'production') {
-  app.use(express.static(path.join(__dirname, '../client/dist')));
+  const distPath = path.join(__dirname, '../client/dist');
   
-  // Handle React routing, return all requests to React app
-  app.use((req, res, next) => {
-    // Skip API routes
-    if (req.path.startsWith('/api/')) {
-      return next();
-    }
-    // Send index.html for all other routes (React Router handles client-side routing)
-    res.sendFile(path.join(__dirname, '../client/dist', 'index.html'));
-  });
+  // Only serve static files if the dist folder exists
+  if (fs.existsSync(distPath)) {
+    app.use(express.static(distPath));
+    
+    // Handle React routing, return all requests to React app
+    app.use((req, res, next) => {
+      // Skip API routes
+      if (req.path.startsWith('/api/')) {
+        return next();
+      }
+      // Send index.html for all other routes (React Router handles client-side routing)
+      res.sendFile(path.join(distPath, 'index.html'));
+    });
+  }
 }
 
 // Health check route
