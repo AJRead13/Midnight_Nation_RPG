@@ -624,7 +624,7 @@ const ModuleViewer = () => {
 
       {/* Footer */}
       <footer className="module-footer">
-        <p>Midnight Nation RPG • Module by AJ Scrivner</p>
+        <p>Midnight Nation RPG • Module by Andrew Read</p>
         <p>For personal use in campaigns. Have fun!</p>
       </footer>
 

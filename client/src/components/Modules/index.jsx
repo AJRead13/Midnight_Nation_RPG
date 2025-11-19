@@ -113,14 +113,16 @@ function Modules() {
         {loading ? (
           <div className="loading-message">Loading modules...</div>
         ) : filteredModules.length > 0 ? (
-          filteredModules.map(module => (
+          filteredModules.map(module => {
+            const isClassified = !module.moduleId || module.moduleId === '' || module.moduleId === null;
+            return (
             <div 
               key={module._id} 
-              className={`module-card ${!module.moduleId ? 'classified' : ''}`}
-              onClick={() => module.moduleId ? setSelectedModule(module) : setShowClassifiedModal(true)}
+              className={`module-card ${isClassified ? 'classified' : ''}`}
+              onClick={() => !isClassified ? setSelectedModule(module) : setShowClassifiedModal(true)}
             >
               {/* Classified Banner for modules without moduleId */}
-              {!module.moduleId && (
+              {isClassified && (
                 <div className="classified-banner">
                   <span>CLASSIFIED</span>
                 </div>
@@ -156,7 +158,8 @@ function Modules() {
                 )}
               </div>
             </div>
-          ))
+            );
+          })
         ) : (
           <div className="no-modules">
             <p>No modules available yet. Check back soon!</p>
