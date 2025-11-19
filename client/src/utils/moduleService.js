@@ -1,4 +1,5 @@
 // Helper function to get API URL safely
+// Build timestamp: 2025-11-19 - Force rebuild
 const getApiUrl = () => {
   // Check if we're in production by looking at the hostname
   if (typeof window !== 'undefined' && window.location.hostname.includes('onrender.com')) {
