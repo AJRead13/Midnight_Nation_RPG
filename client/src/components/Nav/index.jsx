@@ -7,7 +7,7 @@ import { useAuth } from '../../contexts/AuthContext';
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3001';
 
 function Nav({ currentPage }) {
-  const pages = ['lore', 'rules', 'characters', 'campaigns', 'character-sheet', 'items'];
+  const pages = ['lore', 'rules', 'characters', 'campaigns', 'character-sheet', 'modules', 'items'];
   const navigate = useNavigate();
   const { user, logout } = useAuth();
   const [searchQuery, setSearchQuery] = useState('');
