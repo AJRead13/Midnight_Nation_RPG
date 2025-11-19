@@ -27,6 +27,10 @@ const io = new Server(server, {
       if (process.env.NODE_ENV === 'development' && origin.startsWith('http://localhost:')) {
         return callback(null, true);
       }
+      // Allow Render.com domains
+      if (origin.includes('onrender.com')) {
+        return callback(null, true);
+      }
       if (origin === process.env.CLIENT_URL) {
         return callback(null, true);
       }
@@ -76,11 +80,17 @@ app.use(cors({
       return callback(null, true);
     }
     
+    // Allow Render.com domains
+    if (origin.includes('onrender.com')) {
+      return callback(null, true);
+    }
+    
     // In production, check against CLIENT_URL
     if (origin === process.env.CLIENT_URL) {
       return callback(null, true);
     }
     
+    console.log('[CORS] Blocked origin:', origin);
     callback(new Error('Not allowed by CORS'));
   },
   credentials: true

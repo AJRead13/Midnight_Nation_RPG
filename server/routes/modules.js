@@ -8,6 +8,9 @@ const fs = require('fs').promises;
 // Get all modules with optional filtering
 router.get('/', async (req, res) => {
   try {
+    console.log('[modules.js] GET /api/modules - Request received');
+    console.log('[modules.js] Query params:', req.query);
+    
     const { difficulty, tags, search } = req.query;
     
     let query = { active: true };
@@ -24,10 +27,14 @@ router.get('/', async (req, res) => {
       query.$text = { $search: search };
     }
     
+    console.log('[modules.js] Database query:', JSON.stringify(query));
+    
     const modules = await Module.find(query).sort({ featured: -1, createdAt: -1 });
+    console.log('[modules.js] Found modules:', modules.length);
+    
     res.json(modules);
   } catch (error) {
-    console.error('Error fetching modules:', error);
+    console.error('[modules.js] Error fetching modules:', error);
     res.status(500).json({ message: 'Error fetching modules', error: error.message });
   }
 });

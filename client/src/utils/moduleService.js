@@ -14,6 +14,10 @@ const moduleService = {
   // Get all modules with optional filters
   async getAllModules(filters = {}) {
     try {
+      const apiUrl = getApiUrl();
+      console.log('[moduleService] API URL:', apiUrl);
+      console.log('[moduleService] Hostname:', typeof window !== 'undefined' ? window.location.hostname : 'N/A');
+      
       const queryParams = new URLSearchParams();
       
       if (filters.difficulty && filters.difficulty !== 'all') {
@@ -28,8 +32,11 @@ const moduleService = {
         queryParams.append('search', filters.search);
       }
       
-      const url = `${getApiUrl()}/api/modules${queryParams.toString() ? '?' + queryParams.toString() : ''}`;
+      const url = `${apiUrl}/api/modules${queryParams.toString() ? '?' + queryParams.toString() : ''}`;
+      console.log('[moduleService] Fetching from:', url);
+      
       const response = await fetch(url);
+      console.log('[moduleService] Response status:', response.status);
       
       if (!response.ok) {
         throw new Error('Failed to fetch modules');
@@ -37,7 +44,7 @@ const moduleService = {
       
       return await response.json();
     } catch (error) {
-      console.error('Error fetching modules:', error);
+      console.error('[moduleService] Error fetching modules:', error);
       throw error;
     }
   },
