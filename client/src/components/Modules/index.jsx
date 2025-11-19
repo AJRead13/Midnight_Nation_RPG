@@ -114,6 +114,12 @@ function Modules() {
               className="module-card"
               onClick={() => setSelectedModule(module)}
             >
+              {/* Coming Soon Banner for modules without moduleId */}
+              {!module.moduleId && (
+                <div className="coming-soon-banner">
+                  <span>COMING SOON</span>
+                </div>
+              )}
               <div className="module-thumbnail">
                 <span className="module-placeholder">📖</span>
               </div>
@@ -164,6 +170,13 @@ function Modules() {
           <div className="module-modal-content" onClick={(e) => e.stopPropagation()}>
             <button className="close-modal" onClick={() => setSelectedModule(null)}>×</button>
             
+            {/* Coming Soon Banner in Modal */}
+            {!selectedModule.moduleId && (
+              <div className="coming-soon-banner-modal">
+                <span>COMING SOON</span>
+              </div>
+            )}
+            
             <h2>{selectedModule.title}</h2>
             
             <div className="modal-meta">
@@ -201,15 +214,18 @@ function Modules() {
                 <button 
                   className="btn-primary" 
                   onClick={() => navigate(`/modules/${selectedModule.moduleId || selectedModule._id}`)}
+                  disabled={!selectedModule.moduleId}
+                  title={!selectedModule.moduleId ? 'Module content coming soon' : 'View module online'}
                 >
-                  View Online
+                  {!selectedModule.moduleId ? 'Coming Soon' : 'View Online'}
                 </button>
                 <button 
                   className="btn-secondary" 
                   onClick={() => handleDownload(selectedModule)}
-                  disabled={downloading}
+                  disabled={downloading || !selectedModule.moduleId}
+                  title={!selectedModule.moduleId ? 'Module content coming soon' : 'Download PDF'}
                 >
-                  {downloading ? 'Downloading...' : 'Download PDF'}
+                  {downloading ? 'Downloading...' : !selectedModule.moduleId ? 'Coming Soon' : 'Download PDF'}
                 </button>
                 {selectedModule.previewUrl && (
                   <button 

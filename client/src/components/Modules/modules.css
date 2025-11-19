@@ -62,12 +62,73 @@
   overflow: hidden;
   cursor: pointer;
   transition: all 0.3s ease;
+  position: relative;
 }
 
 .module-card:hover {
   transform: translateY(-8px);
   box-shadow: 0 12px 24px rgba(140, 84, 255, 0.4);
   border-color: var(--secondary);
+}
+
+/* Coming Soon Banner */
+.coming-soon-banner {
+  position: absolute;
+  top: 50px;
+  right: -80px;
+  background: repeating-linear-gradient(
+    45deg,
+    rgba(220, 38, 38, 0.9),
+    rgba(220, 38, 38, 0.9) 20px,
+    rgba(185, 28, 28, 0.9) 20px,
+    rgba(185, 28, 28, 0.9) 40px
+  );
+  color: white;
+  padding: 8px 100px;
+  transform: rotate(45deg);
+  font-weight: bold;
+  font-size: 0.9rem;
+  letter-spacing: 2px;
+  text-align: center;
+  z-index: 10;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+  border-top: 2px solid rgba(255, 255, 255, 0.3);
+  border-bottom: 2px solid rgba(0, 0, 0, 0.3);
+  pointer-events: none;
+}
+
+.coming-soon-banner span {
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.8);
+}
+
+/* Coming Soon Banner in Modal */
+.coming-soon-banner-modal {
+  position: absolute;
+  top: 80px;
+  right: -60px;
+  background: repeating-linear-gradient(
+    45deg,
+    rgba(220, 38, 38, 0.95),
+    rgba(220, 38, 38, 0.95) 20px,
+    rgba(185, 28, 28, 0.95) 20px,
+    rgba(185, 28, 28, 0.95) 40px
+  );
+  color: white;
+  padding: 10px 80px;
+  transform: rotate(45deg);
+  font-weight: bold;
+  font-size: 1rem;
+  letter-spacing: 3px;
+  text-align: center;
+  z-index: 100;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.6);
+  border-top: 2px solid rgba(255, 255, 255, 0.4);
+  border-bottom: 2px solid rgba(0, 0, 0, 0.4);
+  pointer-events: none;
+}
+
+.coming-soon-banner-modal span {
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.9);
 }
 
 .module-thumbnail {
