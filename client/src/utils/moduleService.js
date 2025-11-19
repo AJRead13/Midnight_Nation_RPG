@@ -1,4 +1,14 @@
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3001';
+// Helper function to get API URL safely
+const getApiUrl = () => {
+  // Check if we're in production by looking at the hostname
+  if (typeof window !== 'undefined' && window.location.hostname.includes('onrender.com')) {
+    return 'https://midnight-nation-api.onrender.com';
+  }
+  // Try to get from env, fallback to localhost
+  return (typeof import.meta !== 'undefined' && import.meta.env && import.meta.env.VITE_API_URL) 
+    ? import.meta.env.VITE_API_URL 
+    : 'http://localhost:3001';
+};
 
 const moduleService = {
   // Get all modules with optional filters
@@ -18,7 +28,7 @@ const moduleService = {
         queryParams.append('search', filters.search);
       }
       
-      const url = `${API_URL}/api/modules${queryParams.toString() ? '?' + queryParams.toString() : ''}`;
+      const url = `${getApiUrl()}/api/modules${queryParams.toString() ? '?' + queryParams.toString() : ''}`;
       const response = await fetch(url);
       
       if (!response.ok) {
@@ -35,7 +45,7 @@ const moduleService = {
   // Get single module by ID
   async getModuleById(moduleId) {
     try {
-      const response = await fetch(`${API_URL}/api/modules/${moduleId}`);
+      const response = await fetch(`${getApiUrl()}/api/modules/${moduleId}`);
       
       if (!response.ok) {
         throw new Error('Failed to fetch module');
@@ -57,7 +67,7 @@ const moduleService = {
         throw new Error('Authentication required to download modules');
       }
       
-      const response = await fetch(`${API_URL}/api/modules/${moduleId}/download`, {
+      const response = await fetch(`${getApiUrl()}/api/modules/${moduleId}/download`, {
         headers: {
           'Authorization': `Bearer ${token}`
         }
@@ -101,7 +111,7 @@ const moduleService = {
         throw new Error('Authentication required');
       }
       
-      const response = await fetch(`${API_URL}/api/modules`, {
+      const response = await fetch(`${getApiUrl()}/api/modules`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -130,7 +140,7 @@ const moduleService = {
         throw new Error('Authentication required');
       }
       
-      const response = await fetch(`${API_URL}/api/modules/${moduleId}`, {
+      const response = await fetch(`${getApiUrl()}/api/modules/${moduleId}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -159,7 +169,7 @@ const moduleService = {
         throw new Error('Authentication required');
       }
       
-      const response = await fetch(`${API_URL}/api/modules/${moduleId}`, {
+      const response = await fetch(`${getApiUrl()}/api/modules/${moduleId}`, {
         method: 'DELETE',
         headers: {
           'Authorization': `Bearer ${token}`
