@@ -251,3 +251,4 @@ If you prefer to deploy as a single service:
 
 QTMAunOLIgjYzorM
 
+mongodb+srv://midnight_admin:QTMAunOLIgjYzorM@midnightnation.odciv9i.mongodb.net/?appName=MidnightNation
