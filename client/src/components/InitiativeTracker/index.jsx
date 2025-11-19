@@ -271,7 +271,7 @@ const InitiativeTracker = ({ campaignId, isGM }) => {
               {!isActive ? (
                 <button 
                   className="btn-start"
-                  onClick={startCombat}
+                  onClick={handleStartCombat}
                   disabled={combatants.length === 0}
                 >
                   ▶️ Start Combat
