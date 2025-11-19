@@ -103,7 +103,7 @@ function Nav({ currentPage }) {
         throw new Error(data.message || 'Failed to join campaign');
       }
 
-      alert(`Successfully joined campaign: ${data.campaign.name}`);
+      toast.success(`Successfully joined campaign: ${data.campaign.name}`);
       setShowJoinCampaign(false);
       setJoinCode('');
       fetchUserCampaigns(); // Refresh campaigns list
@@ -261,8 +261,8 @@ function Nav({ currentPage }) {
                   <button 
                     className="btn-copy"
                     onClick={() => {
-                      navigator.clipboard.writeText(inviteCode);
-                      alert('Invite code copied to clipboard!');
+                      navigator.clipboard.writeText(campaign.inviteCode);
+                      toast.success('Invite code copied to clipboard!');
                     }}
                   >
                     Copy

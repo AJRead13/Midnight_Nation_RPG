@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
-import { useSocket } from '../../contexts/SocketContext';
+import { useSocketContext } from '../../contexts/SocketContext';
+import { useToast } from '../Toast';
 import { fetchCharacters } from '../../utils/characterService';
 import './initiativeTracker.css';
 
@@ -49,7 +50,7 @@ const InitiativeTracker = ({ campaignId, isGM }) => {
 
   const addCombatant = () => {
     if (!newCombatant.name) {
-      alert('Please enter a name');
+      toast.warning('Please enter a name');
       return;
     }
 
@@ -89,7 +90,7 @@ const InitiativeTracker = ({ campaignId, isGM }) => {
       setAvailableCharacters(chars);
       setShowImportModal(true);
     } catch (err) {
-      alert('Failed to load characters: ' + err.message);
+      toast.error('Failed to load characters: ' + err.message);
     } finally {
       setLoadingCharacters(false);
     }
@@ -98,7 +99,7 @@ const InitiativeTracker = ({ campaignId, isGM }) => {
   const importCharacter = (character) => {
     // Check if character is already in initiative
     if (combatants.some(c => c.characterId === character._id)) {
-      alert(`${character.name} is already in initiative`);
+      toast.warning(`${character.name} is already in initiative`);
       return;
     }
 
@@ -148,9 +149,9 @@ const InitiativeTracker = ({ campaignId, isGM }) => {
     updateInitiative(combatants, newTurn, true);
   };
 
-  const startCombat = () => {
+  const handleStartCombat = () => {
     if (combatants.length === 0) {
-      alert('Add combatants first');
+      toast.warning('Add combatants first');
       return;
     }
     updateInitiative(combatants, 0, true);

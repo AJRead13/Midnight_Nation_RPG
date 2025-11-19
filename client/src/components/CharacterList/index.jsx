@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useToast } from '../Toast';
 import { fetchCharacters, deleteCharacter } from '../../utils/characterService';
 import './characterList.css';
 
@@ -9,6 +10,7 @@ function CharacterList() {
   const [error, setError] = useState(null);
   const [deleteConfirm, setDeleteConfirm] = useState(null);
   const navigate = useNavigate();
+  const toast = useToast();
 
   useEffect(() => {
     loadCharacters();
@@ -48,7 +50,7 @@ function CharacterList() {
       setCharacters(characters.filter(c => c._id !== deleteConfirm._id));
       setDeleteConfirm(null);
     } catch (err) {
-      alert(`Failed to delete character: ${err.message}`);
+      toast.error(`Failed to delete character: ${err.message}`);
     }
   };
 

@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
+import { useToast } from '../Toast';
 import { 
   fetchCampaignById, 
   updateCampaign, 
@@ -21,6 +22,7 @@ function CampaignDetail() {
   const { id } = useParams();
   const navigate = useNavigate();
   const { user } = useAuth();
+  const toast = useToast();
   const [campaign, setCampaign] = useState(null);
   const [isGM, setIsGM] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -95,9 +97,9 @@ function CampaignDetail() {
       const updated = await updateCampaign(id, editForm);
       setCampaign(updated);
       setShowEditModal(false);
-      alert('Campaign updated successfully!');
+      toast.success('Campaign updated successfully!');
     } catch (err) {
-      alert(`Failed to update campaign: ${err.message}`);
+      toast.error(`Failed to update campaign: ${err.message}`);
     } finally {
       setIsUpdating(false);
     }
@@ -119,9 +121,9 @@ function CampaignDetail() {
         notes: '',
         highlights: []
       });
-      alert('Session added successfully!');
+      toast.success('Session added successfully!');
     } catch (err) {
-      alert(`Failed to add session: ${err.message}`);
+      toast.error(`Failed to add session: ${err.message}`);
     } finally {
       setIsAddingSession(false);
     }
@@ -161,16 +163,16 @@ function CampaignDetail() {
         notes: '',
         highlights: []
       });
-      alert('Session updated successfully!');
+      toast.success('Session updated successfully!');
     } catch (err) {
-      alert(`Failed to update session: ${err.message}`);
+      toast.error(`Failed to update session: ${err.message}`);
     } finally {
       setIsAddingSession(false);
     }
   };
 
   const handleDeleteSession = async (sessionId) => {
-    if (!confirm('Are you sure you want to delete this session?')) return;
+    if (!window.confirm('Are you sure you want to delete this session?')) return;
     
     setIsDeletingSession(sessionId);
     try {
@@ -178,9 +180,9 @@ function CampaignDetail() {
       await loadCampaignDetails();
       setShowSessionDetailModal(false);
       setSelectedSession(null);
-      alert('Session deleted successfully!');
+      toast.success('Session deleted successfully!');
     } catch (err) {
-      alert(`Failed to delete session: ${err.message}`);
+      toast.error(`Failed to delete session: ${err.message}`);
     } finally {
       setIsDeletingSession(null);
     }
@@ -217,7 +219,7 @@ function CampaignDetail() {
       await leaveCampaign(id);
       navigate('/campaigns');
     } catch (err) {
-      alert(`Failed to leave campaign: ${err.message}`);
+      toast.error(`Failed to leave campaign: ${err.message}`);
     } finally {
       setIsLeaving(false);
     }
@@ -230,9 +232,9 @@ function CampaignDetail() {
     try {
       const updated = await removePlayer(id, userId);
       setCampaign(updated);
-      alert('Player removed successfully!');
+      toast.success('Player removed successfully!');
     } catch (err) {
-      alert(`Failed to remove player: ${err.message}`);
+      toast.error(`Failed to remove player: ${err.message}`);
     } finally {
       setRemovingPlayerId(null);
     }
@@ -249,7 +251,7 @@ function CampaignDetail() {
   const handleAssignCharacter = async (e) => {
     e.preventDefault();
     if (!selectedCharacterId) {
-      alert('Please select a character');
+      toast.warning('Please select a character');
       return;
     }
     setIsAssigningCharacter(true);
@@ -258,9 +260,9 @@ function CampaignDetail() {
       setCampaign(updated);
       setShowAssignCharacterModal(false);
       setSelectedCharacterId('');
-      alert('Character assigned successfully!');
+      toast.success('Character assigned successfully!');
     } catch (err) {
-      alert(`Failed to assign character: ${err.message}`);
+      toast.error(`Failed to assign character: ${err.message}`);
     } finally {
       setIsAssigningCharacter(false);
     }

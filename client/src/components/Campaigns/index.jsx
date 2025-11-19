@@ -1,12 +1,14 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
+import { useToast } from '../Toast';
 import { fetchCampaigns, createCampaign, deleteCampaign, joinCampaign } from '../../utils/campaignService';
 import { fetchCharacters } from '../../utils/characterService';
 import './campaigns.css';
 
 function Campaigns() {
   const { user } = useAuth();
+  const toast = useToast();
   const [campaigns, setCampaigns] = useState([]);
   const [characters, setCharacters] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -68,7 +70,7 @@ function Campaigns() {
       });
       navigate(`/campaign/${newCampaign._id}`);
     } catch (err) {
-      alert(`Failed to create campaign: ${err.message}`);
+      toast.error(`Failed to create campaign: ${err.message}`);
     } finally {
       setIsCreating(false);
     }
@@ -77,7 +79,7 @@ function Campaigns() {
   const handleJoinCampaign = async (e) => {
     e.preventDefault();
     if (!selectedCharacter) {
-      alert('Please select a character');
+      toast.warning('Please select a character');
       return;
     }
     setIsJoining(true);
@@ -89,7 +91,7 @@ function Campaigns() {
       setSelectedCharacter('');
       navigate(`/campaign/${campaign._id}`);
     } catch (err) {
-      alert(`Failed to join campaign: ${err.message}`);
+      toast.error(`Failed to join campaign: ${err.message}`);
     } finally {
       setIsJoining(false);
     }
@@ -107,7 +109,7 @@ function Campaigns() {
       setCampaigns(campaigns.filter(c => c._id !== deleteConfirm._id));
       setDeleteConfirm(null);
     } catch (err) {
-      alert(`Failed to delete campaign: ${err.message}`);
+      toast.error(`Failed to delete campaign: ${err.message}`);
     } finally {
       setIsDeleting(false);
     }

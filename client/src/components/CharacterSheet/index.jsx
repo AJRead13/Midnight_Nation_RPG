@@ -549,7 +549,7 @@ function CharacterSheet() {
           setCharacter(loadedCharacter);
           setCurrentCharacterId(null);
         } catch (error) {
-          alert('Error loading character file');
+          toast.error('Error loading character file');
         }
       };
       reader.readAsText(file);
