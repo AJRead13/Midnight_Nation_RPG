@@ -35,7 +35,7 @@ services:
   - type: web
     name: midnight-nation-client
     env: static
-    buildCommand: cd client && npm install && npm run build
+    buildCommand: cd client && rm -rf node_modules/.vite dist && npm install && npm run build
     staticPublishPath: ./client/dist
     routes:
       - type: rewrite
