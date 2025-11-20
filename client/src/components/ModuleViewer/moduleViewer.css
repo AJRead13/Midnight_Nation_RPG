@@ -837,6 +837,56 @@
   margin-top: 0.5rem;
 }
 
+/* Newspaper Handout Styling */
+.newspaper-handout {
+  background: linear-gradient(to bottom, #f4f1e8 0%, #e8e5d8 100%);
+  border: 3px solid #8b7355;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.6);
+  font-family: 'Georgia', 'Times New Roman', serif;
+  color: #2c2416;
+  padding: 1.5rem;
+}
+
+.newspaper-handout h4 {
+  font-family: 'Georgia', 'Times New Roman', serif;
+  font-size: 1.1rem;
+  color: #2c2416;
+  text-align: center;
+  border-bottom: 2px solid #8b7355;
+  padding-bottom: 0.5rem;
+  margin-bottom: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.newspaper-handout .handout-content {
+  line-height: 1.8;
+  text-align: justify;
+  column-count: 1;
+  font-size: 0.95rem;
+}
+
+.handout-gm-notes {
+  margin-top: 1.5rem;
+  padding: 1rem;
+  background: rgba(139, 0, 0, 0.1);
+  border: 2px solid rgba(139, 0, 0, 0.3);
+  border-radius: 6px;
+}
+
+.handout-gm-notes h5 {
+  color: #8b0000;
+  margin-top: 0;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+}
+
+.handout-gm-notes p {
+  color: #e0e0e0;
+  font-size: 0.9rem;
+  line-height: 1.6;
+}
+
 /* Rewards */
 .reward-grid {
   display: grid;

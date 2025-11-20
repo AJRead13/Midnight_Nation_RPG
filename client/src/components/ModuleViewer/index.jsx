@@ -983,7 +983,7 @@ const ModuleViewer = () => {
         {expandedSections.handouts && (
           <div className="handout-grid">
             {handouts.map((handout, idx) => (
-              <div key={idx} className="handout-card">
+              <div key={idx} className={`handout-card ${handout.type === 'newspaper' ? 'newspaper-handout' : ''}`}>
                 <h4>{handout.title}</h4>
                 {handout.image && (
                   <div className="handout-image">
@@ -1010,7 +1010,15 @@ const ModuleViewer = () => {
                     )}
                   </div>
                 )}
-                <p>{handout.content}</p>
+                <div className="handout-content" style={{ whiteSpace: 'pre-line' }}>
+                  {handout.content}
+                </div>
+                {handout.gmNotes && user?.isGM && (
+                  <div className="handout-gm-notes">
+                    <h5>🔒 GM Notes</h5>
+                    <p>{handout.gmNotes}</p>
+                  </div>
+                )}
               </div>
             ))}
           </div>
