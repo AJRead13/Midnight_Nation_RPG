@@ -18,7 +18,7 @@ function Footer() {
     },
     {
       name: "fab fa-instagram",
-      link: "https://www.instagram.com/"
+      link: "https://www.instagram.com/floki_ironwolf/"
     },
     {
       name: "fab fa-x-twitter",
