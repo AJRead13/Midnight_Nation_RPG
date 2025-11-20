@@ -85,6 +85,15 @@ const ModuleViewer = () => {
       const element = document.querySelector('.module-viewer');
       if (!element) return;
 
+      // Show print-only content (all sessions and NPC stat blocks)
+      const printOnlySessions = element.querySelector('.print-only-sessions');
+      const printOnlyNpcs = element.querySelector('.print-only-npcs');
+      const screenOnlyElements = element.querySelectorAll('.screen-only, .sessions-nav');
+      
+      if (printOnlySessions) printOnlySessions.style.display = 'block';
+      if (printOnlyNpcs) printOnlyNpcs.style.display = 'block';
+      screenOnlyElements.forEach(el => el.style.display = 'none');
+
       // Hide elements we don't want in PDF
       const elementsToHide = element.querySelectorAll('.no-print, .back-button, .print-button, .download-pdf-button');
       elementsToHide.forEach(el => el.style.display = 'none');
@@ -94,11 +103,16 @@ const ModuleViewer = () => {
         scale: 2,
         useCORS: true,
         logging: false,
-        backgroundColor: '#1a1a2e'
+        backgroundColor: '#1a1a2e',
+        windowWidth: 1200,
+        windowHeight: element.scrollHeight
       });
 
       // Restore hidden elements
       elementsToHide.forEach(el => el.style.display = '');
+      if (printOnlySessions) printOnlySessions.style.display = 'none';
+      if (printOnlyNpcs) printOnlyNpcs.style.display = 'none';
+      screenOnlyElements.forEach(el => el.style.display = '');
 
       const imgData = canvas.toDataURL('image/png');
       const pdf = new jsPDF({
@@ -552,8 +566,9 @@ const ModuleViewer = () => {
         </section>
       )}
 
-      {/* All Sessions - Print Only (hidden on screen, visible when printing) */}
+      {/* All Sessions - Print/PDF Only (hidden on screen, visible when printing/generating PDF) */}
       <div className="print-only-sessions" style={{ display: 'none' }}>
+        <h2 className="print-section-title">All Sessions</h2>
         {sessions.map((session) => (
           <section key={session.number} className="module-section session-detail">
             <div className="session-content">
@@ -563,7 +578,159 @@ const ModuleViewer = () => {
               </div>
               <p className="session-summary">{session.summary}</p>
 
-              {/* ... (rest of session rendering would go here - simplified for now) */}
+              {/* Include all session content  - same structure as the active session above */}
+              {session.hooks && (
+                <div className="session-hooks">
+                  <h3>Opening Hooks (Choose One)</h3>
+                  {session.hooks.map((hook, idx) => (
+                    <div key={idx} className="hook-card">
+                      <h4>{hook.title}</h4>
+                      <p>{hook.description}</p>
+                    </div>
+                  ))}
+                </div>
+              )}
+
+              {session.opening && (
+                <div className="session-opening">
+                  <h3>Opening</h3>
+                  <p>{session.opening}</p>
+                </div>
+              )}
+
+              {session.scenes && (
+                <div className="scenes">
+                  <h3>Scenes</h3>
+                  {session.scenes.map((scene, idx) => (
+                    <div key={idx} className="scene-card">
+                      <h4>{scene.title}</h4>
+                      {scene.location && (
+                        <div className="scene-location">
+                          <strong>Location:</strong> {scene.location}
+                        </div>
+                      )}
+                      {scene.atmosphere && (
+                        <div className="scene-atmosphere">
+                          <em>{scene.atmosphere}</em>
+                        </div>
+                      )}
+                      <p>{scene.description}</p>
+
+                      {scene.clues && (
+                        <div className="scene-clues">
+                          <h5>Investigation Clues</h5>
+                          <table className="clues-table">
+                            <thead>
+                              <tr>
+                                <th>Clue</th>
+                                <th>Skill</th>
+                                <th>DC</th>
+                                <th>Success</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              {scene.clues.map((clue, cidx) => (
+                                <tr key={cidx}>
+                                  <td>{clue.clue}</td>
+                                  <td>{clue.skill}</td>
+                                  <td>{clue.dc}</td>
+                                  <td>{clue.success}</td>
+                                </tr>
+                              ))}
+                            </tbody>
+                          </table>
+                        </div>
+                      )}
+
+                      {scene.bloodline_triggers && (
+                        <div className="bloodline-triggers">
+                          <h5>Bloodline Awakening Triggers</h5>
+                          {scene.bloodline_triggers.map((trigger, tidx) => (
+                            <div key={tidx} className="trigger-card">
+                              <strong>{trigger.bloodline}:</strong>
+                              <p>{trigger.trigger}</p>
+                              <div className="mechanical-effect">
+                                <em>Effect: {trigger.mechanical_effect}</em>
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      )}
+
+                      {scene.enemy && (
+                        <div className="combat-encounter">
+                          <h5>Combat Encounter</h5>
+                          <div className="enemy-info">
+                            <strong>{scene.enemy.name}</strong> (Qty: {scene.enemy.quantity})
+                            <p><em>Tactics:</em> {scene.enemy.tactics}</p>
+                            <p><em>Motivation:</em> {scene.enemy.motivation}</p>
+                          </div>
+                          {scene.environment && (
+                            <p><strong>Environment:</strong> {scene.environment}</p>
+                          )}
+                        </div>
+                      )}
+
+                      {scene.gm_notes && user?.isGM && (
+                        <div className="gm-notes">
+                          <h5>GM Notes</h5>
+                          <p>{scene.gm_notes}</p>
+                        </div>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              )}
+
+              {session.decision_points && (
+                <div className="decision-points">
+                  <h3>Major Decision Points</h3>
+                  {session.decision_points.map((point, idx) => (
+                    <div key={idx} className="decision-card">
+                      <h4>{point.decision}</h4>
+                      {point.options.map((option, oidx) => (
+                        <div key={oidx} className="decision-option">
+                          <strong>{option.choice}:</strong>
+                          <p>{option.outcome}</p>
+                        </div>
+                      ))}
+                    </div>
+                  ))}
+                </div>
+              )}
+
+              {session.pacing && (
+                <div className="session-pacing">
+                  <h3>Pacing</h3>
+                  <p>{session.pacing}</p>
+                </div>
+              )}
+
+              {session.complications && (
+                <div className="session-complications">
+                  <h3>Potential Complications</h3>
+                  <ul>
+                    {session.complications.map((comp, idx) => (
+                      <li key={idx}>{comp}</li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+
+              {session.epilogue && (
+                <div className="session-epilogue">
+                  <h3>Epilogue</h3>
+                  <p>{session.epilogue.description}</p>
+                  <div className="epilogue-rewards">
+                    <strong>Final Rewards:</strong>
+                    <ul>
+                      {session.epilogue.final_rewards.map((reward, ridx) => (
+                        <li key={ridx}>{reward}</li>
+                      ))}
+                    </ul>
+                  </div>
+                </div>
+              )}
             </div>
           </section>
         ))}
@@ -592,6 +759,191 @@ const ModuleViewer = () => {
           </div>
         )}
       </section>
+
+      {/* NPC Stat Blocks - Print/PDF Only */}
+      <div className="print-only-npcs" style={{ display: 'none' }}>
+        <h2 className="print-section-title">NPC Stat Blocks</h2>
+        {npcs.map((npc, idx) => (
+          <div key={idx} className="npc-stat-block print-npc-card">
+            <div className="npc-modal-header">
+              <h2>{npc.name}</h2>
+              <div className="npc-modal-subtitle">
+                {npc.faction} • {npc.role}
+              </div>
+            </div>
+
+            <div className="npc-modal-section">
+              <h3>Description</h3>
+              <p>{npc.description}</p>
+            </div>
+
+            <div className="npc-modal-section">
+              <h3>Personality</h3>
+              <p>{npc.personality}</p>
+            </div>
+
+            {npc.motivation && (
+              <div className="npc-modal-section">
+                <h3>Motivation</h3>
+                <p>{npc.motivation}</p>
+              </div>
+            )}
+
+            {npc.backstory && (
+              <div className="npc-modal-section">
+                <h3>Background</h3>
+                <p>{npc.backstory}</p>
+              </div>
+            )}
+
+            {npc.attributes && (
+              <div className="npc-modal-section">
+                <h3>Attributes</h3>
+                <div className="npc-attributes">
+                  <div className="attribute-box">
+                    <span className="attribute-label">Mind</span>
+                    <span className="attribute-value">{npc.attributes.mind}</span>
+                  </div>
+                  <div className="attribute-box">
+                    <span className="attribute-label">Body</span>
+                    <span className="attribute-value">{npc.attributes.body}</span>
+                  </div>
+                  <div className="attribute-box">
+                    <span className="attribute-label">Soul</span>
+                    <span className="attribute-value">{npc.attributes.soul}</span>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {npc.competencies && npc.competencies.length > 0 && (
+              <div className="npc-modal-section">
+                <h3>Competencies</h3>
+                <div className="npc-competencies">
+                  {npc.competencies.map((comp, cidx) => (
+                    <span key={cidx} className="competency-tag">{comp}</span>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {npc.talents && Object.keys(npc.talents).length > 0 && (
+              <div className="npc-modal-section">
+                <h3>Talents</h3>
+                <ul className="npc-talents-list">
+                  {Object.entries(npc.talents).map(([talent, data], tidx) => (
+                    <li key={tidx}>
+                      <strong>{talent.replace(/_/g, ' ')}:</strong> Rank {data.rank}
+                      {data.focus && ` (Focus: ${data.focus})`}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+
+            {npc.combat_stats && (
+              <div className="npc-modal-section combat-stats-section">
+                <h3>Combat Statistics</h3>
+                
+                {npc.combat_stats.wound_track && (
+                  <div className="wound-track">
+                    <h4>Wound Track</h4>
+                    <div className="wound-grid">
+                      <div className="wound-location">
+                        <span className="location-label">Head</span>
+                        <span className="wound-boxes">
+                          {Array.from({ length: npc.combat_stats.wound_track.head }).map((_, i) => (
+                            <span key={i} className="wound-box">□</span>
+                          ))}
+                        </span>
+                      </div>
+                      <div className="wound-location">
+                        <span className="location-label">Torso</span>
+                        <span className="wound-boxes">
+                          {Array.from({ length: npc.combat_stats.wound_track.torso }).map((_, i) => (
+                            <span key={i} className="wound-box">□</span>
+                          ))}
+                        </span>
+                      </div>
+                      <div className="wound-location">
+                        <span className="location-label">Arms</span>
+                        <span className="wound-boxes">
+                          {Array.from({ length: npc.combat_stats.wound_track.arms }).map((_, i) => (
+                            <span key={i} className="wound-box">□</span>
+                          ))}
+                        </span>
+                      </div>
+                      <div className="wound-location">
+                        <span className="location-label">Legs</span>
+                        <span className="wound-boxes">
+                          {Array.from({ length: npc.combat_stats.wound_track.legs }).map((_, i) => (
+                            <span key={i} className="wound-box">□</span>
+                          ))}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                )}
+
+                {npc.combat_stats.wound_threshold && (
+                  <div className="stat-line">
+                    <strong>Wound Threshold:</strong> {npc.combat_stats.wound_threshold}
+                  </div>
+                )}
+
+                {npc.combat_stats.weapons && (
+                  <div className="stat-line">
+                    <strong>Weapons:</strong> {npc.combat_stats.weapons.join(', ')}
+                  </div>
+                )}
+
+                {npc.combat_stats.skills && (
+                  <div className="stat-line">
+                    <strong>Skills:</strong> {npc.combat_stats.skills.join(', ')}
+                  </div>
+                )}
+
+                {npc.combat_stats.special && (
+                  <div className="stat-line special-ability">
+                    <strong>Special:</strong> {npc.combat_stats.special}
+                  </div>
+                )}
+              </div>
+            )}
+
+            {npc.secrets && npc.secrets.length > 0 && user?.isGM && (
+              <div className="npc-modal-section secrets-section">
+                <h3>🔒 Secrets (GM Only)</h3>
+                <ul>
+                  {npc.secrets.map((secret, sidx) => (
+                    <li key={sidx}>{secret}</li>
+                  ))}
+                </ul>
+              </div>
+            )}
+
+            {npc.plot_hooks && npc.plot_hooks.length > 0 && (
+              <div className="npc-modal-section">
+                <h3>Plot Hooks</h3>
+                <ul>
+                  {npc.plot_hooks.map((hook, hidx) => (
+                    <li key={hidx}>{hook}</li>
+                  ))}
+                </ul>
+              </div>
+            )}
+
+            {npc.quotes && npc.quotes.length > 0 && (
+              <div className="npc-modal-section quotes-section">
+                <h3>Memorable Quotes</h3>
+                {npc.quotes.map((quote, qidx) => (
+                  <blockquote key={qidx}>"{quote}"</blockquote>
+                ))}
+              </div>
+            )}
+          </div>
+        ))}
+      </div>
 
       {/* Locations */}
       <section className="module-section locations">
@@ -633,6 +985,31 @@ const ModuleViewer = () => {
             {handouts.map((handout, idx) => (
               <div key={idx} className="handout-card">
                 <h4>{handout.title}</h4>
+                {handout.image && (
+                  <div className="handout-image">
+                    <img 
+                      src={handout.image} 
+                      alt={handout.title}
+                      loading="lazy"
+                    />
+                    {handout.imageCaption && (
+                      <p className="image-caption">{handout.imageCaption}</p>
+                    )}
+                  </div>
+                )}
+                {handout.map && (
+                  <div className="handout-map">
+                    <img 
+                      src={handout.map} 
+                      alt={`Map: ${handout.title}`}
+                      loading="lazy"
+                      className="map-image"
+                    />
+                    {handout.mapCaption && (
+                      <p className="map-caption">{handout.mapCaption}</p>
+                    )}
+                  </div>
+                )}
                 <p>{handout.content}</p>
               </div>
             ))}
