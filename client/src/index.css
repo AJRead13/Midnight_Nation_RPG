@@ -3,6 +3,13 @@ main {
   max-width: 90%;
   padding: 50px 30px;
 }
+
+@media (max-width: 768px) {
+  main {
+    max-width: 100%;
+    padding: 20px 15px;
+  }
+}
 :root {
   --primary: #8c54ff;
   --secondary: #31343D;
@@ -32,11 +39,12 @@ body {
   padding-left: 250px;
   font-weight: 600;
   line-height: 1.5;
-  font-size: 20px;
+  font-size: 18px;
   letter-spacing: 0.1em;
   background: var(--darker);
   color: var(--light);
   font-family: 'Marvel', sans-serif;
+  overflow-x: hidden;
 }
 
 h1,
@@ -55,6 +63,19 @@ h1 {
   font-size: 5rem;
   margin: 50px 20px;
   text-shadow: 5px 5px 10px rgba(0, 0, 0, 0.5);
+}
+
+@media (max-width: 768px) {
+  h1 {
+    font-size: 2.5rem;
+    margin: 20px 10px;
+  }
+  h2 {
+    font-size: 1.75rem;
+  }
+  h3 {
+    font-size: 1.5rem;
+  }
 }
 
 h2 {
@@ -2891,6 +2912,22 @@ textarea {
   main {
     margin-left: 0;
     padding-top: 180px;
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+  
+  body {
+    font-size: 16px;
+  }
+  
+  p {
+    font-size: 1rem;
+    line-height: 1.6rem;
+  }
+  
+  button {
+    min-height: 44px;
+    min-width: 44px;
   }
   
   header h1 {

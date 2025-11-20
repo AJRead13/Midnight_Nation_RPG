@@ -413,34 +413,84 @@
 
 /* Mobile Responsive */
 @media (max-width: 768px) {
+  .modules-page {
+    padding: 1rem;
+  }
+
+  .modules-header h1 {
+    font-size: 2rem;
+  }
+
   .modules-grid {
     grid-template-columns: 1fr;
+    gap: 1.5rem;
   }
 
   .modules-filters {
     flex-direction: column;
     align-items: stretch;
+    gap: 0.75rem;
   }
 
   .filter-btn {
     width: 100%;
+    padding: 0.75rem;
+    font-size: 1rem;
+  }
+
+  .module-card {
+    padding: 1.5rem;
   }
 
   .module-modal {
-    padding: 1rem;
+    padding: 0.5rem;
+    align-items: flex-start;
   }
 
   .module-modal-content {
     padding: 1.5rem;
+    max-width: 100%;
+    max-height: 90vh;
+    overflow-y: auto;
   }
 
   .module-actions {
     flex-direction: column;
+    gap: 0.75rem;
   }
 
   .btn-primary,
   .btn-secondary {
     width: 100%;
+    padding: 0.875rem;
+    font-size: 1rem;
+  }
+  
+  .module-meta {
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+  
+  .module-description {
+    font-size: 0.95rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .modules-page {
+    padding: 0.5rem;
+  }
+
+  .modules-header h1 {
+    font-size: 1.75rem;
+  }
+
+  .module-card {
+    padding: 1rem;
+  }
+
+  .classified-banner span {
+    font-size: 2.5rem;
   }
 }
 

@@ -889,15 +889,30 @@
 /* Responsive Design */
 @media (max-width: 768px) {
   .module-viewer {
+    padding: 0.5rem;
+  }
+
+  .module-header {
     padding: 1rem;
   }
 
   .module-title {
     font-size: 2rem;
+    letter-spacing: 1px;
+  }
+
+  .module-meta {
+    gap: 0.5rem;
+  }
+
+  .meta-badge {
+    font-size: 0.75rem;
+    padding: 0.3rem 0.6rem;
   }
 
   .module-section {
     padding: 1rem;
+    margin-bottom: 1rem;
   }
 
   .faction-grid,
@@ -906,33 +921,78 @@
   .handout-grid,
   .reward-grid {
     grid-template-columns: 1fr;
+    gap: 1rem;
   }
 
   .session-buttons {
     grid-template-columns: 1fr;
+    gap: 0.75rem;
+  }
+
+  .session-button {
+    padding: 1rem;
+    font-size: 0.95rem;
   }
 
   .clues-table {
     font-size: 0.85rem;
+    display: block;
+    overflow-x: auto;
   }
 
   .clues-table th,
   .clues-table td {
     padding: 0.5rem;
+    font-size: 0.85rem;
+  }
+
+  .npc-card,
+  .faction-card,
+  .location-card {
+    padding: 1rem;
+  }
+
+  .back-button,
+  .print-button {
+    padding: 0.5rem 0.75rem;
+    font-size: 0.85rem;
   }
 }
 
 @media (max-width: 480px) {
+  .module-viewer {
+    padding: 0.25rem;
+  }
+
+  .module-header {
+    padding: 0.75rem;
+  }
+
   .module-title {
     font-size: 1.5rem;
+    letter-spacing: 0.5px;
   }
 
   .module-subtitle {
-    font-size: 1rem;
+    font-size: 0.9rem;
   }
 
   .module-section h2 {
-    font-size: 1.5rem;
+    font-size: 1.25rem;
+  }
+
+  .module-section h3 {
+    font-size: 1.1rem;
+  }
+
+  .session-button {
+    padding: 0.875rem;
+    font-size: 0.9rem;
+  }
+
+  .theme-tag {
+    font-size: 0.75rem;
+    padding: 0.25rem 0.5rem;
   }
 }
 
