@@ -970,6 +970,18 @@
 
   "handouts": [
     {
+      "title": "New Crescent City Map",
+      "content": "Map of the city showing major districts and locations. The Theater District, Waterfront, and Industrial Quarter are highlighted as areas of supernatural activity. Keep this handy for reference during the investigation.",
+      "map": "/modules/images/the-awakening/New_Crescent_City.png",
+      "mapCaption": "New Crescent City - September 1947"
+    },
+    {
+      "title": "Waterfront Warehouse Floor Plan",
+      "content": "Detailed floor plan of the abandoned warehouse at the waterfront. Three levels: ground floor (loading docks), second floor (offices), and basement (where cult activity has been reported). Multiple entry points and several rooms of interest.",
+      "map": "/modules/images/the-awakening/waterFront_warehouse_map_colored.png",
+      "mapCaption": "Warehouse Layout - All Floors"
+    },
+    {
       "title": "Newspaper Clipping",
       "content": "VETERAN FOUND DEAD IN ALLEY - Police baffled by brutal slaying. Decorated war hero Thomas McKenna found deceased behind Velvet Room. Autopsy pending. Detective Ferraro asks witnesses to come forward."
     },
