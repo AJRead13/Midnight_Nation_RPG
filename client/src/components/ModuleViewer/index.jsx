@@ -1008,35 +1008,11 @@ const ModuleViewer = () => {
           Player Handouts {expandedSections.handouts ? '−' : '+'}
         </h2>
         {expandedSections.handouts && (
-          <div className="handout-grid">
-            {handouts.map((handout, idx) => (
-              <div key={idx} className={`handout-card ${handout.type === 'newspaper' ? 'newspaper-handout' : ''}`}>
+          <>
+            {/* Newspaper Articles - Full Width */}
+            {handouts.filter(h => h.type === 'newspaper').map((handout, idx) => (
+              <div key={`newspaper-${idx}`} className="handout-card newspaper-handout">
                 <h4>{handout.title}</h4>
-                {handout.image && (
-                  <div className="handout-image">
-                    <img 
-                      src={handout.image} 
-                      alt={handout.title}
-                      loading="lazy"
-                    />
-                    {handout.imageCaption && (
-                      <p className="image-caption">{handout.imageCaption}</p>
-                    )}
-                  </div>
-                )}
-                {handout.map && (
-                  <div className="handout-map">
-                    <img 
-                      src={handout.map} 
-                      alt={`Map: ${handout.title}`}
-                      loading="lazy"
-                      className="map-image"
-                    />
-                    {handout.mapCaption && (
-                      <p className="map-caption">{handout.mapCaption}</p>
-                    )}
-                  </div>
-                )}
                 <div className="handout-content" style={{ whiteSpace: 'pre-line' }}>
                   {handout.content}
                 </div>
@@ -1048,7 +1024,52 @@ const ModuleViewer = () => {
                 )}
               </div>
             ))}
-          </div>
+
+            {/* Regular Handouts - Grid Layout */}
+            <div className="handout-grid">
+              {handouts.filter(h => h.type !== 'newspaper').map((handout, idx) => (
+                <div key={`handout-${idx}`} className="handout-card">
+                  <h4>{handout.title}</h4>
+                  {handout.image && (
+                    <div className="handout-image">
+                      <img 
+                        src={handout.image} 
+                        alt={handout.title}
+                        loading="eager"
+                        crossOrigin="anonymous"
+                      />
+                      {handout.imageCaption && (
+                        <p className="image-caption">{handout.imageCaption}</p>
+                      )}
+                    </div>
+                  )}
+                  {handout.map && (
+                    <div className="handout-map">
+                      <img 
+                        src={handout.map} 
+                        alt={`Map: ${handout.title}`}
+                        loading="eager"
+                        crossOrigin="anonymous"
+                        className="map-image"
+                      />
+                      {handout.mapCaption && (
+                        <p className="map-caption">{handout.mapCaption}</p>
+                      )}
+                    </div>
+                  )}
+                  <div className="handout-content" style={{ whiteSpace: 'pre-line' }}>
+                    {handout.content}
+                  </div>
+                  {handout.gmNotes && user?.isGM && (
+                    <div className="handout-gm-notes">
+                      <h5>🔒 GM Notes</h5>
+                      <p>{handout.gmNotes}</p>
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
+          </>
         )}
       </section>
 

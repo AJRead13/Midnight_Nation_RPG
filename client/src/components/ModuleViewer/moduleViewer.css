@@ -845,6 +845,9 @@
   font-family: 'Georgia', 'Times New Roman', serif;
   color: #2c2416;
   padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  width: 100%;
+  max-width: 100%;
 }
 
 .newspaper-handout h4 {
