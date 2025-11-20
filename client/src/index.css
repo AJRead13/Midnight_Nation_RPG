@@ -488,6 +488,27 @@ textarea {
   border-color: var(--secondary);
 }
 
+.btn-discord {
+  background: linear-gradient(135deg, #5865F2 0%, #7289DA 100%);
+  border-color: #5865F2;
+  color: white;
+  font-weight: 700;
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-discord::before {
+  content: '🎮 ';
+  margin-right: 0.25rem;
+}
+
+.btn-discord:hover {
+  background: linear-gradient(135deg, #7289DA 0%, #5865F2 100%);
+  border-color: #7289DA;
+  color: white;
+  box-shadow: 0 4px 12px rgba(88, 101, 242, 0.5);
+}
+
 .btn-campaign:hover {
   background: var(--tertiary);
   border-color: var(--tertiary);

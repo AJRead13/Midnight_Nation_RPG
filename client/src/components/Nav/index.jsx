@@ -235,12 +235,28 @@ function Nav({ currentPage }) {
               <button onClick={handleViewCampaigns} className="btn-auth btn-campaign">Campaigns</button>
               <button onClick={() => setShowCreateCampaign(true)} className="btn-auth btn-campaign">Create Campaign</button>
               <button onClick={() => setShowJoinCampaign(true)} className="btn-auth btn-campaign">Join Campaign</button>
+              <a 
+                href="https://discord.gg/7h4btsMy" 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="btn-auth btn-discord"
+              >
+                Join the Nation
+              </a>
               <button onClick={handleLogout} className="btn-auth">Logout</button>
             </div>
           ) : (
             <div className="auth-buttons">
               <Link to="/login" className="btn-auth">Sign In</Link>
               <Link to="/register" className="btn-auth btn-signup">Sign Up</Link>
+              <a 
+                href="https://discord.gg/7h4btsMy" 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="btn-auth btn-discord"
+              >
+                Join the Nation
+              </a>
             </div>
           )}
         </li>
