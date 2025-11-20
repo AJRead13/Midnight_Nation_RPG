@@ -15,6 +15,9 @@ const ModuleViewer = () => {
   const [expandedSections, setExpandedSections] = useState({});
   const [npcModalOpen, setNpcModalOpen] = useState(false);
   const [currentNpcIndex, setCurrentNpcIndex] = useState(0);
+  
+  // Get API URL for image paths
+  const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3001';
 
   useEffect(() => {
     loadModule();
@@ -1033,7 +1036,7 @@ const ModuleViewer = () => {
                   {handout.image && (
                     <div className="handout-image">
                       <img 
-                        src={handout.image} 
+                        src={`${API_URL}${handout.image}`} 
                         alt={handout.title}
                         loading="eager"
                         crossOrigin="anonymous"
@@ -1046,7 +1049,7 @@ const ModuleViewer = () => {
                   {handout.map && (
                     <div className="handout-map">
                       <img 
-                        src={handout.map} 
+                        src={`${API_URL}${handout.map}`} 
                         alt={`Map: ${handout.title}`}
                         loading="eager"
                         crossOrigin="anonymous"
