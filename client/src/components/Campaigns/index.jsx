@@ -21,6 +21,9 @@ function Campaigns() {
   const [isCreating, setIsCreating] = useState(false);
   const [isJoining, setIsJoining] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [filterRole, setFilterRole] = useState('all'); // 'all', 'gm', 'player'
+  const [filterStatus, setFilterStatus] = useState('all'); // 'all', 'active', 'completed', 'on-hold'
   const [campaignForm, setCampaignForm] = useState({
     name: '',
     description: '',
@@ -132,6 +135,36 @@ function Campaigns() {
     return user?._id || null;
   };
 
+  const getFilteredCampaigns = () => {
+    let filtered = [...campaigns];
+    const userId = getCurrentUserId();
+
+    // Filter by search term
+    if (searchTerm) {
+      const search = searchTerm.toLowerCase();
+      filtered = filtered.filter(campaign => 
+        campaign.name.toLowerCase().includes(search) ||
+        (campaign.description && campaign.description.toLowerCase().includes(search))
+      );
+    }
+
+    // Filter by role
+    if (filterRole === 'gm') {
+      filtered = filtered.filter(campaign => isGM(campaign, userId));
+    } else if (filterRole === 'player') {
+      filtered = filtered.filter(campaign => !isGM(campaign, userId));
+    }
+
+    // Filter by status
+    if (filterStatus !== 'all') {
+      filtered = filtered.filter(campaign => campaign.status === filterStatus);
+    }
+
+    return filtered;
+  };
+
+  const filteredCampaigns = getFilteredCampaigns();
+
   if (loading) {
     return (
       <div className="campaigns-container">
@@ -166,14 +199,87 @@ function Campaigns() {
         </div>
       </div>
 
+      {campaigns.length > 0 && (
+        <div className="campaigns-filters">
+          <div className="search-bar">
+            <input
+              type="text"
+              placeholder="\ud83d\udd0d Search campaigns..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="search-input"
+            />
+          </div>
+          <div className="filter-buttons">
+            <div className="filter-group">
+              <label>Role:</label>
+              <button 
+                className={`filter-btn ${filterRole === 'all' ? 'active' : ''}`}
+                onClick={() => setFilterRole('all')}
+              >
+                All
+              </button>
+              <button 
+                className={`filter-btn ${filterRole === 'gm' ? 'active' : ''}`}
+                onClick={() => setFilterRole('gm')}
+              >
+                \ud83d\udc51 GM
+              </button>
+              <button 
+                className={`filter-btn ${filterRole === 'player' ? 'active' : ''}`}
+                onClick={() => setFilterRole('player')}
+              >
+                \ud83c\udfad Player
+              </button>
+            </div>
+            <div className="filter-group">
+              <label>Status:</label>
+              <button 
+                className={`filter-btn ${filterStatus === 'all' ? 'active' : ''}`}
+                onClick={() => setFilterStatus('all')}
+              >
+                All
+              </button>
+              <button 
+                className={`filter-btn ${filterStatus === 'active' ? 'active' : ''}`}
+                onClick={() => setFilterStatus('active')}
+              >
+                Active
+              </button>
+              <button 
+                className={`filter-btn ${filterStatus === 'completed' ? 'active' : ''}`}
+                onClick={() => setFilterStatus('completed')}
+              >
+                Completed
+              </button>
+              <button 
+                className={`filter-btn ${filterStatus === 'on-hold' ? 'active' : ''}`}
+                onClick={() => setFilterStatus('on-hold')}
+              >
+                On Hold
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
       {campaigns.length === 0 ? (
         <div className="no-campaigns">
           <p>You haven't created or joined any campaigns yet.</p>
           <button onClick={() => setShowCreateModal(true)}>Create Your First Campaign</button>
         </div>
+      ) : filteredCampaigns.length === 0 ? (
+        <div className="no-campaigns">
+          <p>No campaigns match your filters.</p>
+          <button onClick={() => {
+            setSearchTerm('');
+            setFilterRole('all');
+            setFilterStatus('all');
+          }}>Clear Filters</button>
+        </div>
       ) : (
         <div className="campaigns-grid">
-          {campaigns.map((campaign) => {
+          {filteredCampaigns.map((campaign) => {
             const userId = getCurrentUserId();
             const userIsGM = isGM(campaign, userId);
             

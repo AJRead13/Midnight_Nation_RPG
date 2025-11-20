@@ -293,6 +293,8 @@ function CharacterSheet() {
   const [saveMessage, setSaveMessage] = useState('');
   const [saveStatus, setSaveStatus] = useState(''); // 'saving', 'saved', 'error'
   const [autoSaveEnabled, setAutoSaveEnabled] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [validationErrors, setValidationErrors] = useState({});
   const autoSaveTimeoutRef = useRef(null);
   const lastSavedCharacterRef = useRef(null);
 
@@ -491,25 +493,45 @@ function CharacterSheet() {
   }, [character, currentCharacterId, autoSaveEnabled]);
 
   const saveCharacter = async () => {
-    if (!character.name) {
-      setSaveMessage('Please enter a character name');
-      setTimeout(() => setSaveMessage(''), 3000);
+    // Validation
+    const errors = {};
+    if (!character.name || character.name.trim() === '') {
+      errors.name = 'Character name is required';
+    }
+    if (character.name && character.name.length > 50) {
+      errors.name = 'Character name must be 50 characters or less';
+    }
+    
+    if (Object.keys(errors).length > 0) {
+      setValidationErrors(errors);
+      setSaveStatus('error');
+      setSaveMessage('Please fix validation errors');
+      setTimeout(() => {
+        setSaveMessage('');
+        setSaveStatus('');
+      }, 3000);
       return;
     }
+
+    setValidationErrors({});
+    setSaveStatus('saving');
+    setIsLoading(true);
 
     try {
       let savedChar;
       
       if (currentCharacterId) {
         savedChar = await updateCharacter(currentCharacterId, character);
-        setSaveMessage('Character updated successfully!');
+        setSaveMessage('✓ Character updated successfully!');
       } else {
         savedChar = await createCharacter(character);
-        setSaveMessage('Character created successfully!');
+        setSaveMessage('✓ Character created successfully!');
         setCurrentCharacterId(savedChar._id);
         // Navigate to edit mode after creating
         navigate(`/character-sheet/${savedChar._id}`, { replace: true });
       }
+      
+      setSaveStatus('saved');
       
       // Update last saved reference and enable auto-save
       lastSavedCharacterRef.current = JSON.stringify(character);
@@ -517,15 +539,21 @@ function CharacterSheet() {
       
       fetchUserCharacters();
     } catch (error) {
+      setSaveStatus('error');
       if (error.message === 'Not authenticated') {
-        setSaveMessage('Please sign in to save characters');
+        setSaveMessage('❌ Please sign in to save characters');
       } else {
-        setSaveMessage(error.message || 'Failed to save character');
+        setSaveMessage(`❌ ${error.message || 'Failed to save character'}`);
       }
       console.error('Save error:', error);
+    } finally {
+      setIsLoading(false);
     }
 
-    setTimeout(() => setSaveMessage(''), 3000);
+    setTimeout(() => {
+      setSaveMessage('');
+      setSaveStatus('');
+    }, 3000);
   };
 
   const saveCharacterToFile = () => {
