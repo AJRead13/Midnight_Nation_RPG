@@ -21,6 +21,10 @@ function Footer() {
       link: "https://www.instagram.com/floki_ironwolf/"
     },
     {
+      name: "fab fa-tiktok",
+      link: "https://www.tiktok.com/@floki_ironwolf?lang=en"
+    },
+    {
       name: "fab fa-x-twitter",
       link: "https://twitter.com/"
     },
