@@ -4,10 +4,9 @@ const Module = require('../models/Module');
 const User = require('../models/User');
 const { adminOnly } = require('../middleware/auth');
 
-// One-time setup endpoint to promote a user to admin
-// This endpoint is NOT protected so you can use it to create the first admin
-// After creating your admin account, you should remove or protect this endpoint
-router.post('/setup-admin', async (req, res) => {
+// Admin endpoint to promote a user to admin - protected by admin authentication
+// Only existing admins can promote other users to admin
+router.post('/setup-admin', adminOnly, async (req, res) => {
   try {
     const { email } = req.body;
 
