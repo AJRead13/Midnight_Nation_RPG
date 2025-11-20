@@ -15,6 +15,8 @@ const ModuleViewer = () => {
   const [expandedSections, setExpandedSections] = useState({});
   const [npcModalOpen, setNpcModalOpen] = useState(false);
   const [currentNpcIndex, setCurrentNpcIndex] = useState(0);
+  const [imageModalOpen, setImageModalOpen] = useState(false);
+  const [selectedImage, setSelectedImage] = useState(null);
   
   // Get API URL for image paths
   const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3001';
@@ -185,6 +187,27 @@ const ModuleViewer = () => {
 
   const closeNpcModal = () => {
     setNpcModalOpen(false);
+  };
+
+  const openImageModal = (imageSrc, imageAlt) => {
+    setSelectedImage({ src: imageSrc, alt: imageAlt });
+    setImageModalOpen(true);
+  };
+
+  const closeImageModal = () => {
+    setImageModalOpen(false);
+    setSelectedImage(null);
+  };
+
+  const downloadImage = () => {
+    if (!selectedImage) return;
+    
+    const link = document.createElement('a');
+    link.href = selectedImage.src;
+    link.download = selectedImage.alt.replace(/[^a-z0-9]/gi, '_').toLowerCase() + '.png';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
   };
 
   const nextNpc = () => {
@@ -1040,6 +1063,8 @@ const ModuleViewer = () => {
                         alt={handout.title}
                         loading="eager"
                         crossOrigin="anonymous"
+                        className="clickable-image"
+                        onClick={() => openImageModal(`${API_URL}${handout.image}`, handout.title)}
                       />
                       {handout.imageCaption && (
                         <p className="image-caption">{handout.imageCaption}</p>
@@ -1053,7 +1078,8 @@ const ModuleViewer = () => {
                         alt={`Map: ${handout.title}`}
                         loading="eager"
                         crossOrigin="anonymous"
-                        className="map-image"
+                        className="map-image clickable-image"
+                        onClick={() => openImageModal(`${API_URL}${handout.map}`, `Map: ${handout.title}`)}
                       />
                       {handout.mapCaption && (
                         <p className="map-caption">{handout.mapCaption}</p>
