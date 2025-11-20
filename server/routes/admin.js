@@ -1,10 +1,10 @@
 const express = require('express');
 const router = express.Router();
 const Module = require('../models/Module');
+const { adminOnly } = require('../middleware/auth');
 
-// Admin endpoint to reseed modules
-// IMPORTANT: In production, this should be protected with authentication
-router.post('/seed-modules', async (req, res) => {
+// Admin endpoint to reseed modules - protected by admin authentication
+router.post('/seed-modules', adminOnly, async (req, res) => {
   try {
     console.log('[admin] Seeding modules...');
     

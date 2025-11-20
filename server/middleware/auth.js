@@ -34,4 +34,25 @@ const authMiddleware = async (req, res, next) => {
   }
 };
 
+// Admin-only middleware
+const adminOnly = async (req, res, next) => {
+  try {
+    // First run auth middleware to get user
+    await authMiddleware(req, res, () => {});
+    
+    // Check if user is admin
+    if (!req.user || !req.user.isAdmin) {
+      return res.status(403).json({ 
+        message: 'Access denied. Admin privileges required.',
+        error: 'FORBIDDEN'
+      });
+    }
+    
+    next();
+  } catch (error) {
+    res.status(500).json({ message: 'Server error in admin authorization' });
+  }
+};
+
 module.exports = authMiddleware;
+module.exports.adminOnly = adminOnly;
