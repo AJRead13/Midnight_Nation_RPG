@@ -80,10 +80,27 @@ const ModuleViewer = () => {
       });
 
       // Wait for sections to expand
-      await new Promise(resolve => setTimeout(resolve, 300));
+      await new Promise(resolve => setTimeout(resolve, 500));
 
       const element = document.querySelector('.module-viewer');
       if (!element) return;
+
+      // Wait for all images to load
+      const images = element.querySelectorAll('img');
+      await Promise.all(
+        Array.from(images).map(img => {
+          if (img.complete) return Promise.resolve();
+          return new Promise((resolve, reject) => {
+            img.onload = resolve;
+            img.onerror = () => {
+              console.warn('Image failed to load:', img.src);
+              resolve(); // Continue even if image fails
+            };
+            // Timeout after 5 seconds
+            setTimeout(resolve, 5000);
+          });
+        })
+      );
 
       // Show print-only content (all sessions and NPC stat blocks)
       const printOnlySessions = element.querySelector('.print-only-sessions');
@@ -98,14 +115,24 @@ const ModuleViewer = () => {
       const elementsToHide = element.querySelectorAll('.no-print, .back-button, .print-button, .download-pdf-button');
       elementsToHide.forEach(el => el.style.display = 'none');
 
-      // Capture the content as canvas
+      // Capture the content as canvas with proper image handling
       const canvas = await html2canvas(element, {
         scale: 2,
         useCORS: true,
+        allowTaint: true,
         logging: false,
         backgroundColor: '#1a1a2e',
         windowWidth: 1200,
-        windowHeight: element.scrollHeight
+        windowHeight: element.scrollHeight,
+        onclone: (clonedDoc) => {
+          // Ensure images are loaded in the cloned document
+          const clonedImages = clonedDoc.querySelectorAll('img');
+          clonedImages.forEach(img => {
+            if (img.src && !img.complete) {
+              img.src = img.src; // Force reload
+            }
+          });
+        }
       });
 
       // Restore hidden elements
