@@ -230,6 +230,9 @@ const ModuleViewer = () => {
         if (e.key === 'ArrowRight') nextNpc();
         if (e.key === 'ArrowLeft') prevNpc();
       }
+      if (imageModalOpen) {
+        if (e.key === 'Escape') closeImageModal();
+      }
     };
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
@@ -260,13 +263,27 @@ const ModuleViewer = () => {
       {/* Header */}
       <header className="module-header">
         <div className="header-actions no-print">
-          <button className="back-button" onClick={() => navigate('/modules')}>
+          <button 
+            className="back-button" 
+            onClick={() => navigate('/modules')}
+            aria-label="Navigate back to modules list"
+          >
             ← Back to Modules
           </button>
-          <button className="download-pdf-button" onClick={downloadPDF} title="Download as PDF">
+          <button 
+            className="download-pdf-button" 
+            onClick={downloadPDF} 
+            title="Download as PDF"
+            aria-label="Download module as PDF"
+          >
             📥 Download PDF
           </button>
-          <button className="print-button" onClick={handlePrint} title="Print or Export as PDF">
+          <button 
+            className="print-button" 
+            onClick={handlePrint} 
+            title="Print or Export as PDF"
+            aria-label="Print module content"
+          >
             🖨️ Print
           </button>
         </div>
@@ -1065,6 +1082,10 @@ const ModuleViewer = () => {
                         crossOrigin="anonymous"
                         className="clickable-image"
                         onClick={() => openImageModal(`${API_URL}${handout.image}`, handout.title)}
+                        onKeyDown={(e) => e.key === 'Enter' && openImageModal(`${API_URL}${handout.image}`, handout.title)}
+                        tabIndex="0"
+                        role="button"
+                        aria-label={`Click to enlarge ${handout.title}`}
                       />
                       {handout.imageCaption && (
                         <p className="image-caption">{handout.imageCaption}</p>
@@ -1080,6 +1101,10 @@ const ModuleViewer = () => {
                         crossOrigin="anonymous"
                         className="map-image clickable-image"
                         onClick={() => openImageModal(`${API_URL}${handout.map}`, `Map: ${handout.title}`)}
+                        onKeyDown={(e) => e.key === 'Enter' && openImageModal(`${API_URL}${handout.map}`, `Map: ${handout.title}`)}
+                        tabIndex="0"
+                        role="button"
+                        aria-label={`Click to enlarge map: ${handout.title}`}
                       />
                       {handout.mapCaption && (
                         <p className="map-caption">{handout.mapCaption}</p>
@@ -1162,6 +1187,44 @@ const ModuleViewer = () => {
         <p>Midnight Nation RPG • Module by Andrew Read</p>
         <p>For personal use in campaigns. Have fun!</p>
       </footer>
+
+      {/* Image Modal */}
+      {imageModalOpen && selectedImage && (
+        <div 
+          className="image-modal-overlay" 
+          onClick={closeImageModal}
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="image-modal-title"
+        >
+          <div className="image-modal-content" onClick={(e) => e.stopPropagation()}>
+            <button 
+              className="image-modal-close" 
+              onClick={closeImageModal}
+              aria-label="Close image modal"
+            >
+              ✕
+            </button>
+            <div className="image-modal-header">
+              <h3 id="image-modal-title">{selectedImage.alt}</h3>
+              <button 
+                className="image-download-btn" 
+                onClick={downloadImage}
+                aria-label="Download image"
+              >
+                📥 Download
+              </button>
+            </div>
+            <div className="image-modal-body">
+              <img 
+                src={selectedImage.src} 
+                alt={selectedImage.alt}
+                crossOrigin="anonymous"
+              />
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* NPC Modal */}
       {npcModalOpen && moduleData?.npcs && moduleData.npcs[currentNpcIndex] && (

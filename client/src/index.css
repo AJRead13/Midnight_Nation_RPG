@@ -11,17 +11,39 @@ main {
   }
 }
 :root {
+  /* Base Colors - Improved Contrast */
   --primary: #8c54ff;
   --secondary: #31343D;
   --tertiary: #b12704;
   --light: #ffffff;
   --dark: #34363a;
-  --darker: #1d1f22;
-  --alpha: rgba(255,255,255,.7);
-  --error: rgb(228, 46, 1);
-  --spacing-one: calc(1rem * 0.5);
-  --spacing-two: calc(1rem);
-  --spacing-five: calc(2.5rem);
+  --darker: #1e1e2e; /* Slightly lighter for better readability */
+  --alpha: rgba(255,255,255,.8); /* Improved from .7 */
+  --error: #ff5252; /* Brighter for better contrast */
+  
+  /* Text Colors - Better Contrast */
+  --text-primary: #f0f0f0;
+  --text-secondary: #d0d0d0;
+  --text-tertiary: #b0b0b0;
+  --gold-bright: #ffeb3b; /* Improved gold contrast */
+  --gold-standard: #ffd700;
+  --gold-dark: #d4af37;
+  
+  /* Spacing System - Consistent */
+  --space-xs: 0.25rem;
+  --space-sm: 0.5rem;
+  --space-md: 1rem;
+  --space-lg: 1.5rem;
+  --space-xl: 2rem;
+  --space-2xl: 3rem;
+  --spacing-one: var(--space-sm); /* Legacy compatibility */
+  --spacing-two: var(--space-md); /* Legacy compatibility */
+  --spacing-five: 2.5rem; /* Legacy compatibility */
+  
+  /* Focus Outline */
+  --focus-color: #ffeb3b;
+  --focus-width: 3px;
+  --focus-offset: 2px;
 }
 
 * {
@@ -39,12 +61,38 @@ body {
   padding-left: 250px;
   font-weight: 600;
   line-height: 1.5;
-  font-size: 18px;
-  letter-spacing: 0.1em;
+  font-size: clamp(16px, 1.125rem, 18px); /* Never below 16px for accessibility */
+  letter-spacing: 0.01em; /* Reduced from 0.1em for better readability */
   background: var(--darker);
-  color: var(--light);
+  color: var(--text-primary);
   font-family: 'Marvel', sans-serif;
   overflow-x: hidden;
+}
+
+@media (max-width: 768px) {
+  body {
+    padding-left: 0; /* Remove sidebar offset on mobile */
+  }
+}
+
+/* Global Focus Styles - HIGH PRIORITY ACCESSIBILITY */
+*:focus-visible {
+  outline: var(--focus-width) solid var(--focus-color);
+  outline-offset: var(--focus-offset);
+}
+
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible {
+  outline: var(--focus-width) solid var(--focus-color);
+  outline-offset: var(--focus-offset);
+}
+
+/* Remove default focus for mouse users */
+*:focus:not(:focus-visible) {
+  outline: none;
 }
 
 h1,

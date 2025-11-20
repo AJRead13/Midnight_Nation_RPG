@@ -1,11 +1,11 @@
-/* Module Viewer - Noir/Gothic RPG Theme */
+/* Module Viewer - Noir/Gothic RPG Theme with Accessibility Improvements */
 
 .module-viewer {
-  max-width: 1200px;
+  max-width: min(1200px, 100vw - 4rem);
   margin: 0 auto;
-  padding: 2rem;
-  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
-  color: #e0e0e0;
+  padding: clamp(1rem, 3vw, 2rem);
+  background: linear-gradient(135deg, #1e1e2e 0%, #1a2332 100%); /* Slightly lighter for less eye strain */
+  color: #f0f0f0; /* Improved contrast */
   font-family: 'Georgia', 'Times New Roman', serif;
   line-height: 1.7;
   min-height: 100vh;
@@ -49,18 +49,30 @@
 .back-button {
   background: rgba(255, 215, 0, 0.1);
   border: 1px solid rgba(255, 215, 0, 0.3);
-  color: #ffd700;
+  color: #ffeb3b; /* Better contrast */
   padding: 0.5rem 1rem;
+  min-height: 44px; /* Touch target size */
   border-radius: 6px;
   cursor: pointer;
-  font-size: 0.9rem;
-  transition: all 0.3s ease;
+  font-size: 0.95rem; /* Slightly larger */
+  transition: all 0.2s ease;
 }
 
 .back-button:hover {
   background: rgba(255, 215, 0, 0.2);
-  border-color: #ffd700;
+  border-color: #ffeb3b;
   transform: translateX(-3px);
+}
+
+.back-button:active {
+  transform: translateX(-1px);
+  box-shadow: inset 0 2px 4px rgba(0,0,0,0.3);
+}
+
+.back-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
 }
 
 .header-actions {
@@ -73,12 +85,13 @@
 .print-button {
   background: rgba(100, 200, 100, 0.15);
   border: 1px solid rgba(100, 200, 100, 0.4);
-  color: #6fc86f;
+  color: #7ed87e; /* Better contrast */
   padding: 0.5rem 1rem;
+  min-height: 44px; /* Touch target size */
   border-radius: 6px;
   cursor: pointer;
-  font-size: 0.9rem;
-  transition: all 0.3s ease;
+  font-size: 0.95rem;
+  transition: all 0.2s ease;
   display: flex;
   align-items: center;
   gap: 0.5rem;
@@ -86,20 +99,32 @@
 
 .print-button:hover {
   background: rgba(100, 200, 100, 0.25);
-  border-color: #6fc86f;
+  border-color: #7ed87e;
   transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(100, 200, 100, 0.3);
+}
+
+.print-button:active {
+  transform: translateY(0);
+  box-shadow: inset 0 2px 4px rgba(0,0,0,0.3);
+}
+
+.print-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
 }
 
 .download-pdf-button {
   background: rgba(102, 126, 234, 0.15);
   border: 1px solid rgba(102, 126, 234, 0.4);
-  color: #667eea;
+  color: #7e95ea; /* Better contrast */
   padding: 0.5rem 1rem;
+  min-height: 44px; /* Touch target size */
   border-radius: 6px;
   cursor: pointer;
-  font-size: 0.9rem;
-  transition: all 0.3s ease;
+  font-size: 0.95rem;
+  transition: all 0.2s ease;
   display: flex;
   align-items: center;
   gap: 0.5rem;
@@ -107,9 +132,20 @@
 
 .download-pdf-button:hover {
   background: rgba(102, 126, 234, 0.25);
-  border-color: #667eea;
+  border-color: #7e95ea;
   transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+}
+
+.download-pdf-button:active {
+  transform: translateY(0);
+  box-shadow: inset 0 2px 4px rgba(0,0,0,0.3);
+}
+
+.download-pdf-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
 }
 
 .module-title-block {
@@ -118,18 +154,19 @@
 }
 
 .module-title {
-  font-size: 3rem;
+  font-size: clamp(2rem, 8vw, 3rem); /* Responsive sizing */
   font-weight: bold;
-  color: #ffd700;
+  color: #ffeb3b; /* Better contrast */
   text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.8);
   margin: 0;
-  letter-spacing: 2px;
+  letter-spacing: 0.05em; /* Reduced for better readability */
   text-transform: uppercase;
+  line-height: 1.2;
 }
 
 .module-subtitle {
   font-size: 1.2rem;
-  color: #b8b8b8;
+  color: #d0d0d0; /* Better contrast */
   font-style: italic;
   margin: 0.5rem 0 0 0;
 }
@@ -145,9 +182,10 @@
   background: rgba(255, 255, 255, 0.1);
   padding: 0.4rem 0.8rem;
   border-radius: 20px;
-  font-size: 0.85rem;
+  font-size: 0.9rem; /* Slightly larger */
   border: 1px solid rgba(255, 255, 255, 0.2);
   font-family: 'Arial', sans-serif;
+  color: #e0e0e0; /* Better contrast */
 }
 
 .meta-badge.difficulty {
@@ -1111,113 +1149,6 @@
   }
 }
 
-/* Image Modal */
-.image-modal-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(0, 0, 0, 0.95);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 2000;
-  padding: 2rem;
-  animation: fadeIn 0.3s ease;
-}
-
-.image-modal-content {
-  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
-  border-radius: 12px;
-  max-width: 95vw;
-  max-height: 95vh;
-  display: flex;
-  flex-direction: column;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8);
-  border: 2px solid rgba(218, 165, 32, 0.3);
-  position: relative;
-  overflow: hidden;
-}
-
-.image-modal-close {
-  position: absolute;
-  top: 1rem;
-  right: 1rem;
-  background: rgba(139, 0, 0, 0.8);
-  border: none;
-  color: white;
-  font-size: 1.5rem;
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.3s ease;
-  z-index: 10;
-}
-
-.image-modal-close:hover {
-  background: rgba(139, 0, 0, 1);
-  transform: rotate(90deg);
-}
-
-.image-modal-header {
-  padding: 1.5rem 2rem;
-  border-bottom: 2px solid rgba(218, 165, 32, 0.3);
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background: rgba(0, 0, 0, 0.3);
-}
-
-.image-modal-header h3 {
-  margin: 0;
-  color: #daa520;
-  font-size: 1.3rem;
-  text-shadow: 0 0 10px rgba(218, 165, 32, 0.5);
-}
-
-.image-download-btn {
-  background: linear-gradient(135deg, #4a148c 0%, #7b1fa2 100%);
-  color: white;
-  border: 2px solid rgba(218, 165, 32, 0.3);
-  padding: 0.6rem 1.2rem;
-  border-radius: 6px;
-  cursor: pointer;
-  font-size: 0.95rem;
-  transition: all 0.3s ease;
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-
-.image-download-btn:hover {
-  background: linear-gradient(135deg, #6a1b9a 0%, #9c27b0 100%);
-  border-color: #daa520;
-  box-shadow: 0 0 15px rgba(218, 165, 32, 0.4);
-  transform: translateY(-2px);
-}
-
-.image-modal-body {
-  padding: 2rem;
-  overflow: auto;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex: 1;
-}
-
-.image-modal-body img {
-  max-width: 100%;
-  max-height: 100%;
-  object-fit: contain;
-  border-radius: 8px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
-}
-
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -1227,7 +1158,7 @@
   }
 }
 
-/* Image Modal */
+/* Image Modal - Enhanced */
 .image-modal-overlay {
   position: fixed;
   top: 0;
@@ -1235,6 +1166,7 @@
   right: 0;
   bottom: 0;
   background: rgba(0, 0, 0, 0.95);
+  backdrop-filter: blur(4px); /* LOW PRIORITY: Visual polish */
   display: flex;
   justify-content: center;
   align-items: center;
@@ -1244,14 +1176,14 @@
 }
 
 .image-modal-content {
-  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+  background: linear-gradient(135deg, #1e1e2e 0%, #1a2332 100%);
   border-radius: 12px;
-  max-width: 95vw;
-  max-height: 95vh;
+  max-width: min(95vw, 1400px);
+  max-height: min(95vh, 900px);
   display: flex;
   flex-direction: column;
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8);
-  border: 2px solid rgba(218, 165, 32, 0.3);
+  border: 2px solid rgba(255, 235, 59, 0.3); /* Better contrast border */
   position: relative;
   overflow: hidden;
 }
@@ -1264,14 +1196,14 @@
   border: none;
   color: white;
   font-size: 1.5rem;
-  width: 40px;
-  height: 40px;
+  width: 44px; /* Touch target size */
+  height: 44px;
   border-radius: 50%;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: all 0.3s ease;
+  transition: all 0.2s ease;
   z-index: 10;
 }
 
@@ -1280,31 +1212,38 @@
   transform: rotate(90deg);
 }
 
+.image-modal-close:active {
+  transform: rotate(90deg) scale(0.95);
+}
+
 .image-modal-header {
   padding: 1.5rem 2rem;
-  border-bottom: 2px solid rgba(218, 165, 32, 0.3);
+  border-bottom: 2px solid rgba(255, 235, 59, 0.3);
   display: flex;
   justify-content: space-between;
   align-items: center;
   background: rgba(0, 0, 0, 0.3);
+  gap: 1rem;
+  flex-wrap: wrap;
 }
 
 .image-modal-header h3 {
   margin: 0;
-  color: #daa520;
+  color: #ffeb3b; /* Better contrast */
   font-size: 1.3rem;
-  text-shadow: 0 0 10px rgba(218, 165, 32, 0.5);
+  text-shadow: 0 0 10px rgba(255, 235, 59, 0.5);
 }
 
 .image-download-btn {
   background: linear-gradient(135deg, #4a148c 0%, #7b1fa2 100%);
   color: white;
-  border: 2px solid rgba(218, 165, 32, 0.3);
+  border: 2px solid rgba(255, 235, 59, 0.3);
   padding: 0.6rem 1.2rem;
+  min-height: 44px; /* Touch target size */
   border-radius: 6px;
   cursor: pointer;
   font-size: 0.95rem;
-  transition: all 0.3s ease;
+  transition: all 0.2s ease;
   display: flex;
   align-items: center;
   gap: 0.5rem;
@@ -1312,9 +1251,19 @@
 
 .image-download-btn:hover {
   background: linear-gradient(135deg, #6a1b9a 0%, #9c27b0 100%);
-  border-color: #daa520;
-  box-shadow: 0 0 15px rgba(218, 165, 32, 0.4);
+  border-color: #ffeb3b;
+  box-shadow: 0 0 15px rgba(255, 235, 59, 0.4);
   transform: translateY(-2px);
+}
+
+.image-download-btn:active {
+  transform: translateY(0);
+}
+
+.image-download-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
 }
 
 .image-modal-body {
@@ -1986,5 +1935,74 @@
 
   .npc-click-hint {
     display: none;
+  }
+}
+
+/* HIGH PRIORITY: Mobile Touch Targets & Responsiveness */
+@media (max-width: 768px) {
+  /* Ensure all interactive elements are at least 44px */
+  button,
+  .clickable-image,
+  [role="button"] {
+    min-height: 44px;
+    min-width: 44px;
+  }
+
+  .header-actions {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .back-button,
+  .print-button,
+  .download-pdf-button {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .module-title {
+    font-size: clamp(1.5rem, 6vw, 2.5rem);
+  }
+
+  .module-header {
+    padding: 1rem;
+  }
+
+  .module-viewer {
+    padding: 1rem;
+  }
+
+  .module-section {
+    padding: 1rem;
+  }
+
+  .image-modal-overlay {
+    padding: 0.5rem;
+  }
+
+  .image-modal-header {
+    padding: 1rem;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .image-download-btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .collapsible-header {
+    font-size: 1.3rem;
+  }
+}
+
+/* MEDIUM PRIORITY: Enhanced Tablet Responsiveness */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .module-viewer {
+    padding: 1.5rem;
+  }
+
+  .module-title {
+    font-size: 2.5rem;
   }
 }
