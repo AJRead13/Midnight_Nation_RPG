@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
+import jsPDF from 'jspdf';
+import html2canvas from 'html2canvas';
 import './moduleViewer.css';
 
 const ModuleViewer = () => {
@@ -66,6 +68,72 @@ const ModuleViewer = () => {
     }, 100);
   };
 
+  const downloadPDF = async () => {
+    try {
+      // Expand all sections first
+      setExpandedSections({
+        npcs: true,
+        locations: true,
+        handouts: true,
+        rewards: true,
+        guidance: true
+      });
+
+      // Wait for sections to expand
+      await new Promise(resolve => setTimeout(resolve, 300));
+
+      const element = document.querySelector('.module-viewer');
+      if (!element) return;
+
+      // Hide elements we don't want in PDF
+      const elementsToHide = element.querySelectorAll('.no-print, .back-button, .print-button, .download-pdf-button');
+      elementsToHide.forEach(el => el.style.display = 'none');
+
+      // Capture the content as canvas
+      const canvas = await html2canvas(element, {
+        scale: 2,
+        useCORS: true,
+        logging: false,
+        backgroundColor: '#1a1a2e'
+      });
+
+      // Restore hidden elements
+      elementsToHide.forEach(el => el.style.display = '');
+
+      const imgData = canvas.toDataURL('image/png');
+      const pdf = new jsPDF({
+        orientation: 'portrait',
+        unit: 'mm',
+        format: 'a4'
+      });
+
+      const imgWidth = 210; // A4 width in mm
+      const pageHeight = 297; // A4 height in mm
+      const imgHeight = (canvas.height * imgWidth) / canvas.width;
+      let heightLeft = imgHeight;
+      let position = 0;
+
+      // Add first page
+      pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+      heightLeft -= pageHeight;
+
+      // Add additional pages if content is longer
+      while (heightLeft > 0) {
+        position = heightLeft - imgHeight;
+        pdf.addPage();
+        pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+        heightLeft -= pageHeight;
+      }
+
+      // Download the PDF
+      const fileName = `${metadata?.title?.replace(/[^a-z0-9]/gi, '_') || 'module'}.pdf`;
+      pdf.save(fileName);
+    } catch (error) {
+      console.error('Error generating PDF:', error);
+      alert('Failed to generate PDF. Please try using the Print button instead.');
+    }
+  };
+
   const openNpcModal = (index) => {
     setCurrentNpcIndex(index);
     setNpcModalOpen(true);
@@ -128,8 +196,11 @@ const ModuleViewer = () => {
           <button className="back-button" onClick={() => navigate('/modules')}>
             ← Back to Modules
           </button>
+          <button className="download-pdf-button" onClick={downloadPDF} title="Download as PDF">
+            📥 Download PDF
+          </button>
           <button className="print-button" onClick={handlePrint} title="Print or Export as PDF">
-            🖨️ Print / Export PDF
+            🖨️ Print
           </button>
         </div>
         <div className="module-title-block">
