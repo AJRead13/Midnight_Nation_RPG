@@ -1,7 +1,59 @@
 const express = require('express');
 const router = express.Router();
 const Module = require('../models/Module');
+const User = require('../models/User');
 const { adminOnly } = require('../middleware/auth');
+
+// One-time setup endpoint to promote a user to admin
+// This endpoint is NOT protected so you can use it to create the first admin
+// After creating your admin account, you should remove or protect this endpoint
+router.post('/setup-admin', async (req, res) => {
+  try {
+    const { email } = req.body;
+
+    if (!email) {
+      return res.status(400).json({ 
+        success: false, 
+        message: 'Email is required' 
+      });
+    }
+
+    // Find and update the user
+    const user = await User.findOneAndUpdate(
+      { email: email },
+      { $set: { isAdmin: true } },
+      { new: true }
+    ).select('-password');
+
+    if (!user) {
+      return res.status(404).json({ 
+        success: false, 
+        message: `User with email ${email} not found` 
+      });
+    }
+
+    console.log(`[admin] Promoted user ${email} to admin`);
+
+    res.json({ 
+      success: true, 
+      message: `Successfully promoted ${user.username} to admin`,
+      user: {
+        username: user.username,
+        email: user.email,
+        isAdmin: user.isAdmin,
+        isGM: user.isGM
+      }
+    });
+
+  } catch (error) {
+    console.error('[admin] Error promoting user to admin:', error);
+    res.status(500).json({ 
+      success: false, 
+      message: 'Server error',
+      error: error.message 
+    });
+  }
+});
 
 // Admin endpoint to reseed modules - protected by admin authentication
 router.post('/seed-modules', adminOnly, async (req, res) => {
