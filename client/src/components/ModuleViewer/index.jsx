@@ -17,13 +17,113 @@ const ModuleViewer = () => {
   const [currentNpcIndex, setCurrentNpcIndex] = useState(0);
   const [imageModalOpen, setImageModalOpen] = useState(false);
   const [selectedImage, setSelectedImage] = useState(null);
+  const [showBackToTop, setShowBackToTop] = useState(false);
+  const [pdfProgress, setPdfProgress] = useState(null);
+  const [sessionProgress, setSessionProgress] = useState({});
+  const [searchTerm, setSearchTerm] = useState('');
+  const [searchResults, setSearchResults] = useState({ npcs: 0, locations: 0, handouts: 0 });
+  const [announcement, setAnnouncement] = useState('');
   
   // Get API URL for image paths
   const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3001';
 
+  // Clear announcements after they're read
+  useEffect(() => {
+    if (announcement) {
+      const timer = setTimeout(() => setAnnouncement(''), 3000);
+      return () => clearTimeout(timer);
+    }
+  }, [announcement]);
+
   useEffect(() => {
     loadModule();
   }, [moduleId]);
+
+  // Load session progress from localStorage
+  useEffect(() => {
+    if (moduleId) {
+      const savedProgress = localStorage.getItem(`session-progress-${moduleId}`);
+      if (savedProgress) {
+        try {
+          setSessionProgress(JSON.parse(savedProgress));
+        } catch (e) {
+          console.error('Failed to parse session progress:', e);
+        }
+      }
+      
+      // Load expanded sections
+      const savedSections = localStorage.getItem(`expanded-sections-${moduleId}`);
+      if (savedSections) {
+        try {
+          setExpandedSections(JSON.parse(savedSections));
+        } catch (e) {
+          console.error('Failed to parse expanded sections:', e);
+        }
+      }
+      
+      // Load active session
+      const savedSession = localStorage.getItem(`active-session-${moduleId}`);
+      if (savedSession) {
+        setActiveSession(JSON.parse(savedSession));
+      }
+      
+      // Restore scroll position after content loads
+      const savedScroll = localStorage.getItem(`scroll-position-${moduleId}`);
+      if (savedScroll) {
+        setTimeout(() => {
+          window.scrollTo(0, parseInt(savedScroll, 10));
+        }, 500);
+      }
+    }
+  }, [moduleId]);
+
+  // Save session progress to localStorage
+  useEffect(() => {
+    if (moduleId && Object.keys(sessionProgress).length > 0) {
+      localStorage.setItem(`session-progress-${moduleId}`, JSON.stringify(sessionProgress));
+    }
+  }, [sessionProgress, moduleId]);
+
+  // Save expanded sections to localStorage
+  useEffect(() => {
+    if (moduleId && Object.keys(expandedSections).length > 0) {
+      localStorage.setItem(`expanded-sections-${moduleId}`, JSON.stringify(expandedSections));
+    }
+  }, [expandedSections, moduleId]);
+
+  // Save active session to localStorage
+  useEffect(() => {
+    if (moduleId && activeSession) {
+      localStorage.setItem(`active-session-${moduleId}`, JSON.stringify(activeSession));
+    }
+  }, [activeSession, moduleId]);
+
+  // Save scroll position periodically
+  useEffect(() => {
+    if (!moduleId) return;
+    
+    const saveScrollPosition = () => {
+      localStorage.setItem(`scroll-position-${moduleId}`, window.scrollY.toString());
+    };
+    
+    const handleScroll = () => {
+      clearTimeout(window.scrollTimeout);
+      window.scrollTimeout = setTimeout(saveScrollPosition, 500);
+    };
+    
+    window.addEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      saveScrollPosition(); // Save on unmount
+    };
+  }, [moduleId]);
+
+  const toggleSessionProgress = (sessionNumber) => {
+    setSessionProgress(prev => ({
+      ...prev,
+      [sessionNumber]: !prev[sessionNumber]
+    }));
+  };
 
   const loadModule = async () => {
     try {
@@ -52,10 +152,22 @@ const ModuleViewer = () => {
   };
 
   const toggleSection = (section) => {
-    setExpandedSections(prev => ({
-      ...prev,
-      [section]: !prev[section]
-    }));
+    setExpandedSections(prev => {
+      const newState = { ...prev, [section]: !prev[section] };
+      
+      // Announce to screen readers
+      const sectionNames = {
+        npcs: 'NPCs',
+        locations: 'Locations',
+        handouts: 'Handouts',
+        rewards: 'Rewards',
+        guidance: 'GM Guidance'
+      };
+      const sectionName = sectionNames[section] || section;
+      setAnnouncement(`${sectionName} section ${newState[section] ? 'expanded' : 'collapsed'}`);
+      
+      return newState;
+    });
   };
 
   const handlePrint = () => {
@@ -75,6 +187,8 @@ const ModuleViewer = () => {
 
   const downloadPDF = async () => {
     try {
+      setPdfProgress('Preparing...');
+      
       // Expand all sections first
       setExpandedSections({
         npcs: true,
@@ -90,6 +204,8 @@ const ModuleViewer = () => {
       const element = document.querySelector('.module-viewer');
       if (!element) return;
 
+      setPdfProgress('Loading images...');
+      
       // Wait for all images to load
       const images = element.querySelectorAll('img');
       await Promise.all(
@@ -117,9 +233,11 @@ const ModuleViewer = () => {
       screenOnlyElements.forEach(el => el.style.display = 'none');
 
       // Hide elements we don't want in PDF
-      const elementsToHide = element.querySelectorAll('.no-print, .back-button, .print-button, .download-pdf-button');
+      const elementsToHide = element.querySelectorAll('.no-print, .back-button, .print-button, .download-pdf-button, .back-to-top');
       elementsToHide.forEach(el => el.style.display = 'none');
 
+      setPdfProgress('Generating PDF...');
+      
       // Capture the content as canvas with proper image handling
       const canvas = await html2canvas(element, {
         scale: 2,
@@ -174,8 +292,10 @@ const ModuleViewer = () => {
       // Download the PDF
       const fileName = `${metadata?.title?.replace(/[^a-z0-9]/gi, '_') || 'module'}.pdf`;
       pdf.save(fileName);
+      setPdfProgress(null);
     } catch (error) {
       console.error('Error generating PDF:', error);
+      setPdfProgress(null);
       alert('Failed to generate PDF. Please try using the Print button instead.');
     }
   };
@@ -197,6 +317,47 @@ const ModuleViewer = () => {
   const closeImageModal = () => {
     setImageModalOpen(false);
     setSelectedImage(null);
+  };
+
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const matchesSearch = (text) => {
+    if (!searchTerm) return true;
+    return text?.toLowerCase().includes(searchTerm.toLowerCase());
+  };
+
+  const highlightText = (text) => {
+    if (!searchTerm || !text) return text;
+    const regex = new RegExp(`(${searchTerm})`, 'gi');
+    const parts = text.split(regex);
+    return parts.map((part, i) => 
+      regex.test(part) ? <mark key={i} className="search-highlight">{part}</mark> : part
+    );
+  };
+
+  const clearSearch = () => {
+    setSearchTerm('');
+    setSearchResults({ npcs: 0, locations: 0, handouts: 0 });
+  };
+
+  const navigateSession = (direction) => {
+    if (!moduleData?.sessions) return;
+    
+    const sessionNumbers = moduleData.sessions.map(s => s.number).sort((a, b) => a - b);
+    const currentIndex = sessionNumbers.indexOf(activeSession);
+    
+    if (direction === 'next' && currentIndex < sessionNumbers.length - 1) {
+      setActiveSession(sessionNumbers[currentIndex + 1]);
+    } else if (direction === 'prev' && currentIndex > 0) {
+      setActiveSession(sessionNumbers[currentIndex - 1]);
+    }
+    
+    // Scroll to session detail
+    setTimeout(() => {
+      document.querySelector('.session-detail')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 100);
   };
 
   const downloadImage = () => {
@@ -233,10 +394,31 @@ const ModuleViewer = () => {
       if (imageModalOpen) {
         if (e.key === 'Escape') closeImageModal();
       }
+      // Session navigation with Ctrl+Arrow keys
+      if (activeSession && e.ctrlKey) {
+        if (e.key === 'ArrowRight') {
+          e.preventDefault();
+          navigateSession('next');
+        }
+        if (e.key === 'ArrowLeft') {
+          e.preventDefault();
+          navigateSession('prev');
+        }
+      }
     };
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [npcModalOpen]);
+  }, [npcModalOpen, imageModalOpen, activeSession]);
+
+  // Scroll listener for back-to-top button
+  useEffect(() => {
+    const handleScroll = () => {
+      setShowBackToTop(window.scrollY > 500);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   if (loading) {
     return (
@@ -291,6 +473,35 @@ const ModuleViewer = () => {
           <h1 className="module-title">{metadata.title}</h1>
           <p className="module-subtitle">{metadata.subtitle}</p>
         </div>
+        
+        {/* Search Bar */}
+        <div className="module-search no-print">
+          <div className="search-input-wrapper">
+            <input
+              type="text"
+              placeholder="Search NPCs, locations, handouts..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="search-input"
+              aria-label="Search module content"
+            />
+            {searchTerm && (
+              <button 
+                className="search-clear" 
+                onClick={clearSearch}
+                aria-label="Clear search"
+              >
+                ✕
+              </button>
+            )}
+          </div>
+          {searchTerm && (
+            <div className="search-results-info" role="status" aria-live="polite">
+              Found: {searchResults.npcs} NPCs, {searchResults.locations} locations, {searchResults.handouts} handouts
+            </div>
+          )}
+        </div>
+        
         <div className="module-meta">
           <span className="meta-badge">{metadata.system}</span>
           <span className="meta-badge">{metadata.players} Players</span>
@@ -348,13 +559,26 @@ const ModuleViewer = () => {
         <h2>Sessions</h2>
         <div className="session-buttons">
           {sessions.map((session) => (
-            <button
-              key={session.number}
-              className={`session-button ${activeSession === session.number ? 'active' : ''}`}
-              onClick={() => setActiveSession(activeSession === session.number ? null : session.number)}
-            >
-              Session {session.number}: {session.title}
-            </button>
+            <div key={session.number} className="session-button-wrapper">
+              {user?.isGM && (
+                <label className="session-checkbox-label">
+                  <input
+                    type="checkbox"
+                    checked={sessionProgress[session.number] || false}
+                    onChange={() => toggleSessionProgress(session.number)}
+                    aria-label={`Mark session ${session.number} as complete`}
+                    className="session-checkbox"
+                  />
+                  <span className="checkbox-custom"></span>
+                </label>
+              )}
+              <button
+                className={`session-button ${activeSession === session.number ? 'active' : ''} ${sessionProgress[session.number] ? 'completed' : ''}`}
+                onClick={() => setActiveSession(activeSession === session.number ? null : session.number)}
+              >
+                Session {session.number}: {session.title}
+              </button>
+            </div>
           ))}
         </div>
       </section>
@@ -366,7 +590,25 @@ const ModuleViewer = () => {
             .filter(s => s.number === activeSession)
             .map((session) => (
               <div key={session.number} className="session-content">
-                <h2>Session {session.number}: {session.title}</h2>
+                <div className="session-header-nav">
+                  <button 
+                    className="session-nav-btn prev" 
+                    onClick={() => navigateSession('prev')}
+                    disabled={session.number === Math.min(...sessions.map(s => s.number))}
+                    aria-label="Previous session"
+                  >
+                    ← Previous
+                  </button>
+                  <h2>Session {session.number}: {session.title}</h2>
+                  <button 
+                    className="session-nav-btn next" 
+                    onClick={() => navigateSession('next')}
+                    disabled={session.number === Math.max(...sessions.map(s => s.number))}
+                    aria-label="Next session"
+                  >
+                    Next →
+                  </button>
+                </div>
                 <div className="session-meta">
                   <strong>Focus:</strong> {session.focus}
                 </div>
@@ -808,26 +1050,52 @@ const ModuleViewer = () => {
 
       {/* NPCs */}
       <section className="module-section npcs">
-        <h2 onClick={() => toggleSection('npcs')} className="collapsible-header">
+        <h2 
+          onClick={() => toggleSection('npcs')} 
+          onKeyDown={(e) => e.key === 'Enter' && toggleSection('npcs')}
+          className="collapsible-header"
+          role="button"
+          tabIndex="0"
+          aria-expanded={expandedSections.npcs ? 'true' : 'false'}
+          aria-controls="npcs-content"
+        >
           NPCs {expandedSections.npcs ? '−' : '+'}
         </h2>
-        {expandedSections.npcs && (
-          <div className="npc-grid">
-            {npcs.map((npc, idx) => (
-              <div 
-                key={idx} 
-                className="npc-card clickable" 
-                onClick={() => openNpcModal(idx)}
-                title="Click to view full details"
-              >
-                <h3>{npc.name}</h3>
-                <div className="npc-faction">{npc.faction} • {npc.role}</div>
-                <p className="npc-preview">{npc.description}</p>
-                <div className="npc-click-hint">Click for full details →</div>
-              </div>
-            ))}
-          </div>
-        )}
+        {expandedSections.npcs && (() => {
+          const filteredNpcs = npcs.filter(npc => 
+            matchesSearch(npc.name) || 
+            matchesSearch(npc.description) || 
+            matchesSearch(npc.faction) || 
+            matchesSearch(npc.role)
+          );
+          
+          // Update search results count
+          if (searchTerm && searchResults.npcs !== filteredNpcs.length) {
+            setSearchResults(prev => ({ ...prev, npcs: filteredNpcs.length }));
+          }
+          
+          return (
+            <div className="npc-grid" id="npcs-content">
+              {filteredNpcs.length === 0 && searchTerm ? (
+                <div className="no-results">No NPCs match your search.</div>
+              ) : (
+                filteredNpcs.map((npc, idx) => (
+                  <div 
+                    key={idx} 
+                    className="npc-card clickable" 
+                    onClick={() => openNpcModal(npcs.indexOf(npc))}
+                    title="Click to view full details"
+                  >
+                    <h3>{highlightText(npc.name)}</h3>
+                    <div className="npc-faction">{highlightText(npc.faction)} • {highlightText(npc.role)}</div>
+                    <p className="npc-preview">{highlightText(npc.description)}</p>
+                    <div className="npc-click-hint">Click for full details →</div>
+                  </div>
+                ))
+              )}
+            </div>
+          );
+        })()}
       </section>
 
       {/* NPC Stat Blocks - Print/PDF Only */}
@@ -1017,47 +1285,100 @@ const ModuleViewer = () => {
 
       {/* Locations */}
       <section className="module-section locations">
-        <h2 onClick={() => toggleSection('locations')} className="collapsible-header">
+        <h2 
+          onClick={() => toggleSection('locations')} 
+          onKeyDown={(e) => e.key === 'Enter' && toggleSection('locations')}
+          className="collapsible-header"
+          role="button"
+          tabIndex="0"
+          aria-expanded={expandedSections.locations ? 'true' : 'false'}
+          aria-controls="locations-content"
+        >
           Locations {expandedSections.locations ? '−' : '+'}
         </h2>
-        {expandedSections.locations && (
-          <div className="location-grid">
-            {locations.map((location, idx) => (
-              <div key={idx} className="location-card">
-                <h3>{location.name}</h3>
-                <p>{location.description}</p>
-                <div className="location-atmosphere">
-                  <strong>Atmosphere:</strong> <em>{location.atmosphere}</em>
+        {expandedSections.locations && (() => {
+          const filteredLocations = locations.filter(loc => 
+            matchesSearch(loc.name) || 
+            matchesSearch(loc.description) || 
+            matchesSearch(loc.atmosphere)
+          );
+          
+          // Update search results count
+          if (searchTerm && searchResults.locations !== filteredLocations.length) {
+            setSearchResults(prev => ({ ...prev, locations: filteredLocations.length }));
+          }
+          
+          return (
+            <div className="location-grid" id="locations-content">
+              {filteredLocations.length === 0 && searchTerm ? (
+                <div className="no-results">No locations match your search.</div>
+              ) : (
+                filteredLocations.map((location, idx) => (
+                  <div key={idx} className="location-card">
+                    <h3>{highlightText(location.name)}</h3>
+                    <p>{highlightText(location.description)}</p>
+                    <div className="location-atmosphere">
+                      <strong>Atmosphere:</strong> <em>{highlightText(location.atmosphere)}</em>
                 </div>
                 {location.secrets && (
                   <div className="location-secrets">
-                    <strong>Secrets:</strong> {location.secrets}
+                    <strong>Secrets:</strong> {highlightText(location.secrets)}
                   </div>
                 )}
                 {location.hazards && (
                   <div className="location-hazards">
-                    <strong>Hazards:</strong> {location.hazards}
+                    <strong>Hazards:</strong> {highlightText(location.hazards)}
                   </div>
                 )}
               </div>
-            ))}
-          </div>
-        )}
+                ))
+              )}
+            </div>
+          );
+        })()}
       </section>
 
       {/* Handouts */}
       <section className="module-section handouts">
-        <h2 onClick={() => toggleSection('handouts')} className="collapsible-header">
+        <h2 
+          onClick={() => toggleSection('handouts')} 
+          onKeyDown={(e) => e.key === 'Enter' && toggleSection('handouts')}
+          className="collapsible-header"
+          role="button"
+          tabIndex="0"
+          aria-expanded={expandedSections.handouts ? 'true' : 'false'}
+          aria-controls="handouts-content"
+        >
           Player Handouts {expandedSections.handouts ? '−' : '+'}
         </h2>
-        {expandedSections.handouts && (
-          <>
+        {expandedSections.handouts && (() => {
+          const filteredHandouts = handouts.filter(h => 
+            matchesSearch(h.title) || 
+            matchesSearch(h.content)
+          );
+          
+          // Update search results count
+          if (searchTerm && searchResults.handouts !== filteredHandouts.length) {
+            setSearchResults(prev => ({ ...prev, handouts: filteredHandouts.length }));
+          }
+          
+          if (filteredHandouts.length === 0 && searchTerm) {
+            return (
+              <div id="handouts-content">
+                <div className="no-results">No handouts match your search.</div>
+              </div>
+            );
+          }
+          
+          return (
+          <div id="handouts-content">
+            <>
             {/* Newspaper Articles - Full Width */}
-            {handouts.filter(h => h.type === 'newspaper').map((handout, idx) => (
+            {filteredHandouts.filter(h => h.type === 'newspaper').map((handout, idx) => (
               <div key={`newspaper-${idx}`} className="handout-card newspaper-handout">
-                <h4>{handout.title}</h4>
+                <h4>{highlightText(handout.title)}</h4>
                 <div className="handout-content" style={{ whiteSpace: 'pre-line' }}>
-                  {handout.content}
+                  {highlightText(handout.content)}
                 </div>
                 {handout.gmNotes && user?.isGM && (
                   <div className="handout-gm-notes">
@@ -1070,9 +1391,9 @@ const ModuleViewer = () => {
 
             {/* Regular Handouts - Grid Layout */}
             <div className="handout-grid">
-              {handouts.filter(h => h.type !== 'newspaper').map((handout, idx) => (
+              {filteredHandouts.filter(h => h.type !== 'newspaper').map((handout, idx) => (
                 <div key={`handout-${idx}`} className="handout-card">
-                  <h4>{handout.title}</h4>
+                  <h4>{highlightText(handout.title)}</h4>
                   {handout.image && (
                     <div className="handout-image">
                       <img 
@@ -1123,17 +1444,27 @@ const ModuleViewer = () => {
                 </div>
               ))}
             </div>
-          </>
-        )}
+            </>
+          </div>
+          );
+        })()}
       </section>
 
       {/* Rewards */}
       <section className="module-section rewards">
-        <h2 onClick={() => toggleSection('rewards')} className="collapsible-header">
+        <h2 
+          onClick={() => toggleSection('rewards')} 
+          onKeyDown={(e) => e.key === 'Enter' && toggleSection('rewards')}
+          className="collapsible-header"
+          role="button"
+          tabIndex="0"
+          aria-expanded={expandedSections.rewards ? 'true' : 'false'}
+          aria-controls="rewards-content"
+        >
           Rewards & Items {expandedSections.rewards ? '−' : '+'}
         </h2>
         {expandedSections.rewards && (
-          <div className="reward-grid">
+          <div className="reward-grid" id="rewards-content">
             {rewards.map((reward, idx) => (
               <div key={idx} className="reward-card">
                 <h4>{reward.name}</h4>
@@ -1149,11 +1480,19 @@ const ModuleViewer = () => {
 
       {/* GM Guidance */}
       <section className="module-section gm-guidance">
-        <h2 onClick={() => user?.isGM && toggleSection('guidance')} className="collapsible-header">
+        <h2 
+          onClick={() => user?.isGM && toggleSection('guidance')} 
+          onKeyDown={(e) => user?.isGM && e.key === 'Enter' && toggleSection('guidance')}
+          className="collapsible-header"
+          role="button"
+          tabIndex={user?.isGM ? "0" : "-1"}
+          aria-expanded={user?.isGM && expandedSections.guidance ? 'true' : 'false'}
+          aria-controls="guidance-content"
+        >
           🔒 GM Guidance {user?.isGM ? (expandedSections.guidance ? '−' : '+') : '(Game Master Access Required)'}
         </h2>
         {user?.isGM && expandedSections.guidance && (
-          <div className="guidance-content">
+          <div className="guidance-content" id="guidance-content">
             <div className="guidance-block">
               <h4>Tone</h4>
               <p>{gm_guidance.tone}</p>
@@ -1428,6 +1767,37 @@ const ModuleViewer = () => {
           </div>
         </div>
       )}
+
+      {/* Back to Top Button */}
+      {showBackToTop && (
+        <button 
+          className="back-to-top" 
+          onClick={scrollToTop}
+          aria-label="Scroll back to top"
+        >
+          ↑
+        </button>
+      )}
+
+      {/* PDF Progress Indicator */}
+      {pdfProgress && (
+        <div className="pdf-progress-overlay" role="status" aria-live="polite">
+          <div className="pdf-progress-content">
+            <div className="pdf-progress-spinner"></div>
+            <p>{pdfProgress}</p>
+          </div>
+        </div>
+      )}
+
+      {/* Screen Reader Announcements */}
+      <div 
+        className="sr-only" 
+        role="status" 
+        aria-live="polite" 
+        aria-atomic="true"
+      >
+        {announcement}
+      </div>
     </div>
   );
 };
